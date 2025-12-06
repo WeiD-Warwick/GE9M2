@@ -1,0 +1,47 @@
+Game/
+    main.cpp
+    level.json
+
+Engine/
+    Core/
+        DX12Device
+        CommandList
+        SwapChain
+        UploadBuffer
+        ShaderManager
+        PSOManager
+
+    Assets/
+        TextureLoader
+        MeshLoader
+        AnimationImporter
+        AssetCache
+
+    Graphics/
+        Mesh
+        AnimatedMesh
+        Material
+        Skybox
+        MeshRenderer
+        AnimatedMeshRenderer
+
+    Scene/
+        Entity
+        Transform
+        LevelLoader
+        InstanceBatch
+        SceneGraph
+
+    Animation/
+        Skeleton
+        AnimationSequence
+        Animator
+
+    Physics/
+        AABB
+        CollisionSystem
+
+    Gameplay/
+        PlayerController
+        NPCController
+        GameManager
