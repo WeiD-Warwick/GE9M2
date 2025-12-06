@@ -238,7 +238,7 @@ public:
         return out;
     }
 
-    Matrix invert() const {
+    Matrix inverse() const {
         Matrix invMat;
         float inv[16];
 
@@ -370,6 +370,133 @@ public:
 
         return invMat;
     }
+};
 
+class Quaternion {
+public:
+    float w, x, y, z;
+
+    Quaternion() : w(1), x(0), y(0), z(0) {}
+    Quaternion(float ww, float xx, float yy, float zz)
+        : w(ww), x(xx), y(yy), z(zz) {
+    }
+
+    static Quaternion Identity() {
+        return Quaternion(1, 0, 0, 0);
+    }
+
+    float magnitude() const {
+        return std::sqrt(w * w + x * x + y * y + z * z);
+    }
+
+    Quaternion normalized() const {
+        float mag = magnitude();
+        if (mag <= 0.0f) return Identity();
+        float inv = 1.0f / mag;
+        return Quaternion(w * inv, x * inv, y * inv, z * inv);
+    }
+
+    Quaternion conjugate() const {
+        return Quaternion(w, -x, -y, -z);
+    }
+
+    Quaternion inverse() const {
+        float lsq = w * w + x * x + y * y + z * z;
+        if (lsq <= 0.0f) return Identity();
+        float inv = 1.0f / lsq;
+        return Quaternion(w * inv, -x * inv, -y * inv, -z * inv);
+    }
+
+    Quaternion operator*(const Quaternion& r) const {
+        return Quaternion(
+            w * r.w - x * r.x - y * r.y - z * r.z,
+            w * r.x + x * r.w + y * r.z - z * r.y,
+            w * r.y - x * r.z + y * r.w + z * r.x,
+            w * r.z + x * r.y - y * r.x + z * r.w
+        );
+    }
+
+    static Quaternion fromAxisAngle(const Vec3& axis, float angleRad) {
+        Vec3 n = axis.normalized();
+        float half = angleRad * 0.5f;
+        float s = std::sin(half);
+        return Quaternion(std::cos(half), n.x * s, n.y * s, n.z * s);
+    }
+
+    static Quaternion slerp(const Quaternion& q1, const Quaternion& q2, float t) {
+        Quaternion b = q2;
+        float dot = q1.w * b.w + q1.x * b.x + q1.y * b.y + q1.z * b.z;
+
+        if (dot < 0.0f)
+        {
+            dot = -dot;
+            b.w = -b.w; b.x = -b.x; b.y = -b.y; b.z = -b.z;
+        }
+
+        const float EPS = 0.9995f;
+        if (dot > EPS)
+        {
+            Quaternion r(
+                q1.w + t * (b.w - q1.w),
+                q1.x + t * (b.x - q1.x),
+                q1.y + t * (b.y - q1.y),
+                q1.z + t * (b.z - q1.z)
+            );
+            return r.normalized();
+        }
+
+        float theta0 = std::acos(dot);
+        float theta = theta0 * t;
+
+        float sin0 = std::sin(theta0);
+        float s0 = std::cos(theta) - dot * std::sin(theta) / sin0;
+        float s1 = std::sin(theta) / sin0;
+
+        return Quaternion(
+            s0 * q1.w + s1 * b.w,
+            s0 * q1.x + s1 * b.x,
+            s0 * q1.y + s1 * b.y,
+            s0 * q1.z + s1 * b.z
+        );
+    }
+
+    Vec3 rotate(const Vec3& v) const {
+        Quaternion p(0, v.x, v.y, v.z);
+        Quaternion r = (*this) * p * conjugate();
+        return Vec3(r.x, r.y, r.z);
+    }
+
+    Matrix toMatrix() const {
+        float xx = x * x;
+        float yy = y * y;
+        float zz = z * z;
+        float xy = x * y;
+        float xz = x * z;
+        float yz = y * z;
+        float wx = w * x;
+        float wy = w * y;
+        float wz = w * z;
+
+        Matrix M;
+
+        M.m[0] = 1.0f - 2.0f * (yy + zz);
+        M.m[1] = 2.0f * (xy + wz);
+        M.m[2] = 2.0f * (xz - wy);
+        M.m[3] = 0.0f;
+
+        M.m[4] = 2.0f * (xy - wz);
+        M.m[5] = 1.0f - 2.0f * (xx + zz); 
+        M.m[6] = 2.0f * (yz + wx);
+        M.m[7] = 0.0f;
+
+        M.m[8] = 2.0f * (xz + wy); 
+        M.m[9] = 2.0f * (yz - wx);
+        M.m[10] = 1.0f - 2.0f * (xx + yy);
+        M.m[11] = 0.0f;
+
+        M.m[12] = 0.0f;
+        M.m[13] = 0.0f;
+        M.m[14] = 0.0f;
+        M.
 
 };
