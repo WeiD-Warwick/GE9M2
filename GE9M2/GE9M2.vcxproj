@@ -129,6 +129,16 @@
     <Text Include="reference.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Core\DX12\DX12Barrier.h" />
+    <ClInclude Include="Src\Engine\Core\Core.h" />
+    <ClInclude Include="Src\Engine\Core\DX12\DX12CommandQueue.h" />
+    <ClInclude Include="Src\Engine\Core\DX12\DX12Device.h" />
+    <ClInclude Include="Src\Engine\Core\DX12\DX12Fence.h" />
+    <ClInclude Include="Src\Engine\Core\DX12\DX12FrameResource.h" />
+    <ClInclude Include="Src\Engine\Core\DX12\DX12Renderer.h" />
+    <ClInclude Include="Src\Engine\Core\DX12\DX12RenderTargets.h" />
+    <ClInclude Include="Src\Engine\Core\DX12\DX12ResourceLoader.h" />
+    <ClInclude Include="Src\Engine\Core\DX12\DX12Swapchain.h" />
     <ClInclude Include="Src\Engine\Core\Maths.h" />
     <ClInclude Include="Third_Party\GEMLoader.h" />
     <ClInclude Include="Src\Engine\Core\Window.h" />

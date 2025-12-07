@@ -467,36 +467,59 @@ public:
     }
 
     Matrix toMatrix() const {
-        float xx = x * x;
-        float yy = y * y;
-        float zz = z * z;
-        float xy = x * y;
-        float xz = x * z;
-        float yz = y * z;
-        float wx = w * x;
-        float wy = w * y;
-        float wz = w * z;
+        float aa = w * w, bb = x * x, cc = y * y;
+        float ab = w * x, ac = w * y, ad = w * z;
+        float bc = x * y, bd = x * z, cd = y * z;
 
-        Matrix M;
+        Matrix out;
 
-        M.m[0] = 1.0f - 2.0f * (yy + zz);
-        M.m[1] = 2.0f * (xy + wz);
-        M.m[2] = 2.0f * (xz - wy);
-        M.m[3] = 0.0f;
+        out.m[0] = 1 - 2 * (bb + cc);
+        out.m[1] = 2 * (ab - cd);
+        out.m[2] = 2 * (ac + bd);
+        out.m[3] = 0;
 
-        M.m[4] = 2.0f * (xy - wz);
-        M.m[5] = 1.0f - 2.0f * (xx + zz); 
-        M.m[6] = 2.0f * (yz + wx);
-        M.m[7] = 0.0f;
+        out.m[4] = 2 * (ab + cd);
+        out.m[5] = 1 - 2 * (aa + cc);
+        out.m[6] = 2 * (bc - ad);
+        out.m[7] = 0;
 
-        M.m[8] = 2.0f * (xz + wy); 
-        M.m[9] = 2.0f * (yz - wx);
-        M.m[10] = 1.0f - 2.0f * (xx + yy);
-        M.m[11] = 0.0f;
+        out.m[8] = 2 * (ac - bd);
+        out.m[9] = 2 * (bc + ad);
+        out.m[10] = 1 - 2 * (aa + bb);
+        out.m[11] = 0;
 
-        M.m[12] = 0.0f;
-        M.m[13] = 0.0f;
-        M.m[14] = 0.0f;
-        M.
+        out.m[12] = 0;
+        out.m[13] = 0;
+        out.m[14] = 0;
+        out.m[15] = 1.0f;
 
+        return out;
+    }
+};
+
+class Colour {
+public:
+    float r, g, b, a;
+
+    Colour() : r(0), g(0), b(0), a(1) {}
+    Colour(float R, float G, float B, float A = 1.0f)
+        : r(R), g(G), b(B), a(A) {
+    }
+
+    Colour operator+(const Colour& c) const {
+        return Colour(r + c.r, g + c.g, b + c.b, a + c.a);
+    }
+
+    Colour operator*(const Colour& c) const {
+        return Colour(r * c.r, g * c.g, b * c.b, a * c.a);
+    }
+
+    Colour operator*(float s) const {
+        return Colour(r * s, g * s, b * s, a * s);
+    }
+
+    Colour operator/(float s) const {
+        float inv = 1.0f / s;
+        return Colour(r * inv, g * inv, b * inv, a * inv);
+    }
 };

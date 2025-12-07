@@ -32,5 +32,35 @@
     <ClInclude Include="Src\Engine\Core\Maths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Engine\Core\Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\DX12\DX12Barrier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\DX12\DX12Device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\DX12\DX12CommandQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\DX12\DX12Fence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\DX12\DX12Swapchain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\DX12\DX12Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\DX12\DX12RenderTargets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\DX12\DX12FrameResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Core\DX12\DX12ResourceLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
