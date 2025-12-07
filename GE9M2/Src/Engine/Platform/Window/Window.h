@@ -2,6 +2,8 @@
 #define NOMINMAX
 #define WINDOW_GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 #define WINDOW_GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
+#define WINDOW_WIDTH 1920
+#define WINDOW_HEIGHT 1080
 #include <Windows.h>
 #include <string>
 

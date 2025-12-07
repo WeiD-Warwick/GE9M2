@@ -6,6 +6,10 @@
 #include "DX12RenderTargets.h"
 #include "DX12FrameResource.h"
 
+#pragma comment(lib, "d3d12")
+#pragma comment(lib, "dxgi")
+#pragma comment(lib, "d3dcompiler.lib")
+
 #include <wrl/client.h>
 
 using Microsoft::WRL::ComPtr;
@@ -17,9 +21,12 @@ public:
 private:
     ComPtr<ID3D12Device5> _device;
     ComPtr<ID3D12CommandQueue> _graphicsQueue;
+
     DX12Swapchain _swapchain;
     DX12RenderTargets _targets;
+
     std::vector<DX12FrameResource> _frameResources;
+
     D3D12_VIEWPORT _viewport = {};
     D3D12_RECT _scissor = {};
 
@@ -39,30 +46,28 @@ public:
         _graphicsQueue = graphicsQueue;
         _swapchain = swapchain;
         _targets = targets;
+        _viewport = { 0.0f, 0.0f, (float)width, (float)height, 0.0f, 1.0f };
+        _scissor = { 0, 0, width, height };
 
         _frameResources.resize(swapchain.bufferCount());
 
-        for (int index = 0; index < swapchain.bufferCount(); ++index) {
-            DX12FrameResource resource;
-            resource.create(device);
-            _frameResources[index] = resource;
+        for (auto& frameResource : _frameResources) {
+            frameResource.create(device);
         }
-
-        _viewport = { 0.0f, 0.0f, (float) width, (float) height, 0.0f, 1.0f };
-        _scissor = { 0, 0, width, height };
 
         createRootSignature();
     }
 
     void beginFrame() {
         UINT frameIndex = _swapchain.getCurrentBackBufferIndex();
+        DX12FrameResource& frameResource = _frameResources[frameIndex];
 
-        DX12Fence& fence = _frameResources[frameIndex].fence();
-        ComPtr<ID3D12CommandAllocator>& allocator = _frameResources[frameIndex].allocator();
-        ComPtr<ID3D12GraphicsCommandList4>& commandList = _frameResources[frameIndex].commandList();
+        DX12Fence& fence = frameResource.fence();
+        ComPtr<ID3D12CommandAllocator>& allocator = frameResource.allocator();
+        ComPtr<ID3D12GraphicsCommandList4>& commandList = frameResource.commandList();
         
         fence.wait();
-        resetCommandList();
+        frameResource.reset();
 
         commandList->RSSetViewports(1, &_viewport);
         commandList->RSSetScissorRects(1, &_scissor);
@@ -82,12 +87,13 @@ public:
         commandList->ClearDepthStencilView(_targets.dsvHandle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
     }
 
-    void finishFrame() {
+    void endFrame() {
         UINT frameIndex = _swapchain.getCurrentBackBufferIndex();
+        DX12FrameResource& frameResource = _frameResources[frameIndex];
 
-        DX12Fence& fence = _frameResources[frameIndex].fence();
-        ComPtr<ID3D12CommandAllocator>& allocator = _frameResources[frameIndex].allocator();
-        ComPtr<ID3D12GraphicsCommandList4>& commandList = _frameResources[frameIndex].commandList();
+        DX12Fence& fence = frameResource.fence();
+        ComPtr<ID3D12CommandAllocator>& allocator = frameResource.allocator();
+        ComPtr<ID3D12GraphicsCommandList4>& commandList = frameResource.commandList();
 
         DX12Barrier::add(
             _targets.backBufferResource(frameIndex).Get(),
@@ -96,9 +102,13 @@ public:
             commandList.Get()
         );
 
-        runCommandList();
+        // Submit commands
+        frameResource.exec(_graphicsQueue);
 
+        // Signal
         fence.signal(_graphicsQueue);
+
+        // Present
         _swapchain.present();
     }
 
@@ -111,18 +121,7 @@ public:
         commandList->SetGraphicsRootSignature(_rootSignature.Get());
     }
 
-    void resetCommandList() {
-        UINT frameIndex = _swapchain.getCurrentBackBufferIndex();
-        _frameResources[frameIndex].reset();
-    }
-
-    // Default Use GraphicsQueue
-    void runCommandList() {
-        UINT frameIndex = _swapchain.getCurrentBackBufferIndex();
-        _frameResources[frameIndex].exec(_graphicsQueue);
-    }
-
-    ComPtr<ID3D12GraphicsCommandList4>& getCommandList() {
+    ComPtr<ID3D12GraphicsCommandList4>& commandList() {
         UINT frameIndex = _swapchain.getCurrentBackBufferIndex();
         return _frameResources[frameIndex].commandList();
     }

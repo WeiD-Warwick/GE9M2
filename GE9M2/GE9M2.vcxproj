@@ -129,19 +129,25 @@
     <Text Include="reference.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Engine\Core\DX12\DX12Barrier.h" />
-    <ClInclude Include="Src\Engine\Core\Core.h" />
-    <ClInclude Include="Src\Engine\Core\DX12\DX12CommandQueue.h" />
-    <ClInclude Include="Src\Engine\Core\DX12\DX12Device.h" />
-    <ClInclude Include="Src\Engine\Core\DX12\DX12Fence.h" />
-    <ClInclude Include="Src\Engine\Core\DX12\DX12FrameResource.h" />
-    <ClInclude Include="Src\Engine\Core\DX12\DX12Renderer.h" />
-    <ClInclude Include="Src\Engine\Core\DX12\DX12RenderTargets.h" />
-    <ClInclude Include="Src\Engine\Core\DX12\DX12ResourceLoader.h" />
-    <ClInclude Include="Src\Engine\Core\DX12\DX12Swapchain.h" />
-    <ClInclude Include="Src\Engine\Core\Maths.h" />
+    <ClInclude Include="Src\Engine\Engine.h" />
+    <ClInclude Include="Src\Engine\Foundation\VertexType.h" />
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Barrier.h" />
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12CommandQueue.h" />
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Device.h" />
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Fence.h" />
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12FrameResource.h" />
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12UploadContext.h" />
+    <ClInclude Include="Src\Engine\Graphics\Pipeline\PSOManager.h" />
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Renderer.h" />
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12RenderTargets.h" />
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Swapchain.h" />
+    <ClInclude Include="Src\Engine\Foundation\Maths.h" />
+    <ClInclude Include="Src\Engine\Graphics\Pipeline\RenderContext.h" />
+    <ClInclude Include="Src\Engine\Graphics\Pipeline\RootSignatureManager.h" />
+    <ClInclude Include="Src\Engine\Graphics\Pipeline\ShaderManager.h" />
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12VertexLayoutCache.h" />
     <ClInclude Include="Third_Party\GEMLoader.h" />
-    <ClInclude Include="Src\Engine\Core\Window.h" />
+    <ClInclude Include="Src\Engine\Platform\Window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
