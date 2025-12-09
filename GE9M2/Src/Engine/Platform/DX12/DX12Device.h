@@ -8,11 +8,13 @@ using Microsoft::WRL::ComPtr;
 
 class DX12Device {
 private:
-    ComPtr<IDXGIAdapter1> _adapter;
-    ComPtr<ID3D12Device5> _device;
+    ComPtr<IDXGIAdapter1>       _adapter;
+    ComPtr<ID3D12Device5>       _device;
 
 public:
+
     void create() {
+
         ComPtr<IDXGIAdapter1> adapterf;
         std::vector<ComPtr<IDXGIAdapter1>> adapters;
         ComPtr<IDXGIFactory4> factory;
@@ -42,8 +44,16 @@ public:
         D3D12CreateDevice(_adapter.Get(), D3D_FEATURE_LEVEL_12_1, IID_PPV_ARGS(&_device));
     }
 
-    ComPtr<ID3D12Device5>& device() {
-        return _device;
+    ID3D12Device5* device() {
+        return _device.Get();
     }
 
+public:
+    DX12Device() = default;
+
+    DX12Device(const DX12Device&) = delete;
+    DX12Device& operator=(const DX12Device&) = delete;
+
+    DX12Device(DX12Device&&) = default;
+    DX12Device& operator=(DX12Device&&) = default;
 };

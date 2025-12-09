@@ -7,13 +7,20 @@ using Microsoft::WRL::ComPtr;
 
 class DX12Swapchain {
 private:
-    ComPtr<IDXGISwapChain3> _swapchain;
-    std::vector<ComPtr<ID3D12Resource>> _buffers;
-    UINT _bufferCount = 0;
+
+    ComPtr<IDXGISwapChain3>                 _swapchain;
+    std::vector<ComPtr<ID3D12Resource>>     _buffers;
+    UINT                                    _bufferCount    = 0;
 
 public:
 
-    void create(ComPtr<ID3D12CommandQueue> graphicsQueue, HWND hwnd, UINT width, UINT height, UINT bufferCount) {
+    void create(
+        ID3D12CommandQueue* graphicsQueue,
+        HWND hwnd,
+        UINT width,
+        UINT height,
+        UINT bufferCount
+    ) {
 
         _bufferCount = bufferCount;
         _buffers.resize(bufferCount);
@@ -34,21 +41,28 @@ public:
 
         // Create the swapchain (transform swapChain1 to swapChain3)
         ComPtr<IDXGISwapChain1> swapChain1;
-        factory->CreateSwapChainForHwnd(graphicsQueue.Get(), hwnd, &scDesc, NULL, NULL, &swapChain1);
+
+        factory->CreateSwapChainForHwnd(
+            graphicsQueue,
+            hwnd, &scDesc,
+            NULL,
+            NULL,
+            &swapChain1
+        );
+
         swapChain1.As(&_swapchain);
 
         for (UINT i = 0; i < bufferCount; i++) {
             _swapchain->GetBuffer(i, IID_PPV_ARGS(&_buffers[i]));
         }
-
     }
 
     UINT getCurrentBackBufferIndex() const {
         return _swapchain->GetCurrentBackBufferIndex();
     }
 
-    ComPtr<ID3D12Resource>& getBufferResource(UINT index) {
-        return _buffers[index];
+    ID3D12Resource* getBufferResource(UINT index) {
+        return _buffers[index].Get();
     }
 
     void present(UINT sync = 1) {
@@ -59,7 +73,16 @@ public:
         return _bufferCount;
     }
 
-    ComPtr<IDXGISwapChain3> swapchain() {
-        return _swapchain;
+    IDXGISwapChain3* swapchain() {
+        return _swapchain.Get();
     }
+
+public:
+    DX12Swapchain() = default;
+
+    DX12Swapchain(const DX12Swapchain&) = delete;
+    DX12Swapchain& operator=(const DX12Swapchain&) = delete;
+
+    DX12Swapchain(DX12Swapchain&&) = default;
+    DX12Swapchain& operator=(DX12Swapchain&&) = default;
 };

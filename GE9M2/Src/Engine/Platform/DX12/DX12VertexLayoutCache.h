@@ -1,7 +1,7 @@
 #pragma once
 #include <d3d12.h>
 
-class VertexLayoutCache {
+class DX12VertexLayoutCache {
 
 public:
     static const D3D12_INPUT_LAYOUT_DESC& getStaticLayout() {

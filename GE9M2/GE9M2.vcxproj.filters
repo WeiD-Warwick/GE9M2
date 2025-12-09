@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Game\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,10 +62,7 @@
     <ClInclude Include="Src\Engine\Platform\DX12\DX12UploadContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Pipeline\ShaderManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Pipeline\RootSignatureManager.h">
+    <ClInclude Include="Src\Engine\Graphics\Shader\ShaderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Pipeline\RenderContext.h">
@@ -74,11 +71,68 @@
     <ClInclude Include="Src\Engine\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Foundation\VertexType.h">
+    <ClInclude Include="Src\Engine\Foundation\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Platform\DX12\DX12VertexLayoutCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Foundation\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\CameraComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Foundation\Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Shader\ShaderCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Shader\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12RootSignature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12CBVSRVUAVHeap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Buffer\ConstantBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Texture\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Texture\TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Third_Party\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Src\HLSL\staticMesh_ps.hlsl" />
+    <FxCompile Include="Src\HLSL\staticMesh_vs.hlsl" />
+    <FxCompile Include="Src\HLSL\animatedMesh_ps.hlsl" />
+    <FxCompile Include="Src\HLSL\animatedMesh_vs.hlsl" />
   </ItemGroup>
 </Project>

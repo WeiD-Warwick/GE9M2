@@ -2,8 +2,8 @@
 #define NOMINMAX
 #define WINDOW_GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 #define WINDOW_GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
-#define WINDOW_WIDTH 1920
-#define WINDOW_HEIGHT 1080
+#define WINDOW_WIDTH 1024
+#define WINDOW_HEIGHT 1024
 #include <Windows.h>
 #include <string>
 
@@ -77,10 +77,10 @@ inline LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		return 0;
 
 	case WM_KEYUP:
-		if (wParam < 256) window->keys[(unsigned int)wParam] = true;
+		if (wParam < 256) window->keys[(UINT)wParam] = true;
 		return 0;
 	case WM_KEYDOWN:
-		if (wParam < 256) window->keys[(unsigned int)wParam] = true;
+		if (wParam < 256) window->keys[(UINT)wParam] = true;
 		return 0;
 
 

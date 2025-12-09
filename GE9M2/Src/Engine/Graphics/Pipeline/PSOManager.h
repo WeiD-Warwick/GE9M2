@@ -3,7 +3,6 @@
 #include <d3d12.h>
 #include <string>
 #include <wrl/client.h>
-#include "../../Platform/DX12/DX12Renderer.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -13,11 +12,11 @@ private:
 
 public:
 
-	void createPSO(ComPtr<ID3D12Device5> device, 
-				   ComPtr<ID3D12RootSignature> rootSignature,
-				   std::string name,
-				   ComPtr<ID3DBlob> vs,
-				   ComPtr<ID3DBlob> ps,
+	void createPSO(ID3D12Device5* device, 
+				   ID3D12RootSignature* rootSignature,
+				   const std::string& name,
+				   ID3DBlob* vs,
+				   ID3DBlob* ps,
 				   D3D12_INPUT_LAYOUT_DESC layout) {
 		if (psos.find(name) != psos.end()) {
 			return;
@@ -25,7 +24,7 @@ public:
 
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC desc = {};
 		desc.InputLayout = layout;
-		desc.pRootSignature = rootSignature.Get();
+		desc.pRootSignature = rootSignature;
 		desc.VS = { vs->GetBufferPointer(), vs->GetBufferSize() };
 		desc.PS = { ps->GetBufferPointer(), ps->GetBufferSize() };
 
@@ -80,13 +79,10 @@ public:
 		// Create Pipeline State Object
 		ComPtr<ID3D12PipelineState> pso;
 		device->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&pso));
-
 		psos.insert({ name, pso });
-
 	}
 
-	void bind(DX12FrameResource& frameResource, std::string name) {
-		frameResource.commandList()->SetPipelineState(psos[name].Get());
+	void bind(ID3D12GraphicsCommandList4* cmd, const std::string& psoName) {
+		cmd->SetPipelineState(psos[psoName].Get());
 	}
-
 };

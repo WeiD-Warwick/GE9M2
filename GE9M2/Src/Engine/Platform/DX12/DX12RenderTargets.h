@@ -2,46 +2,47 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 #include "DX12Swapchain.h"
+#include <vector>
 
 using Microsoft::WRL::ComPtr;
 
 class DX12RenderTargets {
 
 private:
-    ComPtr<ID3D12Device5> _device;
-    DX12Swapchain _swapChain;
+    ComPtr<ID3D12Device5>                       _device;
+    DX12Swapchain*                              _swapChain              = nullptr;
 
     // RTV heap
-    ComPtr<ID3D12DescriptorHeap> _rtvHeap;
-    std::vector<ComPtr<ID3D12Resource>> _backBufferResources;    // swapchain backbuffers
-    std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> _rtvHandles;
+    ComPtr<ID3D12DescriptorHeap>                _rtvHeap;
+    std::vector<ComPtr<ID3D12Resource>>         _backBufferResources;
+    std::vector<D3D12_CPU_DESCRIPTOR_HANDLE>    _rtvHandles;
 
     // DSV heap
-    ComPtr<ID3D12DescriptorHeap> _dsvHeap;
-    ComPtr<ID3D12Resource> _depthBufferResource;
-    D3D12_CPU_DESCRIPTOR_HANDLE _dsvHandle;
+    ComPtr<ID3D12DescriptorHeap>                _dsvHeap;
+    ComPtr<ID3D12Resource>                      _depthBufferResource;
+    D3D12_CPU_DESCRIPTOR_HANDLE                 _dsvHandle;
 
 public:
 
-    ComPtr<ID3D12Resource>& backBufferResource(UINT frameIndex) {
-        return _backBufferResources[frameIndex];
+    ID3D12Resource* backBufferResource(UINT frameIndex) {
+        return _backBufferResources[frameIndex].Get();
     }
 
-    D3D12_CPU_DESCRIPTOR_HANDLE& rtvHandle(UINT frameIndex) {
+    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(UINT frameIndex) {
         return _rtvHandles[frameIndex];
     }
      
-    ComPtr<ID3D12Resource>& depthBufferResource() {
-        return _depthBufferResource;
+    ID3D12Resource* depthBufferResource() {
+        return _depthBufferResource.Get();
     }
 
-    D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle() {
+    D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle() {
         return _dsvHandle;
     }
 
-    void create(ComPtr<ID3D12Device5> device, DX12Swapchain swapchain, UINT width, UINT height) {
+    void create(ID3D12Device5* device, DX12Swapchain& swapchain, UINT width, UINT height) {
         _device = device;
-        _swapChain = swapchain;
+        _swapChain = &swapchain;
 
         createBackBufferResources();
         createDepthBufferResources(width, height);
@@ -50,7 +51,7 @@ public:
 private:
 
     void createBackBufferResources() {
-        UINT bufferCount = _swapChain.bufferCount();
+        UINT bufferCount = _swapChain->bufferCount();
 
         _backBufferResources.resize(bufferCount);
         _rtvHandles.resize(bufferCount);
@@ -61,10 +62,10 @@ private:
         _device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&_rtvHeap));
 
         D3D12_CPU_DESCRIPTOR_HANDLE _rtvHandleStart = _rtvHeap->GetCPUDescriptorHandleForHeapStart();
-        unsigned int rtvDescSize = _device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+        UINT rtvDescSize = _device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
         
         for (UINT index = 0; index < bufferCount; ++index) {
-            _backBufferResources[index] = _swapChain.getBufferResource(index);
+            _backBufferResources[index] = _swapChain->getBufferResource(index);
             _rtvHandles[index] = _rtvHandleStart;
 
             _device->CreateRenderTargetView(_backBufferResources[index].Get(), nullptr, _rtvHandles[index]);
@@ -73,7 +74,7 @@ private:
     }
 
     void createDepthBufferResources(UINT width, UINT height) {
-        UINT bufferCount = _swapChain.bufferCount();
+        UINT bufferCount = _swapChain->bufferCount();
 
         // Create Descriptor Heap
         D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
@@ -112,14 +113,28 @@ private:
         dsvDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
         dsvDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
 
-        _device->CreateCommittedResource(&heapprops, 
-                                         D3D12_HEAP_FLAG_NONE, 
-                                         &dsvDesc, 
-                                         D3D12_RESOURCE_STATE_DEPTH_WRITE,
-                                         &depthClearValue,
-                                         IID_PPV_ARGS(&_depthBufferResource));
-        _device->CreateDepthStencilView(_depthBufferResource.Get(), 
-                                        &depthStencilDesc,
-                                        _dsvHeap->GetCPUDescriptorHandleForHeapStart());
+        _device->CreateCommittedResource(
+            &heapprops,
+            D3D12_HEAP_FLAG_NONE,
+            &dsvDesc,
+            D3D12_RESOURCE_STATE_DEPTH_WRITE,
+            &depthClearValue,
+            IID_PPV_ARGS(&_depthBufferResource)
+        );
+
+        _device->CreateDepthStencilView(
+            _depthBufferResource.Get(),
+            &depthStencilDesc,
+            _dsvHeap->GetCPUDescriptorHandleForHeapStart()
+        );
     }
+
+public:
+    DX12RenderTargets() = default;
+
+    DX12RenderTargets(const DX12RenderTargets&) = delete;
+    DX12RenderTargets& operator=(const DX12RenderTargets&) = delete;
+
+    DX12RenderTargets(DX12RenderTargets&&) = default;
+    DX12RenderTargets& operator=(DX12RenderTargets&&) = default;
 };

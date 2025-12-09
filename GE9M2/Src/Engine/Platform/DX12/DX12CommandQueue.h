@@ -6,23 +6,21 @@
 using Microsoft::WRL::ComPtr;
 
 class DX12CommandQueues {
+
 private:
-    // Handles rendering commands
-    ComPtr<ID3D12CommandQueue> _graphics;
+    ComPtr<ID3D12CommandQueue>          _graphics;
 
-    //// Manages compute tasks
-    //ComPtr<ID3D12CommandQueue> _compute;
+    //ComPtr<ID3D12CommandQueue>        _compute;
 
-    //// Dedicated to data transfers
-    //// Used for uploading textures, buffers, and other resources without blocking the graphics or ompute queues
-    //ComPtr<ID3D12CommandQueue> _copy;
+    //ComPtr<ID3D12CommandQueue>        _copy;
 
 public:
-    ComPtr<ID3D12CommandQueue>& graphicsQueue() { return _graphics; }
+
+    ID3D12CommandQueue* graphicsQueue() { return _graphics.Get(); }
     //ComPtr<ID3D12CommandQueue>& copyQueue() { return _copy; }
     //ComPtr<ID3D12CommandQueue>& computeQueue() { return _compute; }
 
-    void create(ComPtr<ID3D12Device5>& device) {
+    void create(ID3D12Device5* device) {
 
         D3D12_COMMAND_QUEUE_DESC desc = {};
 
@@ -39,5 +37,15 @@ public:
         //device->CreateCommandQueue(&desc, IID_PPV_ARGS(&_compute));
 
     }
+
+public:
+
+    DX12CommandQueues() = default;
+
+    DX12CommandQueues(const DX12CommandQueues&) = delete;
+    DX12CommandQueues& operator=(const DX12CommandQueues&) = delete;
+
+    DX12CommandQueues(DX12CommandQueues&&) = default;
+    DX12CommandQueues& operator=(DX12CommandQueues&&) = default;
 
 };
