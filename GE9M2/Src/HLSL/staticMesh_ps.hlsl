@@ -7,5 +7,8 @@ struct PS_INPUT {
 };
 
 float4 PS(PS_INPUT input) : SV_Target0 {
-    return float4(1, 0, 0, 1);
+    float3 normal = normalize(input.Normal);
+    
+    float3 color = normal * 0.5f + 0.5f;
+    return float4(color, 1.0f);
 }

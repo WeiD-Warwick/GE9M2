@@ -8,6 +8,7 @@
 class Scene {
 private:
     std::vector<GameObject*> objects;
+	float totalTime = 0.0f;
 
 public:
     CameraComponent* mainCamera = nullptr;
@@ -34,6 +35,20 @@ public:
     }
 
     void update(float dt) {
+        totalTime += dt;
+
+        float radius = 11.0f;
+        float height = 5.0f;
+        Vec3 newPos = Vec3(radius * std::cos(totalTime), height, radius * std::sin(totalTime)
+        );
+
+        mainCamera->owner->transform.setPosition(newPos);
+
+        Vec3 target = Vec3(0, 0, 0);
+        Vec3 up = Vec3(0, 1, 0);
+        mainCamera->orientTowards(target, up);
+
+
         for (auto& obj : objects)
             obj->update(dt);
     }

@@ -60,21 +60,67 @@ public:
     }
 
     void initMeshes() {
-        std::vector<STATIC_VERTEX> vertices;
-        vertices.push_back(addVertex(Vec3(-0.5f, -0.5f, 0.0f), Vec3(0, 1, 0), 0, 0));
-        vertices.push_back(addVertex(Vec3(0.5f, -0.5f, 0.0f), Vec3(0, 1, 0), 1, 0));
-        vertices.push_back(addVertex(Vec3(-0.5f, 0.5f, 0.0f), Vec3(0, 1, 0), 0, 1));
-        vertices.push_back(addVertex(Vec3(0.5f, 0.5f, 0.0f), Vec3(0, 1, 0), 1, 1));
+		std::vector<STATIC_VERTEX> vertices;
+		Vec3 p0 = Vec3(-1.0f, -1.0f, -1.0f);
+		Vec3 p1 = Vec3(1.0f, -1.0f, -1.0f);
+		Vec3 p2 = Vec3(1.0f, 1.0f, -1.0f);
+		Vec3 p3 = Vec3(-1.0f, 1.0f, -1.0f);
+		Vec3 p4 = Vec3(-1.0f, -1.0f, 1.0f);
+		Vec3 p5 = Vec3(1.0f, -1.0f, 1.0f);
+		Vec3 p6 = Vec3(1.0f, 1.0f, 1.0f);
+		Vec3 p7 = Vec3(-1.0f, 1.0f, 1.0f);
 
-        std::vector<unsigned int> indices;
-        indices.push_back(0);
-        indices.push_back(1);
-        indices.push_back(2);
+		// back
+		vertices.push_back(addVertex(p0, Vec3(0.0f, 0.0f, -1.0f), 0.0f, 1.0f));
+		vertices.push_back(addVertex(p1, Vec3(0.0f, 0.0f, -1.0f), 1.0f, 1.0f));
+		vertices.push_back(addVertex(p2, Vec3(0.0f, 0.0f, -1.0f), 1.0f, 0.0f));
+		vertices.push_back(addVertex(p3, Vec3(0.0f, 0.0f, -1.0f), 0.0f, 0.0f));
+		// front
+		vertices.push_back(addVertex(p5, Vec3(0.0f, 0.0f, 1.0f), 0.0f, 1.0f));
+		vertices.push_back(addVertex(p4, Vec3(0.0f, 0.0f, 1.0f), 1.0f, 1.0f));
+		vertices.push_back(addVertex(p7, Vec3(0.0f, 0.0f, 1.0f), 1.0f, 0.0f));
+		vertices.push_back(addVertex(p6, Vec3(0.0f, 0.0f, 1.0f), 0.0f, 0.0f));
+		// left
+		vertices.push_back(addVertex(p4, Vec3(-1.0f, 0.0f, 0.0f), 0.0f, 1.0f));
+		vertices.push_back(addVertex(p0, Vec3(-1.0f, 0.0f, 0.0f), 1.0f, 1.0f));
+		vertices.push_back(addVertex(p3, Vec3(-1.0f, 0.0f, 0.0f), 1.0f, 0.0f));
+		vertices.push_back(addVertex(p7, Vec3(-1.0f, 0.0f, 0.0f), 0.0f, 0.0f));
+		// right
+		vertices.push_back(addVertex(p1, Vec3(1.0f, 0.0f, 0.0f), 0.0f, 1.0f));
+		vertices.push_back(addVertex(p5, Vec3(1.0f, 0.0f, 0.0f), 1.0f, 1.0f));
+		vertices.push_back(addVertex(p6, Vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.0f));
+		vertices.push_back(addVertex(p2, Vec3(1.0f, 0.0f, 0.0f), 0.0f, 0.0f));
+		// top
+		vertices.push_back(addVertex(p3, Vec3(0.0f, 1.0f, 0.0f), 0.0f, 1.0f));
+		vertices.push_back(addVertex(p2, Vec3(0.0f, 1.0f, 0.0f), 1.0f, 1.0f));
+		vertices.push_back(addVertex(p6, Vec3(0.0f, 1.0f, 0.0f), 1.0f, 0.0f));
+		vertices.push_back(addVertex(p7, Vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f));
+		// bottom
+		vertices.push_back(addVertex(p4, Vec3(0.0f, -1.0f, 0.0f), 0.0f, 1.0f));
+		vertices.push_back(addVertex(p5, Vec3(0.0f, -1.0f, 0.0f), 1.0f, 1.0f));
+		vertices.push_back(addVertex(p1, Vec3(0.0f, -1.0f, 0.0f), 1.0f, 0.0f));
+		vertices.push_back(addVertex(p0, Vec3(0.0f, -1.0f, 0.0f), 0.0f, 0.0f));
 
 
-        indices.push_back(1);
-        indices.push_back(3);
-        indices.push_back(2);
+		std::vector<unsigned int> indices;
+		// back
+		indices.push_back(0); indices.push_back(1); indices.push_back(2);
+		indices.push_back(0); indices.push_back(2); indices.push_back(3);
+		// front
+		indices.push_back(4); indices.push_back(5); indices.push_back(6);
+		indices.push_back(4); indices.push_back(6); indices.push_back(7);
+		// left
+		indices.push_back(8); indices.push_back(9); indices.push_back(10);
+		indices.push_back(8); indices.push_back(10); indices.push_back(11);
+		// right
+		indices.push_back(12); indices.push_back(13); indices.push_back(14);
+		indices.push_back(12); indices.push_back(14); indices.push_back(15);
+		// top
+		indices.push_back(16); indices.push_back(17); indices.push_back(18);
+		indices.push_back(16); indices.push_back(18); indices.push_back(19);
+		// bottom
+		indices.push_back(20); indices.push_back(21); indices.push_back(22);
+		indices.push_back(20); indices.push_back(22); indices.push_back(23);
 
         _planeMesh.createStatic(
             _renderContext.device().device(),
@@ -90,8 +136,8 @@ public:
         auto* cam = cameraObj->addComponent<CameraComponent>();
         _scene.setMainCamera(cam);
 
-        cameraObj->transform.setPosition(Vec3(10, 100, 10));
-
+        cameraObj->transform.setPosition(Vec3(0, 10, -10));
+		cam->orientTowards(Vec3(0, 0, 0));
         cam->setAspectRatio((float)_width, (float)_height);
 
         // Cube

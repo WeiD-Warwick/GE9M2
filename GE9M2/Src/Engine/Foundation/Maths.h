@@ -202,36 +202,44 @@ public:
         return r;
     }
 
-    // Left Hand
+	// =====================================================================
+	// Left Hand LookAt Matrix
+	// =====================================================================
     static Matrix lookAt(const Vec3& eye, const Vec3& target, const Vec3& up) {
+
         Vec3 z = (target - eye).normalized();
         Vec3 x = up.cross(z).normalized();
         Vec3 y = z.cross(x);
 
         Matrix r = Identity();
-        r.at(0, 0) = x.x; r.at(1, 0) = x.y; r.at(2, 0) = x.z;
-        r.at(0, 1) = y.x; r.at(1, 1) = y.y; r.at(2, 1) = y.z;
-        r.at(0, 2) = z.x; r.at(1, 2) = z.y; r.at(2, 2) = z.z;
-
+        r.at(0, 0) = x.x; r.at(0, 1) = x.y; r.at(0, 2) = x.z;
+        r.at(1, 0) = y.x; r.at(1, 1) = y.y; r.at(1, 2) = y.z;
+        r.at(2, 0) = z.x; r.at(2, 1) = z.y; r.at(2, 2) = z.z;
         r.at(0, 3) = -x.dot(eye);
         r.at(1, 3) = -y.dot(eye);
         r.at(2, 3) = -z.dot(eye);
 
+        r.at(3, 3) = 1.0f;
+
         return r;
     }
 
-    // Left Hand
+	// =====================================================================
+	// Left Hand Perspective Projection Matrix
+	// =====================================================================
     static Matrix perspective(float n, float f, float aspect, float fovDeg) {
         float fov = fovDeg * (M_PI / 180.0f);
         float yScale = 1.0f / std::tan(fov * 0.5f);
         float xScale = yScale / aspect;
 
         Matrix r = Zero();
+
         r.at(0, 0) = xScale;
         r.at(1, 1) = yScale;
         r.at(2, 2) = f / (f - n);
-        r.at(2, 3) = 1.0f;
-        r.at(3, 2) = -n * f / (f - n);
+        r.at(3, 2) = 1.0f;
+        r.at(2, 3) = -n * f / (f - n);
+
         return r;
     }
 
