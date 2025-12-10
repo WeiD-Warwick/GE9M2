@@ -1,12 +1,8 @@
 #pragma once
 #include "../../Platform/DX12/DX12Device.h"
 #include "../../Platform/DX12/DX12CommandQueue.h"
-#include "../../Platform/DX12/DX12Swapchain.h"
-#include "../../Platform/DX12/DX12RenderTargets.h"
-#include "../../Platform/DX12/DX12CBVSRVUAVHeap.h"
-#include "../../Platform/DX12/DX12RootSignature.h"
 #include "../../Platform/DX12/DX12Renderer.h"
-#include "../../Platform/DX12/DX12UploadContext.h"
+#include "../../Platform/DX12/DX12Upload.h"
 #include "PSOManager.h"
 #include "Shader/ShaderManager.h"
 #include "Texture/TextureManager.h"
@@ -23,7 +19,7 @@ private:
     DX12CBVSRVUAVHeap       _srvHeap;
     DX12RootSignature       _rootSignature;
     DX12Renderer            _renderer;
-    DX12UploadContext       _uploader;
+    DX12Upload              _uploader;
     PSOManager              _psoManager;
 	ShaderManager		    _shaderManager;
 	TextureManager          _textureManager;
@@ -33,7 +29,7 @@ public:
 	DX12Device& device() { return _device; }
     DX12Renderer& renderer() { return _renderer; }
     DX12CBVSRVUAVHeap& srvHeap() { return _srvHeap; }
-    DX12UploadContext& uploader() { return _uploader; }
+    DX12Upload& uploader() { return _uploader; }
 	ShaderManager& shaderManager() { return _shaderManager; }
 	PSOManager& psoManager() { return _psoManager; }
 	TextureManager& textureManager() { return _textureManager; }

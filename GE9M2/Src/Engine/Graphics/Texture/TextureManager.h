@@ -7,7 +7,7 @@ class TextureManager
 public:
 	std::map<std::string, Texture*> textures;
 
-	Texture* loadTexture(ID3D12Device5* device, DX12UploadContext& uploader, DX12CBVSRVUAVHeap& srvHeap, const std::string& name, const std::string& file) {
+	Texture* loadTexture(ID3D12Device5* device, DX12Upload& uploader, DX12CBVSRVUAVHeap& srvHeap, const std::string& name, const std::string& file) {
 		auto it = textures.find(name);
 		if (it != textures.end())
 			return it->second;

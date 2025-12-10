@@ -4,6 +4,8 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 #include <vector>
+#include <unordered_map>
+#include <string>
 
 using Microsoft::WRL::ComPtr;
 
@@ -45,7 +47,7 @@ public:
         srvRange.BaseShaderRegister = 0;    // starting at t0
         srvRange.RegisterSpace = 0;
         srvRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-        
+
         D3D12_ROOT_PARAMETER rootParameterTex;
         rootParameterTex.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
         rootParameterTex.DescriptorTable.NumDescriptorRanges = 1;

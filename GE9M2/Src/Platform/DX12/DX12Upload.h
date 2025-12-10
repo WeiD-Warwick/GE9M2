@@ -1,12 +1,39 @@
 #pragma once
 #include <d3d12.h>
 #include <wrl/client.h>
-#include "DX12Barrier.h"
-#include "DX12Fence.h"
+#include "DX12CommandQueue.h"
 
 using Microsoft::WRL::ComPtr;
 
-class DX12UploadContext {
+class DX12Barrier {
+
+public:
+    static void add(ID3D12Resource* res,
+        D3D12_RESOURCE_STATES first,
+        D3D12_RESOURCE_STATES second,
+        ID3D12GraphicsCommandList4* commandList) {
+
+        D3D12_RESOURCE_BARRIER rb = {};
+        rb.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+        rb.Transition.pResource = res;
+        rb.Transition.StateBefore = first;
+        rb.Transition.StateAfter = second;
+        rb.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+        commandList->ResourceBarrier(1, &rb);
+    }
+
+public:
+
+    DX12Barrier() = default;
+
+    DX12Barrier(const DX12Barrier&) = delete;
+    DX12Barrier& operator=(const DX12Barrier&) = delete;
+
+    DX12Barrier(DX12Barrier&&) = default;
+    DX12Barrier& operator=(DX12Barrier&&) = default;
+};
+
+class DX12Upload {
 private:
     ComPtr<ID3D12Device5>                   _device;
     ComPtr<ID3D12CommandQueue>              _queue;
@@ -113,11 +140,11 @@ private:
     }
 
 public:
-    DX12UploadContext() = default;
+    DX12Upload() = default;
 
-    DX12UploadContext(const DX12UploadContext&) = delete;
-    DX12UploadContext& operator=(const DX12UploadContext&) = delete;
+    DX12Upload(const DX12Upload&) = delete;
+    DX12Upload& operator=(const DX12Upload&) = delete;
 
-    DX12UploadContext(DX12UploadContext&&) = default;
-    DX12UploadContext& operator=(DX12UploadContext&&) = default;
+    DX12Upload(DX12Upload&&) = default;
+    DX12Upload& operator=(DX12Upload&&) = default;
 };

@@ -123,8 +123,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Assets\Shaders\skyBox_vs.hlsl" />
-    <ClCompile Include="Src\Assets\Shaders\skyBox_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\skyBox_vs.hlsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <FileType>Document</FileType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Src\Assets\Shaders\skyBox_ps.hlsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <FileType>Document</FileType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,31 +154,23 @@
     <ClInclude Include="Src\Engine\Foundation\Transform.h" />
     <ClInclude Include="Src\Engine\Foundation\Vertex.h" />
     <ClInclude Include="Src\Engine\Graphics\ConstantBuffer.h" />
+    <ClInclude Include="Src\Engine\Graphics\PSOManager.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\Shader.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderCompiler.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\Texture.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\TextureManager.h" />
-    <ClInclude Include="Src\Engine\Runtime\AnimationSystem.h" />
     <ClInclude Include="Src\Engine\Scene\Components\MouseLookComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\MovementComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h" />
-    <ClInclude Include="Src\Platform\DX12\DX12Barrier.h" />
-    <ClInclude Include="Src\Platform\DX12\DX12CBVSRVUAVHeap.h" />
     <ClInclude Include="Src\Platform\DX12\DX12CommandQueue.h" />
     <ClInclude Include="Src\Platform\DX12\DX12Device.h" />
-    <ClInclude Include="Src\Platform\DX12\DX12Fence.h" />
-    <ClInclude Include="Src\Platform\DX12\DX12FrameResource.h" />
-    <ClInclude Include="Src\Platform\DX12\DX12Mesh.h" />
-    <ClInclude Include="Src\Platform\DX12\DX12RootSignature.h" />
-    <ClInclude Include="Src\Platform\DX12\DX12UploadContext.h" />
-    <ClInclude Include="Src\Engine\Graphics\PSOManager.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12Pipeline.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12Resources.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12Upload.h" />
     <ClInclude Include="Src\Platform\DX12\DX12Renderer.h" />
-    <ClInclude Include="Src\Platform\DX12\DX12RenderTargets.h" />
-    <ClInclude Include="Src\Platform\DX12\DX12Swapchain.h" />
     <ClInclude Include="Src\Engine\Foundation\Maths.h" />
     <ClInclude Include="Src\Engine\Graphics\RenderContext.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderManager.h" />
-    <ClInclude Include="Src\Platform\DX12\DX12VertexLayoutCache.h" />
     <ClInclude Include="Src\Engine\Scene\Component.h" />
     <ClInclude Include="Src\Engine\Scene\Components\CameraComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.h" />

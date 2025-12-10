@@ -2,7 +2,6 @@
 #include <string>
 #include <map>
 #include "Shader.h"
-#include "../../Platform/DX12/DX12CBVSRVUAVHeap.h"
 
 class ShaderManager {
 public:

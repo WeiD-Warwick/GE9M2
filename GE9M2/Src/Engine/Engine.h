@@ -4,7 +4,6 @@
 #include "Scene/Scene.h"
 #include "Platform/Window/Window.h"
 #include "Graphics/RenderContext.h"
-#include "Platform/DX12/DX12Mesh.h"
 #include "Scene/Components/StaticMeshRenderComponent.h"
 #include "Scene/Components/PlayerControllerComponent.h"
 #include "Scene/Components/MouseLookComponent.h"
@@ -53,7 +52,7 @@ public:
 		return _renderContext.renderer().commandList();
 	}
 
-	DX12UploadContext& uploader() {
+	DX12Upload& uploader() {
 		return _renderContext.uploader();
 	}
 

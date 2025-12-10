@@ -5,8 +5,7 @@
 #include <string>
 #include <map>
 #include <wrl/client.h>
-#include "../../Platform/DX12/DX12UploadContext.h"
-#include "../../Platform/DX12/DX12CBVSRVUAVHeap.h"
+#include "../../Platform/DX12/DX12Upload.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -18,7 +17,7 @@ public:
 	int heapOffset = -1;
 	DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
-	void init(ID3D12Device5* device, DX12UploadContext& uploader, DX12CBVSRVUAVHeap& srvHeap, const std::string& filename) {
+	void init(ID3D12Device5* device, DX12Upload& uploader, DX12CBVSRVUAVHeap& srvHeap, const std::string& filename) {
 		int width = 0;
 		int height = 0;
 		int channels = 0;
