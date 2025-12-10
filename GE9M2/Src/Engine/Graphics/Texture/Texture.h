@@ -75,10 +75,6 @@ public:
 			&footprint
 		);
 
-		delete[] uploadData;
-
-		stbi_image_free(texels);
-
 		D3D12_CPU_DESCRIPTOR_HANDLE h = srvHeap.getNextCPUHandle();
 
 		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -90,5 +86,9 @@ public:
 		device->CreateShaderResourceView(texResource.Get(), &srvDesc, h);
 
 		heapOffset = srvHeap.used - 1;
+
+		delete[] uploadData;
+
+		stbi_image_free(texels);
 	}
 };

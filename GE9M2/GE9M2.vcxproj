@@ -140,6 +140,7 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\ModelLoader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\Engine\Foundation\Timer.h" />
     <ClInclude Include="Src\Engine\Foundation\Transform.h" />

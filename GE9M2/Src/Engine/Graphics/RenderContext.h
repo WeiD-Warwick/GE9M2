@@ -38,28 +38,28 @@ public:
 
         _device.create();
 
-        _queues.create(_device.device());
+        _queues.create(_device.dxDevice());
 
-        _rootSignature.create(_device.device());
+        _rootSignature.create(_device.dxDevice());
 
         _swapchain.create(_queues.graphicsQueue(), hwnd, width, height, bufferCount);
 
-        _targets.create(_device.device(), _swapchain, width, height);
+        _targets.create(_device.dxDevice(), _swapchain, width, height);
 
-        _srvHeap.create(_device.device(), srvHeapSize);
+        _srvHeap.create(_device.dxDevice(), srvHeapSize);
 
-        _uploader.create(_device.device(), _queues.graphicsQueue());
+        _uploader.create(_device.dxDevice(), _queues.graphicsQueue());
 
         // load static mesh shaders
         _shaderManager.load(
-            _device.device(),
+            _device.dxDevice(),
             "staticMesh",
             "Src/Assets/Shaders/staticMesh_vs.hlsl",
             "Src/Assets/Shaders/staticMesh_ps.hlsl"
         );
 
         _psoManager.createPSO(
-            _device.device(),
+            _device.dxDevice(),
             _rootSignature.rootSignature(),
             "staticMeshPSO",
             _shaderManager.find("staticMesh")->vs.Get(),
@@ -68,7 +68,7 @@ public:
         );
 
         _renderer.create(
-            _device.device(),
+            _device.dxDevice(),
             _queues.graphicsQueue(),
             _swapchain,
             _targets,

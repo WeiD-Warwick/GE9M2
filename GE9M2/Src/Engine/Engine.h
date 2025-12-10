@@ -124,7 +124,7 @@ public:
 		indices.push_back(20); indices.push_back(22); indices.push_back(23);
 
 		_cubeMesh.createStatic(
-			_renderContext.device().device(),
+			_renderContext.device().dxDevice(),
 			_renderContext.uploader(),
 			vertices,
 			indices

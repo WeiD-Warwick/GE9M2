@@ -4,7 +4,7 @@
 #include <wrl/client.h>
 #include <vector>
 #include "DX12Upload.h"
-#include "../../Engine/Foundation/Vertex.h"
+#include "../../Foundation/Vertex.h"
 
 using Microsoft::WRL::ComPtr;
 

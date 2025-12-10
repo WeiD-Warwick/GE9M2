@@ -46,7 +46,7 @@ public:
 		adapters.clear();
     }
 
-    ID3D12Device5* device() {
+    ID3D12Device5* dxDevice() {
         return _device.Get();
     }
 

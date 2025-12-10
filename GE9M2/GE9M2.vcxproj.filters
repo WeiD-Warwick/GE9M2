@@ -110,6 +110,9 @@
     <ClInclude Include="Src\Engine\Graphics\PSOManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Engine\ModelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl" />

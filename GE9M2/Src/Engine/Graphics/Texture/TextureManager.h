@@ -24,5 +24,11 @@ public:
 		if (it == textures.end()) return -1;
 		return it->second->heapOffset;
 	}
+
+	~TextureManager() {
+		for (auto const& pair : textures) {
+			delete pair.second;
+		}
+	}
 };
 
