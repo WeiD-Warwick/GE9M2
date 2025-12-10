@@ -1,4 +1,4 @@
-Game/
+﻿Game/
     main.cpp
     level.json
 
@@ -45,3 +45,16 @@ Engine/
         PlayerController
         NPCController
         GameManager
+
+
+Runtime::RenderingSystem
+    ↓ 收集场景中的 MeshRenderComponent
+Graphics::RenderWorld
+    ↓ 按材质/PSO 分组
+Platform::DX12Renderer
+    ↓ 调用 DX12Pipeline 绑定 rootSig + PSO
+Platform::DX12CommandList
+    ↓ 绑定 VB/IB
+Platform::DX12CommandList
+    ↓ DrawIndexed
+DX12Swapchain::Present

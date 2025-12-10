@@ -157,7 +157,10 @@
     <ClInclude Include="Src\Engine\Platform\DX12\DX12VertexLayoutCache.h" />
     <ClInclude Include="Src\Engine\Scene\Component.h" />
     <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\AnimationComponent .h" />
     <ClInclude Include="Src\Engine\Scene\Components\CameraComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\MeshComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\SkeletonComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\GameObject.h" />
     <ClInclude Include="Src\Engine\Scene\Scene.h" />
