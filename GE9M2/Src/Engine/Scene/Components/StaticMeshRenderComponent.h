@@ -1,7 +1,6 @@
 #pragma once
 #include "../Component.h"
 #include "../GameObject.h"
-#include "../../Platform/DX12/DX12Mesh.h"
 #include "../../Engine.h"
 #include "../Scene.h"
 
@@ -11,15 +10,6 @@ private:
     DX12Mesh* _mesh = nullptr;
 
 public:
-
-    const std::string& getName() const override {
-        static std::string name = "StaticMeshRenderComponent";
-        return name;
-    }
-
-    void setMesh(DX12Mesh* mesh) {
-        _mesh = mesh;
-    }
 
     void onRender(RenderContext& renderContext) override {
         if (!_mesh || !owner) return;
@@ -39,4 +29,14 @@ public:
         psos.bind(commandList, "staticMeshPSO");
         _mesh->draw(commandList);
     }
+
+public:
+
+    StaticMeshRenderComponent(DX12Mesh* _mesh) : _mesh(_mesh) {}
+
+    const std::string& getName() const override {
+        static std::string name = "StaticMeshRenderComponent";
+        return name;
+    }
+
 };

@@ -15,7 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Assets\Shaders\skyBox_ps.hlsl">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Assets\Shaders\skyBox_vs.hlsl">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,40 +32,40 @@
     <ClInclude Include="Third_Party\GEMLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\Window\Window.h">
+    <ClInclude Include="Src\Platform\Window\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Foundation\Maths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Barrier.h">
+    <ClInclude Include="Src\Platform\DX12\DX12Barrier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Device.h">
+    <ClInclude Include="Src\Platform\DX12\DX12Device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12CommandQueue.h">
+    <ClInclude Include="Src\Platform\DX12\DX12CommandQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Fence.h">
+    <ClInclude Include="Src\Platform\DX12\DX12Fence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Swapchain.h">
+    <ClInclude Include="Src\Platform\DX12\DX12Swapchain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Renderer.h">
+    <ClInclude Include="Src\Platform\DX12\DX12Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12RenderTargets.h">
+    <ClInclude Include="Src\Platform\DX12\DX12RenderTargets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12FrameResource.h">
+    <ClInclude Include="Src\Platform\DX12\DX12FrameResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Pipeline\PSOManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12UploadContext.h">
+    <ClInclude Include="Src\Platform\DX12\DX12UploadContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderManager.h">
@@ -74,13 +80,10 @@
     <ClInclude Include="Src\Engine\Foundation\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12VertexLayoutCache.h">
+    <ClInclude Include="Src\Platform\DX12\DX12VertexLayoutCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Scene\Component.h">
@@ -92,7 +95,7 @@
     <ClInclude Include="Src\Engine\Foundation\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Mesh.h">
+    <ClInclude Include="Src\Platform\DX12\DX12Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Scene\Components\CameraComponent.h">
@@ -110,10 +113,10 @@
     <ClInclude Include="Src\Engine\Graphics\Shader\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12RootSignature.h">
+    <ClInclude Include="Src\Platform\DX12\DX12RootSignature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12CBVSRVUAVHeap.h">
+    <ClInclude Include="Src\Platform\DX12\DX12CBVSRVUAVHeap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Buffer\ConstantBuffer.h">
@@ -128,20 +131,44 @@
     <ClInclude Include="Third_Party\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\SkeletonComponent.h">
+    <ClInclude Include="Src\Engine\Foundation\ModelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\AnimationComponent .h">
+    <ClInclude Include="Src\Engine\Assets\GEMImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\MeshComponent.h">
+    <ClInclude Include="Src\Engine\Assets\Skeleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Assets\AnimationFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Assets\AnimationClip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Assets\AnimationLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Runtime\AnimationSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\MouseLookComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Mesh\MeshFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\MovementComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Src\HLSL\staticMesh_ps.hlsl" />
-    <FxCompile Include="Src\HLSL\staticMesh_vs.hlsl" />
-    <FxCompile Include="Src\HLSL\animatedMesh_ps.hlsl" />
-    <FxCompile Include="Src\HLSL\animatedMesh_vs.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\staticMesh_vs.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\animatedMesh_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\animatedMesh_vs.hlsl" />
   </ItemGroup>
 </Project>

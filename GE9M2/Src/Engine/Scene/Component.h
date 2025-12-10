@@ -6,6 +6,16 @@ class GameObject;
 class Engine;
 class Scene;
 
+// =============================================================
+//          Necessary Components Order 
+// 
+// PlayerControllerComponent    - 10
+// MouseLookComponent           - 20
+// MovementComponent            - 30
+// CameraComponent              - 40
+// StaticMeshRenderComponent    - 100
+// =============================================================
+
 class Component {
 public:
     GameObject* owner = nullptr;   // the owner of this component
@@ -14,6 +24,8 @@ public:
 
 public:
     virtual ~Component() {}
+
+    virtual int getUpdateOrder() const { return 100; }
 
     // Called after component is attached to GameObject
     virtual void onStart() {}

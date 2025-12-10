@@ -1,6 +1,6 @@
-﻿#include "Src/Engine/Platform/Window/Window.h"
-#include "Src/Engine/Engine.h"
-#include "Src/Engine/foundation/Timer.h"
+﻿#include "Platform/Window/Window.h"
+#include "Engine/Engine.h"
+#include "Engine/foundation/Timer.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 #if defined(_DEBUG)
@@ -13,7 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 
 	Window window;
-	window.create(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, "MineCraft");
+	window.create(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, "GE9M2", true);
 
 	Engine engine(window.hwnd, WINDOW_WIDTH, WINDOW_HEIGHT);
 

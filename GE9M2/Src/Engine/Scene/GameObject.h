@@ -24,6 +24,13 @@ public:
 
         components.push_back(component);
 
+		// sort components by update order to ensure correct update sequence
+        std::sort(components.begin(), components.end(),
+            [](Component* a, Component* b) {
+                return a->getUpdateOrder() < b->getUpdateOrder();
+            }
+        );
+
         component->onStart();
         return component;
     }
@@ -57,8 +64,8 @@ public:
     GameObject& operator=(GameObject&&) = delete;
 
     ~GameObject() {
-        for (Component* c : components)
-            delete c;
+        for (Component* component : components)
+            delete component;
         components.clear();
     }
 };

@@ -1,8 +1,10 @@
 #pragma once
 #include <d3d12.h>
 #include <wrl/client.h>
+#include <vector>
 #include "DX12UploadContext.h"
-#include "../../Foundation/Vertex.h"
+#include "DX12VertexLayoutCache.h"
+#include "../../Engine/Foundation/Vertex.h"
 
 using Microsoft::WRL::ComPtr;
 

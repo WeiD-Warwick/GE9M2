@@ -6,60 +6,62 @@
 #include "Graphics/Pipeline/RenderContext.h"
 #include "Platform/DX12/DX12Mesh.h"
 #include "Scene/Components/StaticMeshRenderComponent.h"
+#include "Scene/Components/PlayerControllerComponent.h"
+#include "Scene/Components/MouseLookComponent.h"
+#include "Scene/Components/MovementComponent.h"
 
 class Engine {
 private:
-    const int       bufferCount = 2;
-    int             _width = 0;
-    int             _height = 0;
-    HWND            _hwnd = nullptr;
-    Scene           _scene;
-    RenderContext   _renderContext;
+	const int       bufferCount = 2;
+	int             _width = 0;
+	int             _height = 0;
+	HWND            _hwnd = nullptr;
+	Scene           _scene;
+	RenderContext   _renderContext;
 
-    DX12Mesh _planeMesh;
+	DX12Mesh _cubeMesh;
 
 public:
-    Engine(HWND hwnd, int width, int height) 
-        : _hwnd(hwnd), _width(width), _height(height), _scene(this) {
-        _renderContext.create(hwnd, width, height);
+	Engine(HWND hwnd, int width, int height) : _hwnd(hwnd), _width(width), _height(height), _scene(this) {
+		_renderContext.create(hwnd, width, height);
 
-        initMeshes();
+		initMeshes();
 
-        initScene();
-    }
+		initScene();
+	}
 
-    void beginFrame() {
-        _renderContext.renderer().beginFrame();
-    }
+	void beginFrame() {
+		_renderContext.renderer().beginFrame();
+	}
 
-    void frame(float dt) {
-        beginFrame();                               // DX12 prepare
-        _scene.update(dt);                          // gameplay update
-        _scene.render(_renderContext);              // components draw
-        endFrame();                                 // DX12 present
-    }
+	void frame(float dt) {
+		beginFrame();                               // DX12 prepare
+		_scene.update(dt);                          // gameplay update
+		_scene.render(_renderContext);              // components draw
+		endFrame();                                 // DX12 present
+	}
 
-    void endFrame() {
-        _renderContext.renderer().endFrame();
-    }
+	void endFrame() {
+		_renderContext.renderer().endFrame();
+	}
 
-    void flush() {
-        _renderContext.renderer().flushGraphicsQueue();
-    }
+	void flush() {
+		_renderContext.renderer().flushGraphicsQueue();
+	}
 
-    ID3D12GraphicsCommandList4* cmd() {
-        return _renderContext.renderer().commandList();
-    }
+	ID3D12GraphicsCommandList4* cmd() {
+		return _renderContext.renderer().commandList();
+	}
 
-    DX12UploadContext& uploader() {
-        return _renderContext.uploader();
-    }
+	DX12UploadContext& uploader() {
+		return _renderContext.uploader();
+	}
 
-    RenderContext& renderContext() {
-        return _renderContext;
-    }
+	RenderContext& renderContext() {
+		return _renderContext;
+	}
 
-    void initMeshes() {
+	void initMeshes() {
 		std::vector<STATIC_VERTEX> vertices;
 		Vec3 p0 = Vec3(-1.0f, -1.0f, -1.0f);
 		Vec3 p1 = Vec3(1.0f, -1.0f, -1.0f);
@@ -122,29 +124,29 @@ public:
 		indices.push_back(20); indices.push_back(21); indices.push_back(22);
 		indices.push_back(20); indices.push_back(22); indices.push_back(23);
 
-        _planeMesh.createStatic(
-            _renderContext.device().device(),
-            _renderContext.uploader(),
-            vertices,
-            indices
+		_cubeMesh.createStatic(
+			_renderContext.device().device(),
+			_renderContext.uploader(),
+			vertices,
+			indices
 		);
-    }
+	}
 
-    void initScene() {
-        // Camera
-        GameObject* cameraObj = _scene.createObject();
-        auto* cam = cameraObj->addComponent<CameraComponent>();
-        _scene.setMainCamera(cam);
+	void initScene() {
+		// Camera
+		GameObject* player = _scene.createObject();
+		CameraComponent* cam = player->addComponent<CameraComponent>((float)_width / (float)_height);
+		player->addComponent<PlayerControllerComponent>();
+		player->addComponent<MouseLookComponent>();
+		player->addComponent<MovementComponent>();
+		
+		_scene.setMainCamera(cam);
 
-        cameraObj->transform.setPosition(Vec3(0, 10, -10));
-		cam->orientTowards(Vec3(0, 0, 0));
-        cam->setAspectRatio((float)_width, (float)_height);
+		player->transform.position = Vec3(0, 3, -10);
 
-        // Cube
-        GameObject* plane = _scene.createObject();
-        auto* r = plane->addComponent<StaticMeshRenderComponent>();
-        r->setMesh(&_planeMesh);
-        plane->transform.setPosition(Vec3(0, 0, 0));
-    }
+		// Cube
+		GameObject* cube = _scene.createObject();
+		cube->addComponent<StaticMeshRenderComponent>(&_cubeMesh);
+	}
 
 };

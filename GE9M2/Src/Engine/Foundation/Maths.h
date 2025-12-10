@@ -4,6 +4,11 @@
 #define M_PI 3.141592654f
 #define SQ(x) ((x) * (x))
 
+template<typename T>
+T clamp(const T& v, const T& low, const T& high) {
+    return (v < low) ? low : (v > high) ? high : v;
+}
+
 class Quaternion;
 
 class Vec3 {
@@ -205,9 +210,9 @@ public:
 	// =====================================================================
 	// Left Hand LookAt Matrix
 	// =====================================================================
-    static Matrix lookAt(const Vec3& eye, const Vec3& target, const Vec3& up) {
+    static Matrix lookAt(const Vec3& from, const Vec3& to, const Vec3& up) {
 
-        Vec3 z = (target - eye).normalized();
+        Vec3 z = (to - from).normalized();
         Vec3 x = up.cross(z).normalized();
         Vec3 y = z.cross(x);
 
@@ -215,13 +220,21 @@ public:
         r.at(0, 0) = x.x; r.at(0, 1) = x.y; r.at(0, 2) = x.z;
         r.at(1, 0) = y.x; r.at(1, 1) = y.y; r.at(1, 2) = y.z;
         r.at(2, 0) = z.x; r.at(2, 1) = z.y; r.at(2, 2) = z.z;
-        r.at(0, 3) = -x.dot(eye);
-        r.at(1, 3) = -y.dot(eye);
-        r.at(2, 3) = -z.dot(eye);
+        r.at(0, 3) = -x.dot(from);
+        r.at(1, 3) = -y.dot(from);
+        r.at(2, 3) = -z.dot(from);
 
         r.at(3, 3) = 1.0f;
 
         return r;
+    }
+
+    static Matrix lookAtNoTranslation(const Vec3& from, const Vec3& to, const Vec3& up) {
+        Matrix view = lookAt(from, to, up);
+        view.at(0, 3) = 0.0f;
+        view.at(1, 3) = 0.0f;
+        view.at(2, 3) = 0.0f;
+        return view;
     }
 
 	// =====================================================================

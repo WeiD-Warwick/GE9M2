@@ -123,71 +123,80 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Src\Assets\Shaders\skyBox_vs.hlsl" />
+    <ClCompile Include="Src\Assets\Shaders\skyBox_ps.hlsl" />
+    <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="reference.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Assets\AnimationClip.h" />
+    <ClInclude Include="Src\Engine\Assets\AnimationFrame.h" />
+    <ClInclude Include="Src\Engine\Assets\AnimationLibrary.h" />
+    <ClInclude Include="Src\Engine\Assets\GEMImporter.h" />
+    <ClInclude Include="Src\Engine\Assets\Skeleton.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
+    <ClInclude Include="Src\Engine\Foundation\ModelLoader.h" />
     <ClInclude Include="Src\Engine\Foundation\Timer.h" />
     <ClInclude Include="Src\Engine\Foundation\Transform.h" />
     <ClInclude Include="Src\Engine\Foundation\Vertex.h" />
     <ClInclude Include="Src\Engine\Graphics\Buffer\ConstantBuffer.h" />
+    <ClInclude Include="Src\Engine\Graphics\Mesh\MeshFactory.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\Shader.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderCompiler.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\Texture.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\TextureManager.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Barrier.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12CBVSRVUAVHeap.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12CommandQueue.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Device.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Fence.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12FrameResource.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Mesh.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12RootSignature.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12UploadContext.h" />
+    <ClInclude Include="Src\Engine\Runtime\AnimationSystem.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\MouseLookComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\MovementComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12Barrier.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12CBVSRVUAVHeap.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12CommandQueue.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12Device.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12Fence.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12FrameResource.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12Mesh.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12RootSignature.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12UploadContext.h" />
     <ClInclude Include="Src\Engine\Graphics\Pipeline\PSOManager.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Renderer.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12RenderTargets.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Swapchain.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12Renderer.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12RenderTargets.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12Swapchain.h" />
     <ClInclude Include="Src\Engine\Foundation\Maths.h" />
     <ClInclude Include="Src\Engine\Graphics\Pipeline\RenderContext.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderManager.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12VertexLayoutCache.h" />
+    <ClInclude Include="Src\Platform\DX12\DX12VertexLayoutCache.h" />
     <ClInclude Include="Src\Engine\Scene\Component.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\AnimationComponent .h" />
     <ClInclude Include="Src\Engine\Scene\Components\CameraComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\MeshComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\SkeletonComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\GameObject.h" />
     <ClInclude Include="Src\Engine\Scene\Scene.h" />
     <ClInclude Include="Third_Party\GEMLoader.h" />
-    <ClInclude Include="Src\Engine\Platform\Window\Window.h" />
+    <ClInclude Include="Src\Platform\Window\Window.h" />
     <ClInclude Include="Third_Party\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Src\HLSL\animatedMesh_ps.hlsl">
+    <FxCompile Include="Src\Assets\Shaders\animatedMesh_ps.hlsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Src\HLSL\animatedMesh_vs.hlsl">
+    <FxCompile Include="Src\Assets\Shaders\animatedMesh_vs.hlsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Src\HLSL\staticMesh_ps.hlsl">
+    <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
     </FxCompile>
-    <FxCompile Include="Src\HLSL\staticMesh_vs.hlsl">
+    <FxCompile Include="Src\Assets\Shaders\staticMesh_vs.hlsl">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>

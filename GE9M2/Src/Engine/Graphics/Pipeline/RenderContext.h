@@ -58,8 +58,8 @@ public:
         _shaderManager.load(
             _device.device(),
             "staticMesh",
-            "Src/HLSL/staticMesh_vs.hlsl",
-            "Src/HLSL/staticMesh_ps.hlsl"
+            "Src/Assets/Shaders/staticMesh_vs.hlsl",
+            "Src/Assets/Shaders/staticMesh_ps.hlsl"
         );
 
         _psoManager.createPSO(
