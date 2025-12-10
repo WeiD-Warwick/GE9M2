@@ -69,7 +69,6 @@ public:
         _scissor = { 0, 0, width, height };
 
         _frameResources.resize(_swapchain->bufferCount());
-
         for (auto& frameResource : _frameResources) {
             frameResource.create(_device.Get());
         }
@@ -81,15 +80,11 @@ public:
 
         DX12Fence& fence = frameResource.fence();
         ID3D12GraphicsCommandList4* commandList = frameResource.commandList();
+        D3D12_CPU_DESCRIPTOR_HANDLE rtv = _targets->rtvHandle(frameIndex);
+        D3D12_CPU_DESCRIPTOR_HANDLE dsv = _targets->dsvHandle();
 
-		// wait for last frame to finish
-        fence.wait();
         frameResource.reset();
 
-        commandList->RSSetViewports(1, &_viewport);
-        commandList->RSSetScissorRects(1, &_scissor);
-
-		// set render target and clear
         DX12Barrier::add(
             _targets->backBufferResource(frameIndex),
             D3D12_RESOURCE_STATE_PRESENT,
@@ -97,40 +92,30 @@ public:
             commandList
         );
 
-        ID3D12DescriptorHeap* heaps[] = { _srvHeap->heap.Get() };
-        commandList->SetDescriptorHeaps(1, heaps);
-        commandList->SetGraphicsRootSignature(_rootSignature->rootSignature());
-
         float color[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
-
-        D3D12_CPU_DESCRIPTOR_HANDLE rtv = _targets->rtvHandle(frameIndex);
-        D3D12_CPU_DESCRIPTOR_HANDLE dsv = _targets->dsvHandle();
-
         commandList->OMSetRenderTargets(1, &rtv, FALSE, &dsv);
         commandList->ClearRenderTargetView(_targets->rtvHandle(frameIndex), color, 0, nullptr);
         commandList->ClearDepthStencilView(_targets->dsvHandle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+    
+        ID3D12DescriptorHeap* heaps[] = { _srvHeap->heap.Get() };
+        commandList->RSSetViewports(1, &_viewport);
+        commandList->RSSetScissorRects(1, &_scissor);
+        commandList->SetDescriptorHeaps(1, heaps);
+        commandList->SetGraphicsRootSignature(_rootSignature->rootSignature());
     }
 
     void endFrame() {
         UINT frameIndex = _swapchain->getCurrentBackBufferIndex();
         DX12FrameResource& frameResource = _frameResources[frameIndex];
-        DX12Fence& fence = frameResource.fence();
-        ID3D12GraphicsCommandList4* commandList = frameResource.commandList();
 
         DX12Barrier::add(
             _targets->backBufferResource(frameIndex),
             D3D12_RESOURCE_STATE_RENDER_TARGET,
             D3D12_RESOURCE_STATE_PRESENT,
-            commandList
+            frameResource.commandList()
         );
 
-        // Submit commands
         frameResource.exec(_graphicsQueue.Get());
-
-        // Signal
-        fence.signal(_graphicsQueue.Get());
-
-        // Present
         _swapchain->present();
     }
 

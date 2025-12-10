@@ -48,42 +48,48 @@ public:
         createDepthBufferResources(width, height);
     }
 
+    void resize(UINT width, UINT height) {
+        _backBufferResources.clear();
+		_rtvHandles.clear();
+        createBackBufferResources();
+        createDepthBufferResources(width, height);
+    }
+
 private:
 
     void createBackBufferResources() {
         UINT bufferCount = _swapChain->bufferCount();
 
-        _backBufferResources.resize(bufferCount);
-        _rtvHandles.resize(bufferCount);
-
         D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
         rtvHeapDesc.NumDescriptors = bufferCount;
-        rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+        rtvHeapDesc.Type           = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+		rtvHeapDesc.Flags          = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
         _device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&_rtvHeap));
 
-        D3D12_CPU_DESCRIPTOR_HANDLE _rtvHandleStart = _rtvHeap->GetCPUDescriptorHandleForHeapStart();
+        D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = _rtvHeap->GetCPUDescriptorHandleForHeapStart();
         UINT rtvDescSize = _device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-        
+
+		_backBufferResources.resize(bufferCount);
+        _rtvHandles.resize(bufferCount);
         for (UINT index = 0; index < bufferCount; ++index) {
             _backBufferResources[index] = _swapChain->getBufferResource(index);
-            _rtvHandles[index] = _rtvHandleStart;
+            _rtvHandles[index] = rtvHandle;
 
             _device->CreateRenderTargetView(_backBufferResources[index].Get(), nullptr, _rtvHandles[index]);
-            _rtvHandleStart.ptr += rtvDescSize;
+            rtvHandle.ptr += rtvDescSize;
         }
     }
 
     void createDepthBufferResources(UINT width, UINT height) {
-        UINT bufferCount = _swapChain->bufferCount();
 
         // Create Descriptor Heap
-        D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
-        memset(&dsvHeapDesc, 0, sizeof(D3D12_DESCRIPTOR_HEAP_DESC));
+        D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
         dsvHeapDesc.NumDescriptors = 1;
         dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
         dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
         _device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&_dsvHeap));
         _dsvHandle = _dsvHeap->GetCPUDescriptorHandleForHeapStart();
+        _depthBufferResource = nullptr;
 
         // Create Depth Buffer
         D3D12_DEPTH_STENCIL_VIEW_DESC depthStencilDesc = {};

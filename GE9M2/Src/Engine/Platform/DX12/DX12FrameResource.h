@@ -21,12 +21,11 @@ public:
 
         device->CreateCommandList1(0, D3D12_COMMAND_LIST_TYPE_DIRECT, D3D12_COMMAND_LIST_FLAG_NONE, IID_PPV_ARGS(&_commandList));
 
-        _commandList->Close();
-
         _fence.create(device);
     }
 
     void reset() {
+		_fence.wait();
         _allocator->Reset();
         _commandList->Reset(_allocator.Get(), NULL);
     }
@@ -35,6 +34,7 @@ public:
         _commandList->Close();
         ID3D12CommandList* lists[] = { _commandList.Get() };
         queue->ExecuteCommandLists(1, lists);
+		_fence.signal(queue);
     }
 
     ID3D12GraphicsCommandList4* commandList() {

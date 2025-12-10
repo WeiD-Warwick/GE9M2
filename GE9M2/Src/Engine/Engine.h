@@ -90,7 +90,7 @@ public:
         auto* cam = cameraObj->addComponent<CameraComponent>();
         _scene.setMainCamera(cam);
 
-        cameraObj->transform.setPosition(Vec3(10, 10, -10));
+        cameraObj->transform.setPosition(Vec3(10, 100, 10));
 
         cam->setAspectRatio((float)_width, (float)_height);
 

@@ -26,6 +26,7 @@ public:
             i++;
         }
 
+        // Find the best adapter
         long long maxVideoMemory = 0;
         int bestIndex = 0;
 
@@ -42,6 +43,7 @@ public:
         _adapter = adapters[bestIndex];
 
         D3D12CreateDevice(_adapter.Get(), D3D_FEATURE_LEVEL_12_1, IID_PPV_ARGS(&_device));
+		adapters.clear();
     }
 
     ID3D12Device5* device() {

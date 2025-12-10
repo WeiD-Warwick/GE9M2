@@ -41,17 +41,18 @@ public:
 
         // Create the swapchain (transform swapChain1 to swapChain3)
         ComPtr<IDXGISwapChain1> swapChain1;
-
         factory->CreateSwapChainForHwnd(
             graphicsQueue,
-            hwnd, &scDesc,
-            NULL,
-            NULL,
+            hwnd, 
+            &scDesc,
+            nullptr,
+            nullptr,
             &swapChain1
         );
 
         swapChain1.As(&_swapchain);
 
+        // TODO
         for (UINT i = 0; i < bufferCount; i++) {
             _swapchain->GetBuffer(i, IID_PPV_ARGS(&_buffers[i]));
         }
@@ -75,6 +76,26 @@ public:
 
     IDXGISwapChain3* swapchain() {
         return _swapchain.Get();
+    }
+
+    void resizeBuffers(UINT width, UINT height) {
+
+        for (auto& buf : _buffers) {
+            buf.Reset();
+        }
+
+        _swapchain->ResizeBuffers(
+            _bufferCount,
+            width,
+            height,
+            DXGI_FORMAT_R8G8B8A8_UNORM,
+            0
+        );
+
+        _buffers.resize(_bufferCount);
+        for (UINT i = 0; i < _bufferCount; i++) {
+            _swapchain->GetBuffer(i, IID_PPV_ARGS(&_buffers[i]));
+        }
     }
 
 public:

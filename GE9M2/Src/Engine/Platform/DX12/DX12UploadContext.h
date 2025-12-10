@@ -17,10 +17,7 @@ private:
 
 public:
 
-    void create(
-        ID3D12Device5* device,
-        ID3D12CommandQueue* queue
-    ) {
+    void create(ID3D12Device5* device, ID3D12CommandQueue* queue) {
         _device = device;
         _queue = queue;
 
