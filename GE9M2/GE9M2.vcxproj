@@ -141,8 +141,7 @@
     <ClInclude Include="Src\Engine\Foundation\Timer.h" />
     <ClInclude Include="Src\Engine\Foundation\Transform.h" />
     <ClInclude Include="Src\Engine\Foundation\Vertex.h" />
-    <ClInclude Include="Src\Engine\Graphics\Buffer\ConstantBuffer.h" />
-    <ClInclude Include="Src\Engine\Graphics\Mesh\MeshFactory.h" />
+    <ClInclude Include="Src\Engine\Graphics\ConstantBuffer.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\Shader.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderCompiler.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\Texture.h" />
@@ -160,12 +159,12 @@
     <ClInclude Include="Src\Platform\DX12\DX12Mesh.h" />
     <ClInclude Include="Src\Platform\DX12\DX12RootSignature.h" />
     <ClInclude Include="Src\Platform\DX12\DX12UploadContext.h" />
-    <ClInclude Include="Src\Engine\Graphics\Pipeline\PSOManager.h" />
+    <ClInclude Include="Src\Engine\Graphics\PSOManager.h" />
     <ClInclude Include="Src\Platform\DX12\DX12Renderer.h" />
     <ClInclude Include="Src\Platform\DX12\DX12RenderTargets.h" />
     <ClInclude Include="Src\Platform\DX12\DX12Swapchain.h" />
     <ClInclude Include="Src\Engine\Foundation\Maths.h" />
-    <ClInclude Include="Src\Engine\Graphics\Pipeline\RenderContext.h" />
+    <ClInclude Include="Src\Engine\Graphics\RenderContext.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderManager.h" />
     <ClInclude Include="Src\Platform\DX12\DX12VertexLayoutCache.h" />
     <ClInclude Include="Src\Engine\Scene\Component.h" />

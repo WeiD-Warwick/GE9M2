@@ -62,7 +62,7 @@
     <ClInclude Include="Src\Platform\DX12\DX12FrameResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Pipeline\PSOManager.h">
+    <ClInclude Include="Src\Engine\Graphics\PSOManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Platform\DX12\DX12UploadContext.h">
@@ -71,7 +71,7 @@
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Pipeline\RenderContext.h">
+    <ClInclude Include="Src\Engine\Graphics\RenderContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Engine.h">
@@ -119,7 +119,7 @@
     <ClInclude Include="Src\Platform\DX12\DX12CBVSRVUAVHeap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Buffer\ConstantBuffer.h">
+    <ClInclude Include="Src\Engine\Graphics\ConstantBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Texture\Texture.h">
@@ -156,9 +156,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Scene\Components\MouseLookComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Mesh\MeshFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Scene\Components\MovementComponent.h">

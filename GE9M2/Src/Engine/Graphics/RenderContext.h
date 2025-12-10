@@ -8,8 +8,8 @@
 #include "../../Platform/DX12/DX12Renderer.h"
 #include "../../Platform/DX12/DX12UploadContext.h"
 #include "PSOManager.h"
-#include "../Shader/ShaderManager.h"
-#include "../Texture/TextureManager.h"
+#include "Shader/ShaderManager.h"
+#include "Texture/TextureManager.h"
 
 class RenderContext {
 private:

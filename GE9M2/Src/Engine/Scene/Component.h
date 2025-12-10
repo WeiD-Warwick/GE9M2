@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../Graphics/Pipeline/RenderContext.h"
+#include "../Graphics/RenderContext.h"
 
 class GameObject;
 class Engine;

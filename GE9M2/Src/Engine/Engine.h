@@ -3,7 +3,7 @@
 #include <wrl/client.h>
 #include "Scene/Scene.h"
 #include "Platform/Window/Window.h"
-#include "Graphics/Pipeline/RenderContext.h"
+#include "Graphics/RenderContext.h"
 #include "Platform/DX12/DX12Mesh.h"
 #include "Scene/Components/StaticMeshRenderComponent.h"
 #include "Scene/Components/PlayerControllerComponent.h"

@@ -7,9 +7,9 @@
 #include "DX12FrameResource.h"
 #include "DX12RootSignature.h"
 #include "DX12CBVSRVUAVHeap.h"
-#include "../../Graphics/Shader/ShaderManager.h"
-#include "../../Graphics/Pipeline/PSOManager.h"
-#include "../../Graphics/Texture/TextureManager.h"
+#include "../Graphics/Shader/ShaderManager.h"
+#include "../Graphics/PSOManager.h"
+#include "../Graphics/Texture/TextureManager.h"
 
 #pragma comment(lib, "d3d12")
 #pragma comment(lib, "dxgi")

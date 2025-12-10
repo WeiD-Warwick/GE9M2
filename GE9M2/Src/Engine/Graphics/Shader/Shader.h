@@ -4,7 +4,7 @@
 #include <map>
 #include <d3d12.h>
 #include "ShaderCompiler.h"
-#include "../Buffer/ConstantBuffer.h"
+#include "../ConstantBuffer.h"
 
 
 class Shader {
