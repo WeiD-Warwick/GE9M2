@@ -26,22 +26,22 @@
     <ClInclude Include="Third_Party\GEMLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Platform\Window\Window.h">
+    <ClInclude Include="Src\Engine\Platform\Window\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Foundation\Maths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Platform\DX12\DX12Device.h">
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Platform\DX12\DX12CommandQueue.h">
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12CommandQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Platform\DX12\DX12Renderer.h">
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Platform\DX12\DX12Upload.h">
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Upload.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderManager.h">
@@ -122,10 +122,10 @@
     <ClInclude Include="Src\Engine\Scene\Components\MovementComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Platform\DX12\DX12Resources.h">
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Platform\DX12\DX12Pipeline.h">
+    <ClInclude Include="Src\Engine\Platform\DX12\DX12Pipeline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\PSOManager.h">

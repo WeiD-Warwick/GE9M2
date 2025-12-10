@@ -3,7 +3,7 @@
 #include "../Component.h"
 #include "../GameObject.h"
 #include "../Scene.h"
-#include "../../../Platform/Window/Window.h"
+#include "../../Platform/Window/Window.h"
 
 struct PlayerInfo {
     Vec3  moveDir   = Vec3(0, 0, 0);

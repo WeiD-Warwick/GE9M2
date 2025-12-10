@@ -3,9 +3,9 @@
 #include <wrl/client.h>
 #include "DX12Resources.h"
 #include "DX12Pipeline.h"
-#include "../../Engine/Graphics/PSOManager.h"
-#include "../../Engine/Graphics/Shader/ShaderManager.h"
-#include "../../Engine/Graphics/Texture/TextureManager.h"
+#include "../../Graphics/PSOManager.h"
+#include "../../Graphics/Shader/ShaderManager.h"
+#include "../../Graphics/Texture/TextureManager.h"
 
 #pragma comment(lib, "d3d12")
 #pragma comment(lib, "dxgi")

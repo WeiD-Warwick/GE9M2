@@ -1,14 +1,14 @@
 #pragma once
 #include "../Component.h"
 #include "../GameObject.h"
-#include "../../../Platform/Window/Window.h"
+#include "../../Platform/Window/Window.h"
 
 class MouseLookComponent : public Component {
 
 private:
     float _sensitivity = 0.004f;
     float _pitch = 0.0f;           // up/down
-    float _yaw = 0.0f;           // left/right
+    float _yaw = 0.0f;             // left/right
 
 public:
 

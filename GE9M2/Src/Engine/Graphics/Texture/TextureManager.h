@@ -2,8 +2,8 @@
 #include <map>
 #include "Texture.h"
 
-class TextureManager
-{
+class TextureManager {
+
 public:
 	std::map<std::string, Texture*> textures;
 

@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Platform/DX12/DX12Device.h"
-#include "../../Platform/DX12/DX12CommandQueue.h"
-#include "../../Platform/DX12/DX12Renderer.h"
-#include "../../Platform/DX12/DX12Upload.h"
+#include "../Platform/DX12/DX12Device.h"
+#include "../Platform/DX12/DX12CommandQueue.h"
+#include "../Platform/DX12/DX12Renderer.h"
+#include "../Platform/DX12/DX12Upload.h"
 #include "PSOManager.h"
 #include "Shader/ShaderManager.h"
 #include "Texture/TextureManager.h"
