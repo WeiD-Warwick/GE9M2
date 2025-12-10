@@ -140,16 +140,7 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="reference.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Src\Engine\Assets\AnimationClip.h" />
-    <ClInclude Include="Src\Engine\Assets\AnimationFrame.h" />
-    <ClInclude Include="Src\Engine\Assets\AnimationLibrary.h" />
-    <ClInclude Include="Src\Engine\Assets\GEMImporter.h" />
-    <ClInclude Include="Src\Engine\Assets\Skeleton.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
-    <ClInclude Include="Src\Engine\Foundation\ModelLoader.h" />
     <ClInclude Include="Src\Engine\Foundation\Timer.h" />
     <ClInclude Include="Src\Engine\Foundation\Transform.h" />
     <ClInclude Include="Src\Engine\Foundation\Vertex.h" />
