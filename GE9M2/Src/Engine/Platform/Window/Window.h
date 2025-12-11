@@ -49,7 +49,6 @@ public:
 	int width;
 	int height;
 
-
 public:
 
 	void create(int x, int y, int w, int h, const std::string& title, bool fullWindow) {

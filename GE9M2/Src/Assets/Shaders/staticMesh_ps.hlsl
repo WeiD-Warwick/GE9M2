@@ -1,3 +1,5 @@
+Texture2D tex : register(t0);
+SamplerState samplerLinear : register(s0);
 
 struct PS_INPUT {
     float4 Pos : SV_POSITION;
@@ -7,8 +9,7 @@ struct PS_INPUT {
 };
 
 float4 PS(PS_INPUT input) : SV_Target0 {
-    float3 normal = normalize(input.Normal);
+    float4 colour = tex.Sample(samplerLinear, input.TexCoords);
     
-    float3 color = normal * 0.5f + 0.5f;
-    return float4(color, 1.0f);
+    return float4(colour.rgb, 1.0);
 }

@@ -113,6 +113,12 @@
     <ClInclude Include="Src\Engine\ModelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Animation\Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl" />
@@ -125,5 +131,29 @@
     <FxCompile Include="Src\Assets\Shaders\skyBox_ps.hlsl">
       <Filter>Source Files</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Src\Assets\Models\acacia_003.gem" />
+    <None Include="Src\Assets\Models\TRex.gem" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Src\Assets\Models\Textures\Textures1_ALB.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\Textures1_NH.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\Textures1_RMAX.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_alb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_nh.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_rmax.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

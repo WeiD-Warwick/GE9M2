@@ -12,7 +12,7 @@ public:
         if (!controller) return;
 
 		Vec3 moveDir = controller->info.moveDir;
-		float speed = controller->info.walkSpeed;
+		float speed = controller->info.moveSpeed();
         Vec3 desiredMove = moveDir * speed * dt;
 
 		owner->transform.position += desiredMove;

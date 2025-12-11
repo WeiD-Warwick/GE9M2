@@ -140,6 +140,7 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Graphics\Animation\Animation.h" />
     <ClInclude Include="Src\Engine\ModelLoader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\Engine\Foundation\Timer.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderCompiler.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\Texture.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\TextureManager.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\MouseLookComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\MovementComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h" />
@@ -197,6 +199,18 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Src\Assets\Models\acacia_003.gem" />
+    <None Include="Src\Assets\Models\TRex.gem" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_alb.png" />
+    <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_nh.png" />
+    <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_rmax.png" />
+    <Image Include="Src\Assets\Models\Textures\Textures1_ALB.png" />
+    <Image Include="Src\Assets\Models\Textures\Textures1_NH.png" />
+    <Image Include="Src\Assets\Models\Textures\Textures1_RMAX.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

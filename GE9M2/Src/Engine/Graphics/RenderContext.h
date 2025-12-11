@@ -34,7 +34,7 @@ public:
 	PSOManager& psoManager() { return _psoManager; }
 	TextureManager& textureManager() { return _textureManager; }
 
-    void create(HWND hwnd, int width, int height) {
+    RenderContext(HWND hwnd, int width, int height) {
 
         _device.create();
 
@@ -53,18 +53,34 @@ public:
         // load static mesh shaders
         _shaderManager.load(
             _device.dxDevice(),
-            "staticMesh",
+            "staticMeshShader",
             "Src/Assets/Shaders/staticMesh_vs.hlsl",
             "Src/Assets/Shaders/staticMesh_ps.hlsl"
+        );
+
+        _shaderManager.load(
+            _device.dxDevice(),
+            "animatedMeshShader",
+            "Src/Assets/Shaders/animatedMesh_vs.hlsl",
+            "Src/Assets/Shaders/animatedMesh_ps.hlsl"
         );
 
         _psoManager.createPSO(
             _device.dxDevice(),
             _rootSignature.rootSignature(),
             "staticMeshPSO",
-            _shaderManager.find("staticMesh")->vs.Get(),
-            _shaderManager.find("staticMesh")->ps.Get(),
+            _shaderManager.find("staticMeshShader")->vs.Get(),
+            _shaderManager.find("staticMeshShader")->ps.Get(),
             DX12VertexLayoutCache::getStaticLayout()
+        );
+
+        _psoManager.createPSO(
+            _device.dxDevice(),
+            _rootSignature.rootSignature(),
+            "animatedMeshPSO",
+            _shaderManager.find("animatedMeshShader")->vs.Get(),
+            _shaderManager.find("animatedMeshShader")->ps.Get(),
+            DX12VertexLayoutCache::getAnimatedLayout()
         );
 
         _renderer.create(
@@ -83,8 +99,6 @@ public:
     }
 
 public:
-
-	RenderContext() = default;
        
     RenderContext(const RenderContext&) = delete;
     RenderContext& operator=(const RenderContext&) = delete;

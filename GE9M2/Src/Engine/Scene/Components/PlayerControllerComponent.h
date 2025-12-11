@@ -7,7 +7,14 @@
 
 struct PlayerInfo {
     Vec3  moveDir   = Vec3(0, 0, 0);
+	bool isWalking = true;
+
     float walkSpeed = 5.0;
+    float runSpeed = 10.0f;
+
+    float moveSpeed() const {
+        return isWalking ? walkSpeed : runSpeed;
+    }
 };
 
 class PlayerControllerComponent : public Component {
@@ -39,6 +46,12 @@ public:
         }
         else {
             _targetMoveDir = Vec3(0, 0, 0);
+        }
+
+        if (window->keys[VK_LSHIFT] && window->keys['W']) {
+            info.isWalking = false;
+        } else {
+            info.isWalking = true;
         }
 
 		// Use linear interpolation to smoothly move towards target move direction

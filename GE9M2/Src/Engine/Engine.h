@@ -8,6 +8,7 @@
 #include "Scene/Components/PlayerControllerComponent.h"
 #include "Scene/Components/MouseLookComponent.h"
 #include "Scene/Components/MovementComponent.h"
+#include "ModelLoader.h"
 
 class Engine {
 private:
@@ -19,15 +20,25 @@ private:
 	RenderContext   _renderContext;
 
 	DX12Mesh _cubeMesh;
+	ModelLoader _loader;
 
 public:
-	Engine(HWND hwnd, int width, int height) : _hwnd(hwnd), _width(width), _height(height), _scene(this) {
-		_renderContext.create(hwnd, width, height);
 
+	Engine(HWND hwnd, int width, int height) 
+		: 
+		_hwnd(hwnd),
+		_width(width),
+		_height(height),
+		_scene(this),
+		_renderContext(hwnd, width, height),
+		_loader(_renderContext)
+	{
 		initMeshes();
 
 		initScene();
 	}
+
+	~Engine() {}
 
 	void beginFrame() {
 		_renderContext.renderer().beginFrame();
@@ -141,11 +152,10 @@ public:
 		
 		_scene.setMainCamera(cam);
 
-		player->transform.position = Vec3(0, 3, -10);
+		player->transform.position = Vec3(0, 1.5, -10);
 
-		// Cube
-		GameObject* cube = _scene.createObject();
-		cube->addComponent<StaticMeshRenderComponent>(&_cubeMesh);
+		GameObject* model = _loader.generateGameObjectFrom("Src/Assets/Models/TRex.gem", &_scene, true);
+		model->transform.scale = Vec3(0.05f, 0.05f, 0.05f);
 	}
 
 };
