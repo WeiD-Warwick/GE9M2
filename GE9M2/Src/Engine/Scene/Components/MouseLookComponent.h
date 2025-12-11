@@ -10,6 +10,10 @@ private:
     float _pitch = 0.0f;           // up/down
     float _yaw = 0.0f;             // left/right
 
+    Quaternion _targetRotation = Quaternion::Identity();
+
+    const float _rotateSmoothFactor = 0.2f;
+
 public:
 
     void onUpdate(float dt) override {
@@ -27,7 +31,12 @@ public:
         Quaternion qYaw = Quaternion::fromAxisAngle(Vec3(0, 1, 0), _yaw);
         Quaternion qPitch = Quaternion::fromAxisAngle(Vec3(1, 0, 0), _pitch);
 
-        owner->transform.rotation = qYaw * qPitch;
+        _targetRotation = qYaw * qPitch;
+        
+		// Use slerp to smoothly rotate towards target rotation
+        Quaternion _newRotation = Quaternion::slerp(owner->transform.rotation, _targetRotation, _rotateSmoothFactor);
+
+        owner->transform.rotation = _newRotation;
     }
 
 public:

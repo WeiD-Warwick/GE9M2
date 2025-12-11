@@ -11,12 +11,16 @@ struct PlayerInfo {
 };
 
 class PlayerControllerComponent : public Component {
+private:
+    Vec3 _targetMoveDir = Vec3(0, 0, 0);
+
+    const float _moveSmoothFactor = 0.15f;
 
 public:
     PlayerInfo info;
 
     void onUpdate(float dt) override {
-        Vec3 moveDir = Vec3(0, 0, 0);
+        Vec3 rawInputMoveDir = Vec3(0, 0, 0);
 
         Vec3 forward = owner->transform.forward();
         Vec3 right = owner->transform.right();
@@ -25,12 +29,20 @@ public:
         forward = forward.normalized();
         right = right.normalized();
 
-        if (window->keys['W']) moveDir += forward;
-        if (window->keys['S']) moveDir -= forward;
-        if (window->keys['A']) moveDir -= right;
-        if (window->keys['D']) moveDir += right;
+        if (window->keys['W']) rawInputMoveDir += forward;
+        if (window->keys['S']) rawInputMoveDir -= forward;
+        if (window->keys['A']) rawInputMoveDir -= right;
+        if (window->keys['D']) rawInputMoveDir += right;
 
-		info.moveDir = moveDir.normalized();
+        if (rawInputMoveDir.lengthSqrt() > 0.0f) {
+            _targetMoveDir = rawInputMoveDir.normalized();
+        }
+        else {
+            _targetMoveDir = Vec3(0, 0, 0);
+        }
+
+		// Use linear interpolation to smoothly move towards target move direction
+        info.moveDir = info.moveDir + (_targetMoveDir - info.moveDir) * _moveSmoothFactor;
     }
 
 public:
