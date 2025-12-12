@@ -1,82 +1,84 @@
 #pragma once
-#include "Scene/Scene.h"
-#include "Graphics/RenderContext.h"
-#include "../../Third_Party/GEMLoader.h"
-#include "Platform/DX12/DX12Resources.h"
 #include <string>
 #include <map>
+#include "Scene/Scene.h"
+#include "Graphics/RenderContext.h"
+#include "Graphics/Animation/AnimationData.h"
+#include "Platform/DX12/DX12Resources.h"
+#include "../../Third_Party/GEMLoader.h"
+#include "Scene/Component.h"
 #include "Scene/Components/StaticMeshRenderComponent.h"
 #include "Scene/Components/AnimatedMeshRenderComponent.h"
 
+class LoadedModelData {
+public:
+
+    // Only for animated models
+    AnimationData* animation = nullptr;
+    std::vector<DX12Mesh*>      meshes;
+    std::vector<std::string>    textureFilenames;
+
+    bool isAnimated() { return animation != nullptr; }
+
+    LoadedModelData() = default;
+
+    ~LoadedModelData() {
+        for (DX12Mesh* mesh : meshes) {
+            delete mesh;
+        }
+
+        if (animation != nullptr) {
+            delete animation;
+            animation = nullptr;
+        }
+    }
+
+    LoadedModelData(const LoadedModelData&) = delete;
+    LoadedModelData& operator=(const LoadedModelData&) = delete;
+};
+
 class ModelLoader {
-    GEMLoader::GEMModelLoader loader;
 
 private:
+    GEMLoader::GEMModelLoader loader;
     RenderContext& _renderContext;
-
-    // Mesh Cache
-    std::map<std::string, std::vector<DX12Mesh*>>       _staticMeshCache;
-    std::map<std::string, std::vector<DX12Mesh*>>       _animatedMeshCache;
-	std::map<std::string, AnimationData*>               _animationCache;
-    std::map<std::string, std::vector<std::string>>     _textureFilenameCache;
+    std::map<std::string, LoadedModelData*> _loadedModelCache;
 
 public:
     ModelLoader(RenderContext& renderContext) : _renderContext(renderContext) {}
 
-    ~ModelLoader() {
-        for (auto const& pair : _staticMeshCache) {
-            for (DX12Mesh* mesh : pair.second) delete mesh;
+    GameObject* generateGameObjectFrom(const std::string& filePath, Scene* scene) {
+        GameObject* cachedObject = scene->createObject();
+        LoadedModelData* data = loadModelFromFile(filePath);
+        if (data->isAnimated()) {
+            cachedObject->addComponent<AnimatedMeshRenderComponent>(
+                data->meshes, data->textureFilenames, data->animation);
         }
-        for (auto const& pair : _animatedMeshCache) {
-            for (DX12Mesh* mesh : pair.second) delete mesh;
+        else {
+            cachedObject->addComponent<StaticMeshRenderComponent>(data->meshes, data->textureFilenames);
         }
-        for (auto const& pair : _animationCache) {
-            delete pair.second;
-        }
+        return cachedObject;
     }
 
-    GameObject* generateGameObjectFrom(const std::string& filePath, Scene* scene, bool isAnimated) {
+    LoadedModelData* loadModelFromFile(const std::string& filePath) {
+        if (_loadedModelCache.count(filePath)) {
+            return _loadedModelCache.at(filePath);
+        }
+
+        bool isAnimated = loader.isAnimatedModel(filePath);
         if (isAnimated) {
-            if (_animatedMeshCache.count(filePath)) {
-				return loadAnimatedModelFromCache(filePath, scene);
-            }
-            return loadAnimatedModelFromFile(filePath, scene);
-        } 
+            return loadAnimatedModelFromFile(filePath);
+        }
         else {
-            if (_staticMeshCache.count(filePath)) {
-                return loadStaticModelFromCache(filePath, scene);
-            }
-			return loadStaticModelFromFile(filePath, scene);
+            return loadStaticModelFromFile(filePath);
         }
     }
 
 private:
-    GameObject* loadStaticModelFromCache(const std::string& filePath, Scene* scene) {
-        GameObject* cachedObject = scene->createObject();
-        cachedObject->addComponent<StaticMeshRenderComponent>(
-            _staticMeshCache.at(filePath),
-            _textureFilenameCache.at(filePath)
-        );
-        return cachedObject;
-	}
-
-    GameObject* loadAnimatedModelFromCache(const std::string& filePath, Scene* scene) {
-        GameObject* cachedObject = scene->createObject();
-        cachedObject->addComponent<AnimatedMeshRenderComponent>(
-            _animatedMeshCache.at(filePath),
-            _textureFilenameCache.at(filePath),
-            _animationCache.at(filePath)
-        );
-        return cachedObject;
-    }
-
-    GameObject* loadStaticModelFromFile(const std::string& filePath, Scene* scene) {
+    LoadedModelData* loadStaticModelFromFile(const std::string& filePath) {
+        LoadedModelData* data = new LoadedModelData();
         std::vector<GEMLoader::GEMMesh> gemmeshes;
         loader.load(filePath, gemmeshes);
-        std::vector<std::string> textureFilenames;
-
-        GameObject* object = scene->createObject();
-        std::vector<DX12Mesh*> meshes;
 
         for (auto& gemmesh : gemmeshes) {
             DX12Mesh* mesh = new DX12Mesh();
@@ -91,7 +93,7 @@ private:
             std::string texName = gemmesh.material.find("albedo").getValue();
             if (!texName.empty()) {
                 std::string fullPath = "Src/Assets/Models/Textures/" + texName;
-                textureFilenames.push_back(texName);
+                data->textureFilenames.push_back(texName);
                 _renderContext.textureManager().loadTexture(
                     _renderContext.device().dxDevice(),
                     _renderContext.uploader(),
@@ -107,27 +109,21 @@ private:
                 vertices,
                 gemmesh.indices
             );
-            meshes.push_back(mesh);
+            data->meshes.push_back(mesh);
         }
+        _loadedModelCache.insert({ filePath, data });
+        return data;
+    }
 
-        object->addComponent<StaticMeshRenderComponent>(meshes, textureFilenames);
-        _staticMeshCache.insert({ filePath, meshes });
-        _textureFilenameCache.insert({ filePath, textureFilenames });
-        return object;
-	}
-
-    GameObject* loadAnimatedModelFromFile(const std::string& filePath, Scene* scene) {
+    LoadedModelData* loadAnimatedModelFromFile(const std::string& filePath) {
+        LoadedModelData* data = new LoadedModelData();
         std::vector<GEMLoader::GEMMesh> gemmeshes;
-        std::vector<std::string> textureFilenames;
         GEMLoader::GEMAnimation gemanimation;
-        AnimationData animationData;
+        data->animation = new AnimationData();
 
         loader.load(filePath, gemmeshes, gemanimation);
 
-        GameObject* object = scene->createObject();
-        std::vector<DX12Mesh*> meshes;
-
-		// Load meshes
+        // Load meshes
         for (auto& gemmesh : gemmeshes) {
             DX12Mesh* mesh = new DX12Mesh();
             std::vector<ANIMATED_VERTEX> animatedVertices;
@@ -141,7 +137,7 @@ private:
             std::string texName = gemmesh.material.find("albedo").getValue();
             if (!texName.empty()) {
                 std::string fullPath = "Src/Assets/" + texName;
-                textureFilenames.push_back(texName);
+                data->textureFilenames.push_back(texName);
                 _renderContext.textureManager().loadTexture(
                     _renderContext.device().dxDevice(),
                     _renderContext.uploader(),
@@ -150,26 +146,29 @@ private:
                     fullPath
                 );
             }
-            
+
             mesh->createAnimated(
                 _renderContext.device().dxDevice(),
                 _renderContext.uploader(),
                 animatedVertices,
                 gemmesh.indices
-			);
-            meshes.push_back(mesh);
+            );
+            data->meshes.push_back(mesh);
         }
 
         // load globalInverse
-        memcpy(&animationData.skeleton.globalInverse, &gemanimation.globalInverse, 16 * sizeof(float));
+        memcpy(
+            &data->animation->skeleton.globalInverse,
+            &gemanimation.globalInverse,
+            sizeof(Matrix));
 
         // load bones
         for (auto& gemBone : gemanimation.bones) {
             Bone bone;
             bone.name = gemBone.name;
-            memcpy(&bone.offset, &gemBone.offset, 16 * sizeof(float));
+            memcpy(&bone.offset, &gemBone.offset, sizeof(Matrix));
             bone.parentIndex = gemBone.parentIndex;
-            animationData.skeleton.bones.push_back(bone);
+            data->animation->skeleton.bones.push_back(bone);
         }
 
         // load animation data
@@ -187,22 +186,22 @@ private:
                     Vec3 s;
                     memcpy(&s, &gemFrame.scales[index], sizeof(Vec3));
 
-					frame.boneLocalTransforms.push_back(Transform(p, q, s));
+                    frame.boneLocalTransforms.push_back(Transform(p, q, s));
                 }
                 aseq.frames.push_back(frame);
             }
-            animationData.animations.insert({ name, aseq });
+            data->animation->animations.insert({ name, aseq });
         }
 
-        AnimationData* animationPtr = new AnimationData(std::move(animationData));
+        _loadedModelCache.insert({ filePath, data });
+        return data;
+    }
 
-		// Cache loaded data
-        _animatedMeshCache.insert({ filePath, meshes });
-        _textureFilenameCache.insert({ filePath, textureFilenames });
-        _animationCache.insert({ filePath, animationPtr });
-
-        object->addComponent<AnimatedMeshRenderComponent>(meshes, textureFilenames, animationPtr);
-        return object;
-	}
-
+public:
+    ~ModelLoader() {
+        for (auto const& pair : _loadedModelCache) {
+            delete pair.second;
+        }
+        _loadedModelCache.clear();
+    }
 };

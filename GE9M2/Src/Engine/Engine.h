@@ -151,8 +151,8 @@ public:
 
 		player->transform.position = Vec3(0, 10, -20);
 
-		//GameObject* model = _loader.generateGameObjectFrom("Src/Assets/Models/acacia_003.gem", &_scene, false);
-		GameObject* model = _loader.generateGameObjectFrom("Src/Assets/Models/TRex.gem", &_scene, true);
+		//GameObject* model = _loader.generateGameObjectFrom("Src/Assets/Models/acacia_003.gem", &_scene);
+		GameObject* model = _loader.generateGameObjectFrom("Src/Assets/Models/TRex.gem", &_scene);
 		model->transform.scale = Vec3(0.1f, 0.1f, 0.1f);
 		model->transform.position = Vec3(0, 0, 0);
 	}
