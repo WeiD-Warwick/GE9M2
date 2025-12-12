@@ -7,7 +7,6 @@
 #include <map>
 #include "Scene/Components/StaticMeshRenderComponent.h"
 #include "Scene/Components/AnimatedMeshRenderComponent.h"
-#include "Graphics/Animation/Animation.h"
 
 class ModelLoader {
     GEMLoader::GEMModelLoader loader;
@@ -18,7 +17,7 @@ private:
     // Mesh Cache
     std::map<std::string, std::vector<DX12Mesh*>>       _staticMeshCache;
     std::map<std::string, std::vector<DX12Mesh*>>       _animatedMeshCache;
-	std::map<std::string, Animation*>                   _animationCache;
+	std::map<std::string, AnimationData*>               _animationCache;
     std::map<std::string, std::vector<std::string>>     _textureFilenameCache;
 
 public:
@@ -121,7 +120,7 @@ private:
         std::vector<GEMLoader::GEMMesh> gemmeshes;
         std::vector<std::string> textureFilenames;
         GEMLoader::GEMAnimation gemanimation;
-        Animation animation;
+        AnimationData animationData;
 
         loader.load(filePath, gemmeshes, gemanimation);
 
@@ -162,7 +161,7 @@ private:
         }
 
         // load globalInverse
-        memcpy(&animation.skeleton.globalInverse, &gemanimation.globalInverse, 16 * sizeof(float));
+        memcpy(&animationData.skeleton.globalInverse, &gemanimation.globalInverse, 16 * sizeof(float));
 
         // load bones
         for (auto& gemBone : gemanimation.bones) {
@@ -170,7 +169,7 @@ private:
             bone.name = gemBone.name;
             memcpy(&bone.offset, &gemBone.offset, 16 * sizeof(float));
             bone.parentIndex = gemBone.parentIndex;
-            animation.skeleton.bones.push_back(bone);
+            animationData.skeleton.bones.push_back(bone);
         }
 
         // load animation data
@@ -183,22 +182,19 @@ private:
                 for (int index = 0; index < gemFrame.positions.size(); index++) {
                     Vec3 p;
                     memcpy(&p, &gemFrame.positions[index], sizeof(Vec3));
-                    frame.positions.push_back(p);
-
                     Quaternion q;
                     memcpy(&q, &gemFrame.rotations[index], sizeof(Quaternion));
-                    frame.rotations.push_back(q);
-
                     Vec3 s;
                     memcpy(&s, &gemFrame.scales[index], sizeof(Vec3));
-                    frame.scales.push_back(s);
+
+					frame.boneLocalTransforms.push_back(Transform(p, q, s));
                 }
                 aseq.frames.push_back(frame);
             }
-            animation.animations.insert({ name, aseq });
+            animationData.animations.insert({ name, aseq });
         }
 
-        Animation* animationPtr = new Animation(std::move(animation));
+        AnimationData* animationPtr = new AnimationData(std::move(animationData));
 
 		// Cache loaded data
         _animatedMeshCache.insert({ filePath, meshes });

@@ -10,6 +10,7 @@ public:
     Scene* scene = nullptr;
     Engine* engine = nullptr;
     Transform transform;
+	GameObject* parent = nullptr;
 
 public:
 

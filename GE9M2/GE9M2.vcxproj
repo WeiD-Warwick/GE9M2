@@ -140,7 +140,8 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Engine\Graphics\Animation\Animation.h" />
+    <ClInclude Include="Src\Engine\Graphics\Animation\AnimationController.h" />
+    <ClInclude Include="Src\Engine\Graphics\Animation\AnimationData.h" />
     <ClInclude Include="Src\Engine\ModelLoader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\Engine\Foundation\Timer.h" />
@@ -153,8 +154,6 @@
     <ClInclude Include="Src\Engine\Graphics\Texture\Texture.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\TextureManager.h" />
     <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\MouseLookComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\MovementComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h" />
     <ClInclude Include="Src\Engine\Platform\DX12\DX12CommandQueue.h" />
     <ClInclude Include="Src\Engine\Platform\DX12\DX12Device.h" />

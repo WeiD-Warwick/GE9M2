@@ -1,69 +1,73 @@
 #pragma once
-#include "../../Foundation/Maths.h"
 #include "../Component.h"
 #include "../GameObject.h"
-#include "../Scene.h"
+#include "../../Foundation/Transform.h"
 #include "../../Platform/Window/Window.h"
 
-struct PlayerInfo {
-    Vec3  moveDir   = Vec3(0, 0, 0);
-	bool isWalking = true;
-
-    float walkSpeed = 5.0;
-    float runSpeed = 10.0f;
-
-    float moveSpeed() const {
-        return isWalking ? walkSpeed : runSpeed;
-    }
-};
-
 class PlayerControllerComponent : public Component {
-private:
-    Vec3 _targetMoveDir = Vec3(0, 0, 0);
-
-    const float _moveSmoothFactor = 0.15f;
-
 public:
-    PlayerInfo info;
+    float moveSpeed = 20.0f;
+    float mouseSensitivity = 0.002f;
 
-    void onUpdate(float dt) override {
-        Vec3 rawInputMoveDir = Vec3(0, 0, 0);
+    float pitch = 0.0f;
+    float yaw = 0.0f;
 
-        Vec3 forward = owner->transform.forward();
-        Vec3 right = owner->transform.right();
-        forward.y = 0;
-        right.y = 0;
-        forward = forward.normalized();
-        right = right.normalized();
+    int getUpdateOrder() const override { return 10; }
 
-        if (window->keys['W']) rawInputMoveDir += forward;
-        if (window->keys['S']) rawInputMoveDir -= forward;
-        if (window->keys['A']) rawInputMoveDir -= right;
-        if (window->keys['D']) rawInputMoveDir += right;
-
-        if (rawInputMoveDir.lengthSqrt() > 0.0f) {
-            _targetMoveDir = rawInputMoveDir.normalized();
+    void onStart() override {
+        Vec3 f = owner->transform.forward();
+        if (f.lengthSqrt() > 0.0001f) {
+            f = f.normalized();
+            yaw = std::atan2(f.x, f.z); 
+            pitch = std::asin(clamp(f.y, -1.0f, 1.0f)); 
         }
         else {
-            _targetMoveDir = Vec3(0, 0, 0);
+            yaw = 0.0f;
+            pitch = 0.0f;
         }
-
-        if (window->keys[VK_LSHIFT] && window->keys['W']) {
-            info.isWalking = false;
-        } else {
-            info.isWalking = true;
-        }
-
-		// Use linear interpolation to smoothly move towards target move direction
-        info.moveDir = info.moveDir + (_targetMoveDir - info.moveDir) * _moveSmoothFactor;
     }
 
-public:
+    void onUpdate(float dt) override {
+        if (!window || !owner) return;
 
-    PlayerControllerComponent() = default;
+		// Mouse look
+        float dx = window->mouseDeltaX;
+        float dy = window->mouseDeltaY;
+        window->mouseDeltaX = 0;
+        window->mouseDeltaY = 0;
 
-    int getUpdateOrder() const override {
-        return 10;
+        yaw += dx * mouseSensitivity;
+        pitch -= dy * mouseSensitivity;
+
+        pitch = clamp(pitch, -1.5f, 1.5f);
+
+        Quaternion qYaw = Quaternion::fromAxisAngle(Vec3(0, 1, 0), yaw);
+        Vec3 localRight = qYaw.rotate(Vec3(1, 0, 0));
+        Quaternion qPitch = Quaternion::fromAxisAngle(localRight, pitch);
+
+        owner->transform.rotation = (qPitch * qYaw).normalized();
+
+		// Keyboard movement
+        float inputX = 0.0f;
+        float inputZ = 0.0f;
+
+        if (window->keys['W']) inputZ += 1.0f;
+        if (window->keys['S']) inputZ -= 1.0f;
+        if (window->keys['A']) inputX -= 1.0f;
+        if (window->keys['D']) inputX += 1.0f;
+
+        // Handle Z Inut
+        Vec3 forward = owner->transform.forward();
+        forward.y = 0.0f;
+
+		// Handle X Input
+        Vec3 right = owner->transform.right();
+        right.y = 0.0f;
+
+
+        Vec3 moveDir = (forward * inputZ + right * inputX).normalized();
+
+        owner->transform.position += moveDir * (moveSpeed * dt);
     }
 
     const std::string& getName() const override {

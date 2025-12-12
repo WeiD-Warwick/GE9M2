@@ -1,11 +1,12 @@
-cbuffer animatedMeshBuffer : register(b0) {
-    float4x4 M;
+cbuffer animatedMeshBuffer {
+    float4x4 W;
     float4x4 V;
     float4x4 P;
     float4x4 bones[256];
 };
 
-struct VS_INPUT {
+struct VS_INPUT
+{
     float3 Pos : POSITION;
     float3 Normal : NORMAL;
     float3 Tangent : TANGENT;
@@ -14,39 +15,41 @@ struct VS_INPUT {
     float4 BoneWeights : BONEWEIGHTS;
 };
 
-struct PS_INPUT {
+
+struct PS_INPUT
+{
     float4 Pos : SV_POSITION;
     float3 Normal : NORMAL;
     float3 Tangent : TANGENT;
     float2 TexCoords : TEXCOORD;
 };
 
-PS_INPUT VS(VS_INPUT input) {
+PS_INPUT VS(VS_INPUT input)
+{
     PS_INPUT output;
-
-    // Compute the skinning transform
+    
+    // transform for animation
     float4x4 transform = bones[input.BoneIDs[0]] * input.BoneWeights[0];
     transform += bones[input.BoneIDs[1]] * input.BoneWeights[1];
     transform += bones[input.BoneIDs[2]] * input.BoneWeights[2];
     transform += bones[input.BoneIDs[3]] * input.BoneWeights[3];
-
-    float4 pos = mul(transform, float4(input.Pos, 1.0f));
-    float4 posM = mul(M, float4(input.Pos, 1));
-    float4 posMV = mul(V, posM);
-    float4 posMVP = mul(P, posMV);
     
-    float3x3 transform3x3 = (float3x3) transform;
-    float3x3 M3x3 = (float3x3) M;
+    // model -> view -> projection
+    float4 pos = float4(input.Pos, 1.0f);
+    pos = mul(pos, transform);
+    pos = mul(pos, W);
+    pos = mul(pos, V);
+    pos = mul(pos, P);
+    output.Pos = pos;
     
-    float3 normal = mul(transform3x3, input.Normal);
-    normal = mul(M3x3, normal);
+    output.Normal = mul(input.Normal, (float3x3) transform);
+    output.Normal = mul(output.Normal, (float3x3) W);
+    output.Normal = normalize(output.Normal);
     
-    float3 tangent = mul(transform3x3, input.Tangent);
-    tangent = mul(M3x3, tangent);
+    output.Tangent = mul(input.Tangent, (float3x3) transform);
+    output.Tangent = mul(output.Tangent, (float3x3) W);
+    output.Tangent = normalize(output.Tangent);
     
-    output.Pos = posMVP;
-    output.Normal = normalize(normal);
-    output.Tangent = normalize(tangent);
     output.TexCoords = input.TexCoords;
     return output;
 }

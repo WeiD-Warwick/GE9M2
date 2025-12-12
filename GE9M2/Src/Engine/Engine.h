@@ -5,10 +5,8 @@
 #include "Platform/Window/Window.h"
 #include "Graphics/RenderContext.h"
 #include "Scene/Components/StaticMeshRenderComponent.h"
-#include "Scene/Components/PlayerControllerComponent.h"
-#include "Scene/Components/MouseLookComponent.h"
-#include "Scene/Components/MovementComponent.h"
 #include "ModelLoader.h"
+#include "Scene/Components/PlayerControllerComponent.h"
 
 class Engine {
 private:
@@ -134,6 +132,7 @@ public:
 		indices.push_back(20); indices.push_back(21); indices.push_back(22);
 		indices.push_back(20); indices.push_back(22); indices.push_back(23);
 
+
 		_cubeMesh.createStatic(
 			_renderContext.device().dxDevice(),
 			_renderContext.uploader(),
@@ -147,15 +146,15 @@ public:
 		GameObject* player = _scene.createObject();
 		CameraComponent* cam = player->addComponent<CameraComponent>((float)_width / (float)_height);
 		player->addComponent<PlayerControllerComponent>();
-		player->addComponent<MouseLookComponent>();
-		player->addComponent<MovementComponent>();
 		
 		_scene.setMainCamera(cam);
 
-		player->transform.position = Vec3(0, 1.5, -10);
+		player->transform.position = Vec3(0, 10, -20);
 
+		//GameObject* model = _loader.generateGameObjectFrom("Src/Assets/Models/acacia_003.gem", &_scene, false);
 		GameObject* model = _loader.generateGameObjectFrom("Src/Assets/Models/TRex.gem", &_scene, true);
-		model->transform.scale = Vec3(0.05f, 0.05f, 0.05f);
+		model->transform.scale = Vec3(0.1f, 0.1f, 0.1f);
+		model->transform.position = Vec3(0, 0, 0);
 	}
 
 };

@@ -92,15 +92,6 @@
     <ClInclude Include="Third_Party\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\MouseLookComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\MovementComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Engine\Platform\DX12\DX12Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -116,7 +107,13 @@
     <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Animation\Animation.h">
+    <ClInclude Include="Src\Engine\Graphics\Animation\AnimationData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Animation\AnimationController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

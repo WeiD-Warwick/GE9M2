@@ -23,11 +23,11 @@ public:
 		PSOManager& psos = renderContext.psoManager();
         ShaderManager& shaders = renderContext.shaderManager();
 
-        Matrix M = owner->transform.worldMatrix();
+        Matrix W = owner->transform.worldMatrix();
 		Matrix V = owner->scene->mainCamera->view;
 		Matrix P = owner->scene->mainCamera->projection;
 
-        shaders.updateConstantVS(_shaderName, _constBufferName, "M", &M);
+        shaders.updateConstantVS(_shaderName, _constBufferName, "W", &W);
         shaders.updateConstantVS(_shaderName, _constBufferName, "V", &V);
         shaders.updateConstantVS(_shaderName, _constBufferName, "P", &P);
 		shaders.apply(commandList, _shaderName);

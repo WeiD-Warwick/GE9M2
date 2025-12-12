@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <cmath>
 #include <algorithm>
 #define M_PI 3.141592654f
@@ -24,398 +24,340 @@ public:
 
     Vec3 operator-() const { return Vec3(-x, -y, -z); }
 
-    Vec3 operator+(const Vec3& r) const { return Vec3(x + r.x, y + r.y, z + r.z); }
+    Vec3 operator+(const Vec3& v) const { return Vec3(x + v.x, y + v.y, z + v.z); }
 
-    Vec3 operator-(const Vec3& r) const { return Vec3(x - r.x, y - r.y, z - r.z); }
+    Vec3 operator-(const Vec3& v) const { return Vec3(x - v.x, y - v.y, z - v.z); }
 
-    Vec3 operator*(const Vec3& r) const { return Vec3(x * r.x, y * r.y, z * r.z); }
+    Vec3 operator*(const Vec3& v) const { return Vec3(x * v.x, y * v.y, z * v.z); }
 
     Vec3 operator*(float s) const { return Vec3(x * s, y * s, z * s); }
 
     Vec3 operator/(float s) const { float inverse = 1.0f / s; return Vec3(x * inverse, y * inverse, z * inverse); }
 
-    Vec3& operator+=(const Vec3& r) { x += r.x; y += r.y; z += r.z; return *this; }
+    Vec3& operator+=(const Vec3& v) { x += v.x; y += v.y; z += v.z; return *this; }
 
-    Vec3& operator-=(const Vec3& r) { x -= r.x; y -= r.y; z -= r.z; return *this; }
+    Vec3& operator-=(const Vec3& v) { x -= v.x; y -= v.y; z -= v.z; return *this; }
 
-    Vec3& operator*=(const Vec3& r) { x *= r.x; y *= r.y; z *= r.z; return *this; }
+    Vec3& operator*=(const Vec3& v) { x *= v.x; y *= v.y; z *= v.z; return *this; }
 
     Vec3& operator*=(float s) { x *= s; y *= s; z *= s; return *this; }
 
     Vec3& operator/=(float s) { x /= s; y /= s; z /= s; return *this; }
 
-    float length() const { return std::sqrt(x * x + y * y + z * z); }
+    float lengthSqrt() const { return (SQ(x) + SQ(y) + SQ(z)); }
 
-    float lengthSqrt() const { return x * x + y * y + z * z; }
+    float length() const { return std::sqrt(lengthSqrt()); }
 
-    // return a normalized copy of this vector
     Vec3 normalized() const {
-        float lsq = lengthSqrt();
-        if (lsq <= 0.0f) return Vec3(0, 0, 0);
-
-        float inverse = 1.0f / std::sqrt(lsq);
-        return Vec3(x * inverse, y * inverse, z * inverse);
-    }
-
-    // normalize in-place and return original length before normalization
-    float normalize() {
         float len = length();
-        if (len <= 0.0f) {
-            x = y = z = 0;
-            return 0;
-        }
-
+        if (len <= 0.0f) return Vec3(0, 0, 0);
         float inv = 1.0f / len;
-        x *= inv;
-        y *= inv;
-        z *= inv;
-        return len;
+        return Vec3(x * inv, y * inv, z * inv);
     }
 
-    // dot & cross
-    float dot(const Vec3& r) const { return x * r.x + y * r.y + z * r.z; }
+	float dot(const Vec3& v) const { return (x * v.x + y * v.y + z * v.z); }
+	Vec3 cross(const Vec3& v) const { return Vec3((y * v.z) - (z * v.y), (z * v.x) - (x * v.z), (x * v.y) - (y * v.x)); }
 
-    Vec3 cross(const Vec3& r) const { return Vec3(y * r.z - z * r.y, z * r.x - x * r.z, x * r.y - y * r.x); }
+    static Vec3 Max(const Vec3& v1, const Vec3& v2) { return Vec3(std::max(v1.x, v2.x), std::max(v1.y, v2.y), std::max(v1.z, v2.z)); }
+    static Vec3 Min(const Vec3& v1, const Vec3& v2) { return Vec3(std::min(v1.x, v2.x), std::min(v1.y, v2.y), std::min(v1.z, v2.z)); }
 
-    static float dot(const Vec3& a, const Vec3& b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
-
-    static Vec3 cross(const Vec3& a, const Vec3& b) { return Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); }
-
-    // max function
-    float max() const { return std::max(x, std::max(y, z)); }
-
-    static Vec3 max(const Vec3& a, const Vec3& b) {
-        return Vec3(
-            std::max(a.x, b.x),
-            std::max(a.y, b.y),
-            std::max(a.z, b.z));
-    }
 };
 
-class Vec4 {
+class alignas(64) Matrix {
 public:
     union {
-        float v[4];
-        struct { float x, y, z, w; };
+        float a[4][4];
+        float m[16];
     };
-
-    Vec4(float xx = 0, float yy = 0, float zz = 0, float ww = 0) : x(xx), y(yy), z(zz), w(ww) {}
-
-    Vec4(const Vec3& p, float ww) : x(p.x), y(p.y), z(p.z), w(ww) {}
-
-    Vec4 operator*(float s) const { return Vec4(x * s, y * s, z * s, w * s); }
-
-    float max() const {
-        return std::max(x, std::max(y, z));
-    }
-};
-
-// =========================================================================
-// Col-major 4x4 matrix
-// Column Multiplication
-// 
-// v' = M * v
-// 
-// | m0  m4  m8  m12 |   | v.x |
-// | m1  m5  m9  m13 | * | v.y |
-// | m2  m6  m10 m14 |   | v.z |
-// | m3  m7  m11 m15 |   | v.w |
-//
-// Left Hand Coordinate System
-// =========================================================================
-class Matrix {
-public:
-    float m[16];
 
     Matrix() { identity(); }
 
-    void identity() {
-        for (int i = 0; i < 16; i++) m[i] = 0;
-        m[0] = m[5] = m[10] = m[15] = 1.0f;
+    Matrix(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33) {
+        a[0][0] = m00;
+        a[0][1] = m01;
+        a[0][2] = m02;
+        a[0][3] = m03;
+        a[1][0] = m10;
+        a[1][1] = m11;
+        a[1][2] = m12;
+        a[1][3] = m13;
+        a[2][0] = m20;
+        a[2][1] = m21;
+        a[2][2] = m22;
+        a[2][3] = m23;
+        a[3][0] = m30;
+        a[3][1] = m31;
+        a[3][2] = m32;
+        a[3][3] = m33;
     }
+    
+    void identity() { memset(m, 0, 16 * sizeof(float)); m[0] = m[5] = m[10] = m[15] = 1.0f; }
 
     static Matrix Identity() { return Matrix(); }
 
     static Matrix Zero() {
-        Matrix output;
-        for (int i = 0; i < 16; i++) output.m[i] = 0;
-        return output;
-    }
-
-	// Access element at (row, col)
-    float& at(int row, int col) { return m[col * 4 + row]; }
-    const float& at(int row, int col) const { return m[col * 4 + row]; }
-
-    Vec4 operator*(const Vec4& v) const {
-        return Vec4(
-            m[0] * v.x + m[4] * v.y + m[8] * v.z + m[12] * v.w,
-            m[1] * v.x + m[5] * v.y + m[9] * v.z + m[13] * v.w,
-            m[2] * v.x + m[6] * v.y + m[10] * v.z + m[14] * v.w,
-            m[3] * v.x + m[7] * v.y + m[11] * v.z + m[15] * v.w
-        );
-    }
-
-    Matrix operator*(const Matrix& b) const {
-        Matrix r = Zero();
-        for (int col = 0; col < 4; ++col) {
-            for (int row = 0; row < 4; ++row) {
-                r.at(row, col) =
-                    at(row, 0) * b.at(0, col) +
-                    at(row, 1) * b.at(1, col) +
-                    at(row, 2) * b.at(2, col) +
-                    at(row, 3) * b.at(3, col);
-            }
-        }
-        return r;
+        Matrix z;
+        std::memset(z.m, 0, sizeof(z.m));
+        return z;
     }
 
     static Matrix translation(const Vec3& v) {
-        Matrix r = Identity();
-        r.at(0, 3) = v.x;
-        r.at(1, 3) = v.y;
-        r.at(2, 3) = v.z;
-        return r;
+        Matrix output = Identity();
+        output.a[0][3] = v.x;
+        output.a[1][3] = v.y;
+        output.a[2][3] = v.z;
+        return output;
     }
 
-    static Matrix scale(const Vec3& s) {
-        Matrix r = Identity();
-        r.at(0, 0) = s.x; r.at(1, 1) = s.y; r.at(2, 2) = s.z;
-        return r;
+    static Matrix scale(const Vec3& v) {
+        Matrix output = Identity();
+        output.m[0] = v.x;
+        output.m[5] = v.y;
+        output.m[10] = v.z;
+        return output;
     }
 
-    static Matrix rotationX(float rad) {
-        Matrix r = Identity();
-        float c = std::cos(rad), s = std::sin(rad);
-        r.at(1, 1) = c; r.at(2, 1) = s;
-        r.at(1, 2) = -s; r.at(2, 2) = c;
-        return r;
+    static Matrix rotateX(float rad) {
+        Matrix output = Identity();
+        float ct = cosf(rad);
+        float st = sinf(rad);
+        output.m[5] = ct;
+        output.m[6] = st;
+        output.m[9] = -st;
+        output.m[10] = ct;
+        return output;
     }
 
-    static Matrix rotationY(float rad) {
-        Matrix r = Identity();
-        float c = std::cos(rad), s = std::sin(rad);
-        r.at(0, 0) = c;  r.at(2, 0) = -s;
-        r.at(0, 2) = s;  r.at(2, 2) = c;
-        return r;
+    static Matrix rotateY(float rad) {
+        Matrix output = Identity();
+        float ct = cosf(rad);
+        float st = sinf(rad);
+        output.m[0] = ct;
+        output.m[2] = -st;
+        output.m[8] = st;
+        output.m[10] = ct;
+        return output;
     }
 
-    static Matrix rotationZ(float rad) {
-        Matrix r = Identity();
-        float c = std::cos(rad), s = std::sin(rad);
-        r.at(0, 0) = c; r.at(1, 0) = s;
-        r.at(0, 1) = -s; r.at(1, 1) = c;
-        return r;
+    static Matrix rotateZ(float rad) {
+        Matrix output = Identity();
+        float ct = cosf(rad);
+        float st = sinf(rad);
+        output.m[0] = ct;
+        output.m[1] = st;
+        output.m[4] = -st;
+        output.m[5] = ct;
+        return output;
     }
 
-	// =====================================================================
-	// Left Hand LookAt Matrix
-	// =====================================================================
+    float& operator[](int index) {
+        return m[index];
+    }
+
+    Vec3 operator*(const Vec3& vec) const {
+        Vec3 output;
+        output.x = vec.x * m[0] + vec.y * m[1] + vec.z * m[2];
+        output.y = vec.x * m[4] + vec.y * m[5] + vec.z * m[6];
+        output.z = vec.x * m[8] + vec.y * m[9] + vec.z * m[10];
+        return output;
+	}
+
+    Matrix operator*(const Matrix& matrix) const {
+        Matrix output;
+
+        output.m[0] = m[0] * matrix.m[0] + m[4] * matrix.m[1] + m[8] * matrix.m[2] + m[12] * matrix.m[3];
+        output.m[1] = m[1] * matrix.m[0] + m[5] * matrix.m[1] + m[9] * matrix.m[2] + m[13] * matrix.m[3];
+        output.m[2] = m[2] * matrix.m[0] + m[6] * matrix.m[1] + m[10] * matrix.m[2] + m[14] * matrix.m[3];
+        output.m[3] = m[3] * matrix.m[0] + m[7] * matrix.m[1] + m[11] * matrix.m[2] + m[15] * matrix.m[3];
+
+        output.m[4] = m[0] * matrix.m[4] + m[4] * matrix.m[5] + m[8] * matrix.m[6] + m[12] * matrix.m[7];
+        output.m[5] = m[1] * matrix.m[4] + m[5] * matrix.m[5] + m[9] * matrix.m[6] + m[13] * matrix.m[7];
+        output.m[6] = m[2] * matrix.m[4] + m[6] * matrix.m[5] + m[10] * matrix.m[6] + m[14] * matrix.m[7];
+        output.m[7] = m[3] * matrix.m[4] + m[7] * matrix.m[5] + m[11] * matrix.m[6] + m[15] * matrix.m[7];
+
+        output.m[8] = m[0] * matrix.m[8] + m[4] * matrix.m[9] + m[8] * matrix.m[10] + m[12] * matrix.m[11];
+        output.m[9] = m[1] * matrix.m[8] + m[5] * matrix.m[9] + m[9] * matrix.m[10] + m[13] * matrix.m[11];
+        output.m[10] = m[2] * matrix.m[8] + m[6] * matrix.m[9] + m[10] * matrix.m[10] + m[14] * matrix.m[11];
+        output.m[11] = m[3] * matrix.m[8] + m[7] * matrix.m[9] + m[11] * matrix.m[10] + m[15] * matrix.m[11];
+
+        output.m[12] = m[0] * matrix.m[12] + m[4] * matrix.m[13] + m[8] * matrix.m[14] + m[12] * matrix.m[15];
+        output.m[13] = m[1] * matrix.m[12] + m[5] * matrix.m[13] + m[9] * matrix.m[14] + m[13] * matrix.m[15];
+        output.m[14] = m[2] * matrix.m[12] + m[6] * matrix.m[13] + m[10] * matrix.m[14] + m[14] * matrix.m[15];
+        output.m[15] = m[3] * matrix.m[12] + m[7] * matrix.m[13] + m[11] * matrix.m[14] + m[15] * matrix.m[15];
+
+        return output;
+    }
+
+    Matrix operator=(const Matrix& matrix) {
+        memcpy(m, matrix.m, sizeof(float) * 16);
+        return (*this);
+    }
+
+    Matrix invert() {
+		Matrix inv = Matrix::Zero();
+        inv[0] = m[5] * m[10] * m[15] - m[5] * m[11] * m[14] - m[9] * m[6] * m[15] + m[9] * m[7] * m[14] + m[13] * m[6] * m[11] - m[13] * m[7] * m[10];
+        inv[4] = -m[4] * m[10] * m[15] + m[4] * m[11] * m[14] + m[8] * m[6] * m[15] - m[8] * m[7] * m[14] - m[12] * m[6] * m[11] + m[12] * m[7] * m[10];
+        inv[8] = m[4] * m[9] * m[15] - m[4] * m[11] * m[13] - m[8] * m[5] * m[15] + m[8] * m[7] * m[13] + m[12] * m[5] * m[11] - m[12] * m[7] * m[9];
+        inv[12] = -m[4] * m[9] * m[14] + m[4] * m[10] * m[13] + m[8] * m[5] * m[14] - m[8] * m[6] * m[13] - m[12] * m[5] * m[10] + m[12] * m[6] * m[9];
+        inv[1] = -m[1] * m[10] * m[15] + m[1] * m[11] * m[14] + m[9] * m[2] * m[15] - m[9] * m[3] * m[14] - m[13] * m[2] * m[11] + m[13] * m[3] * m[10];
+        inv[5] = m[0] * m[10] * m[15] - m[0] * m[11] * m[14] - m[8] * m[2] * m[15] + m[8] * m[3] * m[14] + m[12] * m[2] * m[11] - m[12] * m[3] * m[10];
+        inv[9] = -m[0] * m[9] * m[15] + m[0] * m[11] * m[13] + m[8] * m[1] * m[15] - m[8] * m[3] * m[13] - m[12] * m[1] * m[11] + m[12] * m[3] * m[9];
+        inv[13] = m[0] * m[9] * m[14] - m[0] * m[10] * m[13] - m[8] * m[1] * m[14] + m[8] * m[2] * m[13] + m[12] * m[1] * m[10] - m[12] * m[2] * m[9];
+        inv[2] = m[1] * m[6] * m[15] - m[1] * m[7] * m[14] - m[5] * m[2] * m[15] + m[5] * m[3] * m[14] + m[13] * m[2] * m[7] - m[13] * m[3] * m[6];
+        inv[6] = -m[0] * m[6] * m[15] + m[0] * m[7] * m[14] + m[4] * m[2] * m[15] - m[4] * m[3] * m[14] - m[12] * m[2] * m[7] + m[12] * m[3] * m[6];
+        inv[10] = m[0] * m[5] * m[15] - m[0] * m[7] * m[13] - m[4] * m[1] * m[15] + m[4] * m[3] * m[13] + m[12] * m[1] * m[7] - m[12] * m[3] * m[5];
+        inv[14] = -m[0] * m[5] * m[14] + m[0] * m[6] * m[13] + m[4] * m[1] * m[14] - m[4] * m[2] * m[13] - m[12] * m[1] * m[6] + m[12] * m[2] * m[5];
+        inv[3] = -m[1] * m[6] * m[11] + m[1] * m[7] * m[10] + m[5] * m[2] * m[11] - m[5] * m[3] * m[10] - m[9] * m[2] * m[7] + m[9] * m[3] * m[6];
+        inv[7] = m[0] * m[6] * m[11] - m[0] * m[7] * m[10] - m[4] * m[2] * m[11] + m[4] * m[3] * m[10] + m[8] * m[2] * m[7] - m[8] * m[3] * m[6];
+        inv[11] = -m[0] * m[5] * m[11] + m[0] * m[7] * m[9] + m[4] * m[1] * m[11] - m[4] * m[3] * m[9] - m[8] * m[1] * m[7] + m[8] * m[3] * m[5];
+        inv[15] = m[0] * m[5] * m[10] - m[0] * m[6] * m[9] - m[4] * m[1] * m[10] + m[4] * m[2] * m[9] + m[8] * m[1] * m[6] - m[8] * m[2] * m[5];
+        
+        float det = m[0] * inv[0] + m[1] * inv[4] + m[2] * inv[8] + m[3] * inv[12];
+        if (det == 0) 
+            exit(0);
+        det = 1.0 / det;
+        for (int i = 0; i < 16; i++) 
+            inv[i] = inv[i] * det;
+        return inv;
+    }
+
+    Matrix transpose() {
+        return Matrix(
+            a[0][0], a[1][0], a[2][0], a[3][0],
+            a[0][1], a[1][1], a[2][1], a[3][1],
+            a[0][2], a[1][2], a[2][2], a[3][2],
+            a[0][3], a[1][3], a[2][3], a[3][3]);
+    }
+
+	// Right-handed lookAt matrix
+	// Forward vector points towards +Z
     static Matrix lookAt(const Vec3& from, const Vec3& to, const Vec3& up) {
-
-        Vec3 z = (to - from).normalized();
-        Vec3 x = up.cross(z).normalized();
-        Vec3 y = z.cross(x);
-
-        Matrix r = Identity();
-        r.at(0, 0) = x.x; r.at(0, 1) = x.y; r.at(0, 2) = x.z;
-        r.at(1, 0) = y.x; r.at(1, 1) = y.y; r.at(1, 2) = y.z;
-        r.at(2, 0) = z.x; r.at(2, 1) = z.y; r.at(2, 2) = z.z;
-        r.at(0, 3) = -x.dot(from);
-        r.at(1, 3) = -y.dot(from);
-        r.at(2, 3) = -z.dot(from);
-
-        r.at(3, 3) = 1.0f;
-
-        return r;
-    }
-
-    static Matrix lookAtNoTranslation(const Vec3& from, const Vec3& to, const Vec3& up) {
-        Matrix view = lookAt(from, to, up);
-        view.at(0, 3) = 0.0f;
-        view.at(1, 3) = 0.0f;
-        view.at(2, 3) = 0.0f;
+        Matrix view;
+        Vec3 dir = (to - from).normalized();
+        Vec3 left = up.cross(dir).normalized();
+        Vec3 newUp = dir.cross(left).normalized();
+        view.a[0][0] = left.x;
+        view.a[0][1] = left.y;
+        view.a[0][2] = left.z;
+        view.a[1][0] = newUp.x;
+        view.a[1][1] = newUp.y;
+        view.a[1][2] = newUp.z;
+        view.a[2][0] = dir.x;
+        view.a[2][1] = dir.y;
+        view.a[2][2] = dir.z;
+        view.a[0][3] = -from.dot(left);
+        view.a[1][3] = -from.dot(newUp);
+        view.a[2][3] = -from.dot(dir);
+        view.a[3][3] = 1;
         return view;
     }
 
-	// =====================================================================
-	// Left Hand Perspective Projection Matrix
-	// =====================================================================
+	// Right-handed perspective projection matrix
     static Matrix perspective(float n, float f, float aspect, float fovDeg) {
-        float fov = fovDeg * (M_PI / 180.0f);
-        float yScale = 1.0f / std::tan(fov * 0.5f);
-        float xScale = yScale / aspect;
-
-        Matrix r = Zero();
-
-        r.at(0, 0) = xScale;
-        r.at(1, 1) = yScale;
-        r.at(2, 2) = f / (f - n);
-        r.at(3, 2) = 1.0f;
-        r.at(2, 3) = -n * f / (f - n);
-
-        return r;
-    }
-
-    Matrix transpose() const {
-        Matrix out = Matrix::Zero();
-        for (int col = 0; col < 4; ++col) {
-            for (int row = 0; row < 4; ++row) {
-                out.at(col, row) = this->at(row, col);
-            }
-        }
-        return out;
+        Matrix pers = Matrix::Zero();
+        float t = 1.0f / (tanf(fovDeg * 0.5f * 3.141592654f / 180.0f));
+        pers.a[0][0] = t / aspect;
+        pers.a[1][1] = t;
+        pers.a[2][2] = f / (f - n);
+        pers.a[2][3] = -(f * n) / (f - n);
+        pers.a[3][2] = 1.0f;
+        return pers;
     }
 };
 
 class Quaternion {
 public:
-    float w, x, y, z;
+    union {
+        struct { float x, y, z, w; };
+        float q[4];
+    };
 
-    Quaternion() { Identity(); }
+    Quaternion() : x(0), y(0), z(0), w(1) {}
 
-    Quaternion(float ww, float xx, float yy, float zz) : w(ww), x(xx), y(yy), z(zz) {}
+    Quaternion(float _x, float _y, float _z, float _w) : x(_x), y(_y), z(_z), w(_w) {}
 
-    static Quaternion Identity() { return Quaternion(1, 0, 0, 0); }
-
-    float magnitude() const {  return std::sqrt(w * w + x * x + y * y + z * z); }
-
-    Quaternion conjugate() const { return Quaternion(w, -x, -y, -z); }
-
-    static Quaternion fromAxisAngle(const Vec3& axis, float rad) {
-        Vec3 n = axis.normalized();
-        float s = std::sin(rad * 0.5f);
-        return Quaternion(std::cos(rad * 0.5f), n.x * s, n.y * s, n.z * s);
-    }
+    float length() const { return std::sqrt(SQ(x) + SQ(y) + SQ(z) + SQ(w)); }
 
     Quaternion normalized() const {
-        float m = std::sqrt(w * w + x * x + y * y + z * z);
-        if (m <= 0) return Quaternion();
-        float i = 1.0f / m;
-        return Quaternion(w * i, x * i, y * i, z * i);
+        float len = length();
+        if (len <= 0.0f) return Quaternion(0, 0, 0, 1);
+        float inv = 1.0f / len;
+        return Quaternion(x * inv, y * inv, z * inv, w * inv);
     }
 
+    Quaternion conjugate() const { return Quaternion(-x, -y, -z, w); }
+
     Quaternion inverse() const {
-        float lsq = w * w + x * x + y * y + z * z;
-        if (lsq <= 0.0f) return Identity();
-        float inv = 1.0f / lsq;
-        return Quaternion(w * inv, -x * inv, -y * inv, -z * inv);
+        Quaternion n = normalized();
+        return n.conjugate();
     }
 
     Quaternion operator*(const Quaternion& r) const {
         return Quaternion(
-            w * r.w - x * r.x - y * r.y - z * r.z,
             w * r.x + x * r.w + y * r.z - z * r.y,
             w * r.y - x * r.z + y * r.w + z * r.x,
-            w * r.z + x * r.y - y * r.x + z * r.w
+            w * r.z + x * r.y - y * r.x + z * r.w,
+            w * r.w - x * r.x - y * r.y - z * r.z
         );
     }
 
-    static Quaternion slerp(const Quaternion& q1, const Quaternion& q2, float t) {
-        Quaternion b = q2;
-        float dot = q1.w * b.w + q1.x * b.x + q1.y * b.y + q1.z * b.z;
-
-        if (dot < 0.0f) {
-            dot = -dot;
-            b.w = -b.w; b.x = -b.x; b.y = -b.y; b.z = -b.z;
-        }
-
-        const float EPS = 0.9995f;
-        if (dot > EPS) {
-            Quaternion r(
-                q1.w + t * (b.w - q1.w),
-                q1.x + t * (b.x - q1.x),
-                q1.y + t * (b.y - q1.y),
-                q1.z + t * (b.z - q1.z)
-            );
-            return r.normalized();
-        }
-
-        float theta0 = std::acos(dot);
-        float theta = theta0 * t;
-
-        float sin0 = std::sin(theta0);
-        float s0 = std::cos(theta) - dot * std::sin(theta) / sin0;
-        float s1 = std::sin(theta) / sin0;
-
-        return Quaternion(
-            s0 * q1.w + s1 * b.w,
-            s0 * q1.x + s1 * b.x,
-            s0 * q1.y + s1 * b.y,
-            s0 * q1.z + s1 * b.z
-        );
+    static Quaternion fromAxisAngle(const Vec3& axis, float rad) {
+        Vec3 u = axis.normalized();
+        float s = std::sinf(rad * 0.5f);
+        return Quaternion(u.x * s, u.y * s, u.z * s, std::cosf(rad * 0.5f));
     }
 
     Vec3 rotate(const Vec3& v) const {
-        Quaternion p(0, v.x, v.y, v.z);
-        Quaternion r = (*this) * p * conjugate();
+        Quaternion p(v.x, v.y, v.z, 0);
+        Quaternion r = (*this) * p * inverse();
         return Vec3(r.x, r.y, r.z);
     }
 
+
     Matrix toMatrix() const {
-        Quaternion q = normalized();
-        float xx = q.x * q.x, yy = q.y * q.y, zz = q.z * q.z;
-        float xy = q.x * q.y, xz = q.x * q.z, yz = q.y * q.z;
-        float wx = q.w * q.x, wy = q.w * q.y, wz = q.w * q.z;
-
-        Matrix m = Matrix::Identity();
-
-        m.at(0, 0) = 1 - 2 * (yy + zz);
-        m.at(1, 0) = 2 * (xy + wz);
-        m.at(2, 0) = 2 * (xz - wy);
-
-        m.at(0, 1) = 2 * (xy - wz);
-        m.at(1, 1) = 1 - 2 * (xx + zz);
-        m.at(2, 1) = 2 * (yz + wx);
-
-        m.at(0, 2) = 2 * (xz + wy);
-        m.at(1, 2) = 2 * (yz - wx);
-        m.at(2, 2) = 1 - 2 * (xx + yy);
-
+        Quaternion n = normalized();
+        float xx = n.x * n.x, yy = n.y * n.y, zz = n.z * n.z;
+        float xy = n.x * n.y, xz = n.x * n.z, yz = n.y * n.z;
+        float wx = n.w * n.x, wy = n.w * n.y, wz = n.w * n.z;
+        Matrix m;
+        m[0] = 1 - 2 * (yy + zz);
+        m[1] = 2 * (xy - wz);
+        m[2] = 2 * (xz + wy);
+        m[3] = 0;
+        m[4] = 2 * (xy + wz);
+        m[5] = 1 - 2 * (xx + zz);
+        m[6] = 2 * (yz - wx);
+        m[7] = 0;
+        m[8] = 2 * (xz - wy);
+        m[9] = 2 * (yz + wx);
+        m[10] = 1 - 2 * (xx + yy);
+        m[11] = 0;
+        m[12] = m[13] = m[14] = 0;
+        m[15] = 1;
         return m;
     }
 
-    static Quaternion fromMatrix(const Matrix& M) {
-        float m00 = M.at(0, 0); float m01 = M.at(0, 1); float m02 = M.at(0, 2);
-        float m10 = M.at(1, 0); float m11 = M.at(1, 1); float m12 = M.at(1, 2);
-        float m20 = M.at(2, 0); float m21 = M.at(2, 1); float m22 = M.at(2, 2);
-
-        float trace = m00 + m11 + m22;
-        Quaternion q;
-
-        if (trace > 0.0f)
-        {
-            float s = std::sqrt(trace + 1.0f) * 2.0f; // 4*q.w
-            q.w = 0.25f * s;
-            q.x = (m21 - m12) / s;
-            q.y = (m02 - m20) / s;
-            q.z = (m10 - m01) / s;
+    static Quaternion slerp(const Quaternion& a, const Quaternion& b, float t) {
+        Quaternion q1 = a.normalized();
+        Quaternion q2 = b.normalized();
+        float dot = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
+        if (dot < 0.0f) { dot = -dot; q2 = Quaternion(-q2.x, -q2.y, -q2.z, -q2.w); }
+        if (dot > 0.9995f) {
+            Quaternion r(
+                q1.x + t * (q2.x - q1.x),
+                q1.y + t * (q2.y - q1.y),
+                q1.z + t * (q2.z - q1.z),
+                q1.w + t * (q2.w - q1.w));
+            return r.normalized();
         }
-        else if (m00 > m11 && m00 > m22)
-        {
-            float s = std::sqrt(1.0f + m00 - m11 - m22) * 2.0f; // 4*q.x
-            q.w = (m21 - m12) / s;
-            q.x = 0.25f * s;
-            q.y = (m01 + m10) / s;
-            q.z = (m02 + m20) / s;
-        }
-        else if (m11 > m22)
-        {
-            float s = std::sqrt(1.0f + m11 - m00 - m22) * 2.0f; // 4*q.y
-            q.w = (m02 - m20) / s;
-            q.x = (m01 + m10) / s;
-            q.y = 0.25f * s;
-            q.z = (m12 + m21) / s;
-        }
-        else
-        {
-            float s = std::sqrt(1.0f + m22 - m00 - m11) * 2.0f; // 4*q.z
-            q.w = (m10 - m01) / s;
-            q.x = (m02 + m20) / s;
-            q.y = (m12 + m21) / s;
-            q.z = 0.25f * s;
-        }
-
-        return q.normalized();
+        float theta = std::acos(clamp(dot, -1.0f, 1.0f));
+        float s0 = std::sinf((1 - t) * theta) / std::sinf(theta);
+        float s1 = std::sinf(t * theta) / std::sinf(theta);
+        return Quaternion(
+            s0 * q1.x + s1 * q2.x,
+            s0 * q1.y + s1 * q2.y,
+            s0 * q1.z + s1 * q2.z,
+            s0 * q1.w + s1 * q2.w);
     }
 
 };

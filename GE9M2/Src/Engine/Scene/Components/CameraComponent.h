@@ -31,20 +31,15 @@ public:
     }
 
     void updateViewMatrix() {
-        Transform& transform = owner->transform;
+        const Transform& ownerTransform = owner->transform;
 
-        Vec3 pos = transform.position;
-        Vec3 forward = transform.forward();
-        Vec3 up = transform.up();
+        Vec3 ownerPosition = ownerTransform.position;
+		// -Z is forward
+        Vec3 ownerForward = ownerTransform.forward();
+        Vec3 ownerUp = ownerTransform.up();
 
-        view = Matrix::lookAt(pos, pos + forward, up);
+        view = Matrix::lookAt(ownerPosition, ownerPosition + ownerForward, ownerUp);
     }
-
-    Vec3 forward() const { return owner->transform.forward(); }
-
-    Vec3 right() const { return owner->transform.right(); }
-
-    Vec3 up() const { return owner->transform.up(); }
 
 public:
 
