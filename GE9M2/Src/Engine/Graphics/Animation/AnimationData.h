@@ -80,9 +80,9 @@ public:
 		int boneIndex
 	) const {
 		Transform localTransform = getInterpolatedLocalTransform(baseFrameIndex, interpolationFact, boneIndex);
-		Matrix T = Matrix::translation(localTransform.position);
+		Matrix T = Matrix::Translation(localTransform.position);
 		Matrix R = localTransform.rotation.toMatrix();
-		Matrix S = Matrix::scale(localTransform.scale);
+		Matrix S = Matrix::Scale(localTransform.scale);
 
 		Matrix localPoseMatrix = S * R * T ;
 

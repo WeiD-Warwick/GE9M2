@@ -15,9 +15,9 @@ public:
 	}
 
     Matrix localMatrix() const {
-        Matrix T = Matrix::translation(position);
+        Matrix T = Matrix::Translation(position);
         Matrix R = rotation.toMatrix();
-        Matrix S = Matrix::scale(scale);
+        Matrix S = Matrix::Scale(scale);
         return T * R * S;
     }
 

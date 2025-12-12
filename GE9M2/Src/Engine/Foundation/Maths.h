@@ -101,7 +101,7 @@ public:
         return z;
     }
 
-    static Matrix translation(const Vec3& v) {
+    static Matrix Translation(const Vec3& v) {
         Matrix output = Identity();
         output.a[0][3] = v.x;
         output.a[1][3] = v.y;
@@ -109,7 +109,7 @@ public:
         return output;
     }
 
-    static Matrix scale(const Vec3& v) {
+    static Matrix Scale(const Vec3& v) {
         Matrix output = Identity();
         output.m[0] = v.x;
         output.m[5] = v.y;
@@ -117,7 +117,7 @@ public:
         return output;
     }
 
-    static Matrix rotateX(float rad) {
+    static Matrix RotateX(float rad) {
         Matrix output = Identity();
         float ct = cosf(rad);
         float st = sinf(rad);
@@ -128,7 +128,7 @@ public:
         return output;
     }
 
-    static Matrix rotateY(float rad) {
+    static Matrix RotateY(float rad) {
         Matrix output = Identity();
         float ct = cosf(rad);
         float st = sinf(rad);
@@ -139,7 +139,7 @@ public:
         return output;
     }
 
-    static Matrix rotateZ(float rad) {
+    static Matrix RotateZ(float rad) {
         Matrix output = Identity();
         float ct = cosf(rad);
         float st = sinf(rad);
