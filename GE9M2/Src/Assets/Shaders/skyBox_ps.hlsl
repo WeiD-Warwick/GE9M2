@@ -1,16 +1,16 @@
+TextureCube SkyTex : register(t0);
+SamplerState SkySampler : register(s0);
 
 struct PS_INPUT
 {
-    float4 Pos : SV_POSITION;
-    float3 Normal : NORMAL;
-    float3 Tangent : TANGENT;
-    float2 TexCoords : TEXCOORD;
+    float3 Dir : TEXCOORD0;
 };
 
-float4 PS(PS_INPUT input) : SV_Target0
+float4 PS(PS_INPUT input) : SV_Target
 {
-    float3 normal = normalize(input.Normal);
-    
-    float3 color = normal * 0.5f + 0.5f;
-    return float4(color, 1.0f);
+    float3 dir = normalize(input.Dir);
+
+    // dir.z = -dir.z;
+
+    return SkyTex.Sample(SkySampler, dir);
 }

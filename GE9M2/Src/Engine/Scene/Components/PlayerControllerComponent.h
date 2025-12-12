@@ -37,7 +37,7 @@ public:
         window->mouseDeltaY = 0;
 
         yaw += dx * mouseSensitivity;
-        pitch -= dy * mouseSensitivity;
+        pitch += dy * mouseSensitivity;
 
         pitch = clamp(pitch, -1.5f, 1.5f);
 

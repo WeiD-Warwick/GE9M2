@@ -44,6 +44,14 @@ public:
         static const D3D12_INPUT_LAYOUT_DESC desc = { inputLayoutAnimated, 6 };
         return desc;
     }
+
+    static const D3D12_INPUT_LAYOUT_DESC& getSkyboxLayout() {
+        static const D3D12_INPUT_ELEMENT_DESC inputLayoutSkybox[] = {
+            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+        };
+        static const D3D12_INPUT_LAYOUT_DESC desc = { inputLayoutSkybox, 1 };
+        return desc;
+    }
 };
 
 class DX12Swapchain {

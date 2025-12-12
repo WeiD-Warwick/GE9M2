@@ -1,8 +1,8 @@
 #pragma once
 #include "../Component.h"
+#include "../Scene.h"
 #include "../GameObject.h"
 #include "../../Engine.h"
-#include "../Scene.h"
 #include "../../Graphics/Animation/AnimationData.h"
 #include "../../Graphics/Animation/AnimationController.h"
 

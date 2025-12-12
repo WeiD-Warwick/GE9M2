@@ -83,6 +83,22 @@ public:
             DX12VertexLayoutCache::getAnimatedLayout()
         );
 
+        _shaderManager.load(
+            _device.dxDevice(),
+            "skyboxShader",
+            "Src/Assets/Shaders/skybox_vs.hlsl",
+            "Src/Assets/Shaders/skybox_ps.hlsl"
+        );
+
+        _psoManager.createSkyboxPSO(
+            _device.dxDevice(),
+            _rootSignature.rootSignature(),
+            "skyboxPSO",
+            _shaderManager.find("skyboxShader")->vs.Get(),
+            _shaderManager.find("skyboxShader")->ps.Get(),
+            DX12VertexLayoutCache::getSkyboxLayout()
+        );
+
         _renderer.create(
             _device.dxDevice(),
             _queues.graphicsQueue(),
