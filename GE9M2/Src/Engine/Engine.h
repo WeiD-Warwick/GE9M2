@@ -8,7 +8,7 @@
 #include "ModelLoader.h"
 #include "Scene/Components/PlayerControllerComponent.h"
 #include "Graphics/Mesh/MeshLib.h"
-#include "Scene/Components/SkyboxRenderComponent.h"
+//#include "Scene/Components/SkyboxRenderComponent.h"
 
 class Engine {
 private:
@@ -76,23 +76,6 @@ public:
 	}
 
 	void initScene() {
-		std::vector<std::string> skyFaces = {
-			"Src/Assets/Textures/Skybox/px.png",	// +X
-			"Src/Assets/Textures/Skybox/nx.png",	// -X
-			"Src/Assets/Textures/Skybox/py.png",	// +Y
-			"Src/Assets/Textures/Skybox/ny.png",	// -Y
-			"Src/Assets/Textures/Skybox/pz.png",	// +Z
-			"Src/Assets/Textures/Skybox/nz.png"		// -Z
-		};
-
-		Texture* skyTex = _renderContext.textureManager().loadCubeMap(
-			_renderContext.device().dxDevice(),
-			_renderContext.uploader(),
-			_renderContext.srvHeap(),
-			"skybox_04",
-			skyFaces
-		);
-
 		// Camera
 		GameObject* player = _scene.createObject();
 		CameraComponent* cam = player->addComponent<CameraComponent>((float)_width / (float)_height);
@@ -103,9 +86,9 @@ public:
 		player->transform.position = Vec3(0, 10, -20);
 
 		//GameObject* model = _loader.generateGameObjectFrom("Src/Assets/Models/acacia_003.gem", &_scene);
-		//GameObject* model = _loader.generateGameObjectFrom("Src/Assets/Models/TRex.gem", &_scene);
-		//model->transform.scale = Vec3(0.1f, 0.1f, 0.1f);
-		//model->transform.position = Vec3(0, 0, 0);
+		GameObject* model = _loader.generateGameObjectFrom("Src/Assets/Models/TRex.gem", &_scene);
+		model->transform.scale = Vec3(0.1f, 0.1f, 0.1f);
+		model->transform.position = Vec3(0, 0, 0);
 
 		createGround();
 		createSkybox();
@@ -125,8 +108,8 @@ public:
 	}
 
 	void createSkybox() {
-		GameObject* sky = _scene.createObject();
-		sky->addComponent<SkyboxRenderComponent>(&_meshLib.skyBox);
+		//GameObject* sky = _scene.createObject();
+		//sky->addComponent<SkyboxRenderComponent>(&_meshLib.skyBox);
 
 	}
 };
