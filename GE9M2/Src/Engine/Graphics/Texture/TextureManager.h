@@ -7,6 +7,8 @@ class TextureManager {
 public:
 	std::map<std::string, Texture*> textures;
 
+	TextureManager() {}
+
 	Texture* loadTexture(ID3D12Device5* device, DX12Upload& uploader, DX12CBVSRVUAVHeap& srvHeap, const std::string& name, const std::string& file) {
 		auto it = textures.find(name);
 		if (it != textures.end())
@@ -21,7 +23,8 @@ public:
 
 	int find(const std::string& name) {
 		auto it = textures.find(name);
-		if (it == textures.end()) return -1;
+		if (it == textures.end()) 
+			return find("__default");
 		return it->second->heapOffset;
 	}
 

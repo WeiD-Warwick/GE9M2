@@ -6,25 +6,20 @@
 #include "Graphics/Animation/AnimationData.h"
 #include "Platform/DX12/DX12Resources.h"
 #include "../../Third_Party/GEMLoader.h"
-#include "Scene/Component.h"
-#include "Scene/GameObject.h"
 #include "Foundation/Transform.h"
-#include "Scene/Components/StaticMeshRenderComponent.h"
-#include "Scene/Components/AnimatedMeshRenderComponent.h"
 
-class LoadedModelData {
+class ModelData {
 public:
 
     // Only for animated models
     AnimationData* animation = nullptr;
     std::vector<DX12Mesh*>      meshes;
-    std::vector<std::string>    textureFilenames;
 
     bool isAnimated() { return animation != nullptr; }
 
-    LoadedModelData() = default;
+    ModelData() = default;
 
-    ~LoadedModelData() {
+    ~ModelData() {
         for (DX12Mesh* mesh : meshes) {
             delete mesh;
         }
@@ -35,8 +30,8 @@ public:
         }
     }
 
-    LoadedModelData(const LoadedModelData&) = delete;
-    LoadedModelData& operator=(const LoadedModelData&) = delete;
+    ModelData(const ModelData&) = delete;
+    ModelData& operator=(const ModelData&) = delete;
 };
 
 class ModelLoader {
@@ -44,25 +39,12 @@ class ModelLoader {
 private:
     GEMLoader::GEMModelLoader loader;
     RenderContext& _renderContext;
-    std::map<std::string, LoadedModelData*> _loadedModelCache;
+    std::map<std::string, ModelData*> _loadedModelCache;
 
 public:
     ModelLoader(RenderContext& renderContext) : _renderContext(renderContext) {}
 
-    GameObject* generateGameObjectFrom(const std::string& filePath, Scene* scene) {
-        GameObject* cachedObject = scene->createObject();
-        LoadedModelData* data = loadModelFromFile(filePath);
-        if (data->isAnimated()) {
-            cachedObject->addComponent<AnimatedMeshRenderComponent>(
-                data->meshes, data->textureFilenames, data->animation);
-        }
-        else {
-            cachedObject->addComponent<StaticMeshRenderComponent>(data->meshes, data->textureFilenames);
-        }
-        return cachedObject;
-    }
-
-    LoadedModelData* loadModelFromFile(const std::string& filePath) {
+    ModelData* loadModelFromFile(const std::string& filePath) {
         if (_loadedModelCache.count(filePath)) {
             return _loadedModelCache.at(filePath);
         }
@@ -77,8 +59,8 @@ public:
     }
 
 private:
-    LoadedModelData* loadStaticModelFromFile(const std::string& filePath) {
-        LoadedModelData* data = new LoadedModelData();
+    ModelData* loadStaticModelFromFile(const std::string& filePath) {
+        ModelData* data = new ModelData();
         std::vector<GEMLoader::GEMMesh> gemmeshes;
         loader.load(filePath, gemmeshes);
 
@@ -95,7 +77,9 @@ private:
             std::string texName = gemmesh.material.find("albedo").getValue();
             if (!texName.empty()) {
                 std::string fullPath = "Src/Assets/Models/Textures/" + texName;
-                data->textureFilenames.push_back(texName);
+                // Add texture to mesh
+                mesh->textureNames.push_back(texName);
+                // Koad texture to textureManager
                 _renderContext.textureManager().loadTexture(
                     _renderContext.device().dxDevice(),
                     _renderContext.uploader(),
@@ -117,8 +101,8 @@ private:
         return data;
     }
 
-    LoadedModelData* loadAnimatedModelFromFile(const std::string& filePath) {
-        LoadedModelData* data = new LoadedModelData();
+    ModelData* loadAnimatedModelFromFile(const std::string& filePath) {
+        ModelData* data = new ModelData();
         std::vector<GEMLoader::GEMMesh> gemmeshes;
         GEMLoader::GEMAnimation gemanimation;
         data->animation = new AnimationData();
@@ -141,7 +125,9 @@ private:
             std::string texName = gemmesh.material.find("albedo").getValue();
             if (!texName.empty()) {
                 std::string fullPath = "Src/Assets/" + texName;
-                data->textureFilenames.push_back(texName);
+                // Add texture to mesh
+                mesh->textureNames.push_back(texName);
+                // Koad texture to textureManager
                 _renderContext.textureManager().loadTexture(
                     _renderContext.device().dxDevice(),
                     _renderContext.uploader(),

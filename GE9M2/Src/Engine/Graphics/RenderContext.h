@@ -12,6 +12,7 @@ private:
     const int bufferCount = 2;
     const int srvHeapSize = 16384;
 
+    float                   _aspectRatio = 0;
     DX12Device              _device;
     DX12CommandQueues       _queues;
     DX12Swapchain           _swapchain;
@@ -33,8 +34,11 @@ public:
 	ShaderManager& shaderManager() { return _shaderManager; }
 	PSOManager& psoManager() { return _psoManager; }
 	TextureManager& textureManager() { return _textureManager; }
+    float aspectRatio() { return _aspectRatio; }
 
     RenderContext(HWND hwnd, int width, int height) {
+
+        _aspectRatio = (float)width / (float)height;
 
         _device.create();
 
@@ -112,6 +116,20 @@ public:
             width,
             height
         );
+
+        _textureManager.loadTexture(
+            _device.dxDevice(),
+            _uploader,
+            _srvHeap,
+            "__default",
+            "Src/Assets/Textures/__default.png");
+
+        _textureManager.loadTexture(
+            _device.dxDevice(),
+            _uploader,
+            _srvHeap,
+            "Src/Assets/Textures/skySphere.png",
+            "Src/Assets/Textures/skySphere.png");
     }
 
 public:

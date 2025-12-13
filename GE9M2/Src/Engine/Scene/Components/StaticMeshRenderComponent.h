@@ -3,22 +3,21 @@
 #include <string>
 #include "../Component.h"
 
-using namespace std;
-
-class DX12Mesh;
+class ModelData;
 class RenderContext;
+class Material;
+
 class StaticMeshRenderComponent : public Component {
 
 private:
-    vector<DX12Mesh*> _meshes;
-    vector<string>    _textureFilenames;
-
-    string            _shaderName             = "staticMeshShader";
-    string            _psoName                = "staticMeshPSO";
-    string            _constBufferName        = "staticMeshBuffer";
+    ModelData*        _data;
+    Material*         _material;
+    std::string       _psoName                = "staticMeshPSO";
 
 public:
-    StaticMeshRenderComponent(vector<DX12Mesh*>& meshes, vector<string>& textureFilenames);
+    StaticMeshRenderComponent(ModelData* _data, Material* material);
+
+    ~StaticMeshRenderComponent();
 
     void onRender(RenderContext& renderContext) override;
 };

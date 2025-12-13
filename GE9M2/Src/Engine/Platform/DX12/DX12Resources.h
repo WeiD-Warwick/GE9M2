@@ -3,6 +3,7 @@
 #include <dxgi1_4.h>
 #include <wrl/client.h>
 #include <vector>
+#include <string>
 #include "DX12Upload.h"
 #include "../../Foundation/Vertex.h"
 
@@ -350,6 +351,8 @@ private:
     UINT                            _numIndices = 0;
 
 public:
+
+    std::vector<std::string>        textureNames;
 
     // STATIC_VERTEX
     void createStatic(

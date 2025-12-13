@@ -3,19 +3,19 @@
 
 using namespace std;
 
-class DX12Mesh;
-class SkySphereMaterial;
+class ModelData;
+class Material;
 
 class SkySphereRenderComponent : public Component {
 
 private:
-    DX12Mesh*               _mesh;
-    SkySphereMaterial*      _material;
+    ModelData*              _data;
+    Material*               _material;
     string                  _psoName = "skySpherePSO";
 
 public:
 
-    SkySphereRenderComponent(DX12Mesh* mesh, SkySphereMaterial* material);
+    SkySphereRenderComponent(ModelData* model, Material* material);
 
     ~SkySphereRenderComponent();
 

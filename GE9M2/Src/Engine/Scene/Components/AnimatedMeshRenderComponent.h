@@ -6,25 +6,23 @@
 
 using namespace std;
 
-class DX12Mesh;
+class ModelData;
 class AnimationData;
 class AnimationController;
+class Material;
 
 class AnimatedMeshRenderComponent : public Component {
 
 private:
-    vector<DX12Mesh*>      _meshes;
-    vector<string>         _textureFilenames;
-    AnimationData*         _animation               = nullptr;
+    ModelData*             _data;
+    Material*              _material;
     AnimationController    _animationController;
-    string                 _shaderName              = "animatedMeshShader";
     string                 _psoName                 = "animatedMeshPSO";
-    string                 _constBufferName         = "animatedMeshBuffer";
     string                 _currentAnimation        = "run";
 
 public:
 
-    AnimatedMeshRenderComponent(vector<DX12Mesh*>& meshes, vector<string>& textureFilenames, AnimationData* animationPtr);
+    AnimatedMeshRenderComponent(ModelData* data, Material* material);
 
     ~AnimatedMeshRenderComponent();
 

@@ -137,6 +137,8 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
+    <ClCompile Include="Src\Engine\Graphics\Material\AnimatedMeshMaterial.h" />
+    <ClCompile Include="Src\Game\FPSGame.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Texture\Texture.cpp" />
     <ClCompile Include="Src\Engine\Platform\Window\Window.cpp" />
@@ -151,6 +153,9 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Graphics\Material\SkySphereMaterial.h" />
+    <ClInclude Include="Src\Engine\Graphics\Material\StaticMeshMaterial.h" />
+    <ClInclude Include="Src\Game\FPSGame.h" />
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationController.h" />
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationData.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\Material.h" />
@@ -183,6 +188,7 @@
     <ClInclude Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\GameObject.h" />
     <ClInclude Include="Src\Engine\Scene\Scene.h" />
+    <ClInclude Include="Src\Game\Game.h" />
     <ClInclude Include="Third_Party\GEMLoader.h" />
     <ClInclude Include="Src\Engine\Platform\Window\Window.h" />
     <ClInclude Include="Third_Party\stb_image.h" />
@@ -236,7 +242,8 @@
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_alb.png" />
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_nh.png" />
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_rmax.png" />
-    <Image Include="Src\Assets\Textures\SkySphere\SkySphere.png" />
+    <Image Include="Src\Assets\Textures\__default.png" />
+    <Image Include="Src\Assets\Textures\skySphere.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

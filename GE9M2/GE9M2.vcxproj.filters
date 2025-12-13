@@ -51,6 +51,12 @@
     <ClCompile Include="Src\Engine\Platform\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Game\FPSGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Graphics\Material\AnimatedMeshMaterial.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Third_Party\GEMLoader.h">
@@ -158,6 +164,18 @@
     <ClInclude Include="Src\Engine\Graphics\Material\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Game\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Game\FPSGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Material\SkySphereMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Material\StaticMeshMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl" />
@@ -190,7 +208,7 @@
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_rmax.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Assets\Textures\SkySphere\SkySphere.png">
+    <Image Include="Src\Assets\Textures\skySphere.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Models\Textures\arms_1_Albedo_alb.png">
@@ -227,6 +245,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_rmax.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Textures\__default.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -3,35 +3,32 @@
 #include "../../Graphics/RenderContext.h"
 #include "../../Foundation/Maths.h"
 #include "../../Foundation/Transform.h"
+#include "../../Graphics/Material/Material.h"
+#include "../../ModelLoader.h"
 
 using namespace std;
 
-StaticMeshRenderComponent::StaticMeshRenderComponent(vector<DX12Mesh*>& meshes, vector<string>& textureFilenames) 
-    : _meshes(meshes), _textureFilenames(textureFilenames) {}
+StaticMeshRenderComponent::StaticMeshRenderComponent(ModelData* data, Material* material)
+    : _data(data), _material(material) {}
 
+StaticMeshRenderComponent::~StaticMeshRenderComponent() {
+    delete _material;
+}
 
 void StaticMeshRenderComponent::onRender(RenderContext& renderContext) {
-    if (_meshes.empty() || !_owner) return;
+    auto* commandList = renderContext.renderer().commandList();
+    auto& psos = renderContext.psoManager();
 
-    ID3D12GraphicsCommandList4* commandList = renderContext.renderer().commandList();
-    PSOManager& psos = renderContext.psoManager();
-    ShaderManager& shaders = renderContext.shaderManager();
-    TextureManager& textureManager = renderContext.textureManager();
-    DX12CBVSRVUAVHeap& srvHeap = renderContext.srvHeap();
-
-    Matrix W = transform().worldMatrix();
-    Matrix V = mainCamera()->view;
-    Matrix P = mainCamera()->projection;
-
-    shaders.updateConstantVS(_shaderName, _constBufferName, "W", &W);
-    shaders.updateConstantVS(_shaderName, _constBufferName, "V", &V);
-    shaders.updateConstantVS(_shaderName, _constBufferName, "P", &P);
-    shaders.apply(commandList, _shaderName);
     psos.bind(commandList, _psoName);
 
-    for (int i = 0; i < _meshes.size(); i++) {
-        //int textureHeapOffet = textureManager.find(_textureFilenames[i]);
-        //shaders.updateTexturePS(commandList, srvHeap, _shaderName, "tex", textureHeapOffet);
-        _meshes[i]->draw(commandList);
+    MaterialParam param;
+    param.W = transform().worldMatrix();
+    param.V = mainCamera()->view;
+    param.P = mainCamera()->projection;
+   
+   
+    for (auto& mesh : _data->meshes) {
+        _material->apply(renderContext, mesh->textureNames, param);
+        mesh->draw(commandList);
     }
 }

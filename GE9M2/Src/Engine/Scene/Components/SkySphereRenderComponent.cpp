@@ -4,11 +4,10 @@
 #include "../../Foundation/Transform.h"
 #include "../../Graphics/RenderContext.h"
 #include "../../Graphics/Material/Material.h"
+#include "../../ModelLoader.h"
 
-using namespace std;
-
-SkySphereRenderComponent::SkySphereRenderComponent(DX12Mesh* mesh, SkySphereMaterial* material)
-    : _mesh(mesh), _material(material) {
+SkySphereRenderComponent::SkySphereRenderComponent(ModelData* data, Material* material)
+    : _data(data), _material(material) {
 }
 
 SkySphereRenderComponent::~SkySphereRenderComponent() {
@@ -16,18 +15,21 @@ SkySphereRenderComponent::~SkySphereRenderComponent() {
 }
 
 void SkySphereRenderComponent::onRender(RenderContext& renderContext) {
-    if (!_mesh || !_owner) return;
 
     ID3D12GraphicsCommandList4* commandList = renderContext.renderer().commandList();
     PSOManager& psos = renderContext.psoManager();
 
     psos.bind(commandList, _psoName);
 
-    Matrix W = Matrix::Translation(mainCamera()->transform().position);
-    Matrix V = mainCamera()->view;
-    Matrix P = mainCamera()->projection;
-    _material->apply(renderContext, W, V, P);
-    _mesh->draw(commandList);
+    MaterialParam param;
+    param.W = Matrix::Translation(mainCamera()->transform().position);
+    param.V = mainCamera()->view;
+    param.P = mainCamera()->projection;
+
+    for (auto& mesh : _data->meshes) {
+        _material->apply(renderContext, mesh->textureNames, param);
+        mesh->draw(commandList);
+    }
 }
 
 

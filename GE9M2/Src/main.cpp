@@ -1,6 +1,7 @@
 ﻿#include "Engine/Platform/Window/Window.h"
 #include "Engine/Engine.h"
 #include "Engine/foundation/Timer.h"
+#include "Game/FPSGame.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 #if defined(_DEBUG)
@@ -15,7 +16,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Window window;
 	window.create(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, "GE9M2", true);
 
-	Engine engine(window.hwnd, WINDOW_WIDTH, WINDOW_HEIGHT);
+	FPSGame game;
+
+	Engine engine(window.hwnd, WINDOW_WIDTH, WINDOW_HEIGHT, &game);
 
 	Timer timer;
 

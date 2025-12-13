@@ -1,9 +1,8 @@
 #pragma once
 #include <d3d12.h>
-
-#include "Scene/Scene.h"
-#include "Graphics/RenderContext.h"
+#include "../Game/Game.h"
 #include "Platform/Window/Window.h"
+#include "Graphics/RenderContext.h"
 #include "ModelLoader.h"
 #include "Graphics/Mesh/MeshLib.h"
 
@@ -14,13 +13,14 @@ private:
 	int             _height = 0;
 	HWND            _hwnd = nullptr;
 	Scene           _scene;
+	Game*			_game;
 	RenderContext   _renderContext;
 	ModelLoader		_loader;
 	MeshLibrary		_meshLib;
 
 public:
 
-	Engine(HWND hwnd, int width, int height);
+	Engine(HWND hwnd, int width, int height, Game* game);
 
 	~Engine();
 
@@ -38,13 +38,7 @@ public:
 
 	RenderContext& renderContext();
 
-	void initTexture();
-	void initMeshes();
+	MeshLibrary& meshLib();
 
-	void initScene();
-
-
-	void createGround();
-
-	void createSkybox();
+	ModelLoader& loader();
 };
