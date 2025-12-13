@@ -7,6 +7,8 @@
 #include "Platform/DX12/DX12Resources.h"
 #include "../../Third_Party/GEMLoader.h"
 #include "Scene/Component.h"
+#include "Scene/GameObject.h"
+#include "Foundation/Transform.h"
 #include "Scene/Components/StaticMeshRenderComponent.h"
 #include "Scene/Components/AnimatedMeshRenderComponent.h"
 

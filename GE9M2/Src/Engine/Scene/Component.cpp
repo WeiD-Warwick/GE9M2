@@ -1,0 +1,27 @@
+#include "Component.h"
+#include "GameObject.h"
+#include "Scene.h"
+#include "../Engine.h"
+#include "../Foundation/Transform.h"
+#include "Components/CameraComponent.h"
+
+void Component::setOwner(GameObject* owner) {
+    _owner = owner;
+}
+
+Transform& Component::transform() {
+    return _owner->transform();
+}
+
+Scene* Component::scene() {
+    return _owner->scene();
+}
+
+Engine* Component::engine() {
+    return _owner->engine();
+}
+
+CameraComponent* Component::mainCamera() {
+    Scene* s = scene();
+    return s ? s->mainCamera() : nullptr;
+}

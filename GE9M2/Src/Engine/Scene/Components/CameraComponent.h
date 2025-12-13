@@ -1,6 +1,8 @@
 #pragma once
 #include "../Component.h"
-#include "../GameObject.h"
+#include "../../Foundation/Maths.h"
+
+class Transform;
 
 class CameraComponent : public Component {
 
@@ -10,51 +12,17 @@ private:
     float _farPlane              = 1000.0f;
     float _aspectRatio           = 1.0f;
     float _eyeHeight             = 1.8f;
-
     bool _needToUpdateProjetion  = true;
 
 public:
     Matrix view;
     Matrix projection;
 
-    void onUpdate(float dt) override {
-        updateViewMatrix();
-        updateProjectionIfNeeded();
-    }
+    CameraComponent(float aspectRatio);
 
-    void updateProjectionIfNeeded() {
-        if (!_needToUpdateProjetion) return;
+    void onUpdate(float dt) override;
 
-        projection = Matrix::perspective(_nearPlane, _farPlane, _aspectRatio, _fov);
+    void updateProjectionIfNeeded();
 
-        _needToUpdateProjetion = false;
-    }
-
-    void updateViewMatrix() {
-        const Transform& ownerTransform = owner->transform;
-
-        Vec3 ownerPosition = ownerTransform.position;
-		// -Z is forward
-        Vec3 ownerForward = ownerTransform.forward();
-        Vec3 ownerUp = ownerTransform.up();
-
-        view = Matrix::lookAt(ownerPosition, ownerPosition + ownerForward, ownerUp);
-    }
-
-    Vec3 position() {
-        return owner->transform.position;
-    }
-
-public:
-
-    CameraComponent(float aspectRatio) : _aspectRatio(aspectRatio) {}
-
-    int getUpdateOrder() const override {
-        return 40;
-    }
-
-    const std::string& getName() const override {
-        static std::string name = "CameraComponent";
-        return name;
-    }
+    void updateViewMatrix();
 };

@@ -189,4 +189,14 @@ public:
 			indices
 		);
 	}
+
+	STATIC_VERTEX addVertex(Vec3 p, Vec3 n, float tu, float tv) {
+		STATIC_VERTEX v;
+		v.pos = p;
+		v.normal = n;
+		v.tangent = Vec3(0, 0, 0);
+		v.tu = tu;
+		v.tv = tv;
+		return v;
+	}
 };

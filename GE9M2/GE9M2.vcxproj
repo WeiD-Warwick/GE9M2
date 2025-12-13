@@ -137,6 +137,17 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
+    <ClCompile Include="Src\Engine\Engine.cpp" />
+    <ClCompile Include="Src\Engine\Graphics\Texture\Texture.cpp" />
+    <ClCompile Include="Src\Engine\Platform\Window\Window.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Component.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\CameraComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\PlayerControllerComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\SkySphereRenderComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\GameObject.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Scene.cpp" />
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +167,6 @@
     <ClInclude Include="Src\Engine\Graphics\Texture\Texture.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\TextureManager.h" />
     <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\FPSWeaponRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h" />
     <ClInclude Include="Src\Engine\Platform\DX12\DX12CommandQueue.h" />
     <ClInclude Include="Src\Engine\Platform\DX12\DX12Device.h" />

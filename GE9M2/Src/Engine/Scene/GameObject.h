@@ -1,36 +1,39 @@
 #pragma once
 #include <vector>
-#include "Component.h"
-#include "../Foundation/Transform.h"
+
+class Component;
+class Scene;
+class Engine;
+class Transform;
+class RenderContext;
+class CameraComponent;
 
 class GameObject {
-public:
-    std::vector<Component*> components;
+protected:
+    std::vector<Component*> _components;
+    Transform* _transform = nullptr;
 
-    Scene* scene = nullptr;
-    Engine* engine = nullptr;
-    Transform transform;
-	GameObject* parent = nullptr;
+    Scene* _scene = nullptr;
+    Engine* _engine = nullptr;
 
 public:
+
+    GameObject();
+
+    ~GameObject();
+
+    void setContext(Scene* scene, Engine* engine);
+
+    Transform& transform();
+    Scene* scene() const;
+    Engine* engine() const;
+    CameraComponent* mainCamera();
 
     template<typename T, typename... Args>
     T* addComponent(Args&&... args) {
-
         T* component = new T(std::forward<Args>(args)...);
-
-        component->owner = this;
-        component->scene = scene;
-        component->engine = engine;
-
-        components.push_back(component);
-
-		// sort components by update order to ensure correct update sequence
-        std::sort(components.begin(), components.end(),
-            [](Component* a, Component* b) {
-                return a->getUpdateOrder() < b->getUpdateOrder();
-            }
-        );
+        component->setOwner(this);
+        _components.push_back(component);
 
         component->onStart();
         return component;
@@ -38,35 +41,14 @@ public:
 
     template<typename T>
     T* getComponent() {
-        for (Component* component : components) {
+        for (Component* component : _components) {
             if (auto result = dynamic_cast<T*>(component))
                 return result;
         }
         return nullptr;
     }
 
-    void update(float dt) {
-        for (Component* component : components)
-            component->onUpdate(dt);
-    }
+    void update(float dt);
 
-    void render(RenderContext& renderContext) {
-        for (Component* component : components)
-            component->onRender(renderContext);
-    }
-
-public:
-    GameObject() = default;
-
-    GameObject(const GameObject&) = delete;
-    GameObject& operator=(const GameObject&) = delete;
-
-    GameObject(GameObject&&) = delete;
-    GameObject& operator=(GameObject&&) = delete;
-
-    ~GameObject() {
-        for (Component* component : components)
-            delete component;
-        components.clear();
-    }
+    void render(RenderContext& renderContext);
 };
