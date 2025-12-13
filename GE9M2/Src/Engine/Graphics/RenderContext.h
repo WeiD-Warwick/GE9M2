@@ -59,10 +59,17 @@ public:
         );
 
         _shaderManager.load(
-            _device.dxDevice(),
+            _device.dxDevice(), 
             "animatedMeshShader",
             "Src/Assets/Shaders/animatedMesh_vs.hlsl",
             "Src/Assets/Shaders/animatedMesh_ps.hlsl"
+        );
+
+        _shaderManager.load(
+            _device.dxDevice(),
+            "skySphereShader",
+            "Src/Assets/Shaders/skySphere_vs.hlsl",
+            "Src/Assets/Shaders/skySphere_ps.hlsl"
         );
 
         _psoManager.createPSO(
@@ -81,6 +88,15 @@ public:
             _shaderManager.find("animatedMeshShader")->vs.Get(),
             _shaderManager.find("animatedMeshShader")->ps.Get(),
             DX12VertexLayoutCache::getAnimatedLayout()
+        );
+
+        _psoManager.createSkySpherePSO(
+            _device.dxDevice(),
+            _rootSignature.rootSignature(),
+            "skySpherePSO",
+            _shaderManager.find("skySphereShader")->vs.Get(),
+            _shaderManager.find("skySphereShader")->ps.Get(),
+            DX12VertexLayoutCache::getStaticLayout()
         );
 
         _renderer.create(

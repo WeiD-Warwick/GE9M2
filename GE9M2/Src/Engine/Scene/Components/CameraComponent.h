@@ -5,7 +5,7 @@
 class CameraComponent : public Component {
 
 private:
-    float _fov                   = 60.0f;         // degrees
+    float _fov                   = 75.0f;
     float _nearPlane             = 0.1f;
     float _farPlane              = 1000.0f;
     float _aspectRatio           = 1.0f;
@@ -39,6 +39,10 @@ public:
         Vec3 ownerUp = ownerTransform.up();
 
         view = Matrix::lookAt(ownerPosition, ownerPosition + ownerForward, ownerUp);
+    }
+
+    Vec3 position() {
+        return owner->transform.position;
     }
 
 public:

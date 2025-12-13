@@ -1,0 +1,43 @@
+cbuffer skySphereBuffer : register(b0)
+{
+    float4x4 W;
+    float4x4 V;
+    float4x4 P;
+};
+
+struct VS_INPUT
+{
+    float3 Pos : POSITION;
+    float3 Normal : NORMAL;
+    float3 Tangent : TANGENT;
+    float2 TexCoords : TEXCOORD;
+};
+
+struct PS_INPUT
+{
+    float4 Pos : SV_POSITION;
+    float3 Normal : NORMAL;
+    float3 Tangent : TANGENT;
+    float2 TexCoords : TEXCOORD;
+};
+
+PS_INPUT VS(VS_INPUT input)
+{
+    PS_INPUT output;
+
+    float4x4 V_no_translation = V;
+    V_no_translation._41 = 0.0f;
+    V_no_translation._42 = 0.0f;
+    V_no_translation._43 = 0.0f;
+
+    float4 pos = float4(input.Pos, 1.0f);
+    pos = mul(pos, W);
+    pos = mul(pos, V_no_translation);
+    pos = mul(pos, P);
+
+    pos.z = pos.w;
+
+    output.Pos = pos;
+    output.TexCoords = input.TexCoords;
+    return output;
+}

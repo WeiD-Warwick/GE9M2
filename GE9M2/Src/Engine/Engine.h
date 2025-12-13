@@ -8,7 +8,7 @@
 #include "ModelLoader.h"
 #include "Scene/Components/PlayerControllerComponent.h"
 #include "Graphics/Mesh/MeshLib.h"
-//#include "Scene/Components/SkyboxRenderComponent.h"
+#include "Scene/Components/SkySphereRenderComponent.h"
 
 class Engine {
 private:
@@ -34,8 +34,8 @@ public:
 		_loader(_renderContext),
 		_meshLib(_renderContext)
 	{
+		initTexture();
 		initMeshes();
-
 		initScene();
 	}
 
@@ -70,6 +70,16 @@ public:
 
 	RenderContext& renderContext() {
 		return _renderContext;
+	}
+
+	void initTexture() {
+		_renderContext.textureManager().loadTexture(
+			_renderContext.device().dxDevice(),
+			_renderContext.uploader(),
+			_renderContext.srvHeap(),
+			"Src/Assets/Textures/SkySphere/SkySphere.png",
+			"Src/Assets/Textures/SkySphere/SkySphere.png"
+		);
 	}
 
 	void initMeshes() {
@@ -108,8 +118,10 @@ public:
 	}
 
 	void createSkybox() {
-		//GameObject* sky = _scene.createObject();
-		//sky->addComponent<SkyboxRenderComponent>(&_meshLib.skyBox);
+		GameObject* sky = _scene.createObject();
+		sky->addComponent<SkySphereRenderComponent>(
+			&_meshLib.skySphere,
+			"Src/Assets/Textures/SkySphere/SkySphere.png");
 
 	}
 };

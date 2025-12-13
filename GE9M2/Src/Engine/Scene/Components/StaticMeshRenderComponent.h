@@ -22,6 +22,8 @@ public:
 		ID3D12GraphicsCommandList4* commandList = renderContext.renderer().commandList();
 		PSOManager& psos = renderContext.psoManager();
         ShaderManager& shaders = renderContext.shaderManager();
+        TextureManager& textureManager = renderContext.textureManager();
+        DX12CBVSRVUAVHeap& srvHeap = renderContext.srvHeap();
 
         Matrix W = owner->transform.worldMatrix();
 		Matrix V = owner->scene->mainCamera->view;
@@ -33,8 +35,10 @@ public:
 		shaders.apply(commandList, _shaderName);
         psos.bind(commandList, _psoName);
 
-        for (auto& mesh : _meshes) {
-			mesh->draw(commandList);
+        for (int i = 0; i < _meshes.size(); i++) {
+            //int textureHeapOffet = textureManager.find(_textureFilenames[i]);
+            //shaders.updateTexturePS(commandList, srvHeap, _shaderName, "tex", textureHeapOffet);
+            _meshes[i]->draw(commandList);
         }
     }
 
