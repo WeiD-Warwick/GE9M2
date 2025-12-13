@@ -116,22 +116,30 @@
     <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Mesh\MeshLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\SkySphereRenderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Material\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\FPSWeaponRenderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\staticMesh_vs.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\animatedMesh_ps.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\animatedMesh_vs.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\skyBox_vs.hlsl">
-      <Filter>Source Files</Filter>
-    </FxCompile>
-    <FxCompile Include="Src\Assets\Shaders\skyBox_ps.hlsl">
-      <Filter>Source Files</Filter>
-    </FxCompile>
+    <FxCompile Include="Src\Assets\Shaders\skySphere_vs.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\skySphere_ps.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Src\Assets\Models\acacia_003.gem" />
     <None Include="Src\Assets\Models\TRex.gem" />
+    <None Include="Src\Assets\Models\Uzi.gem" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Src\Assets\Models\Textures\Textures1_ALB.png">
@@ -150,6 +158,45 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_rmax.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Textures\SkySphere\SkySphere.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\arms_1_Albedo_alb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\arms_1_Albedo_nh.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\arms_1_Albedo_rmax.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\arms_2_Albedo_alb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\arms_2_Albedo_nh.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\arms_2_Albedo_rmax.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\Uzi_Albedo_alb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\Uzi_Albedo_nh.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\Uzi_Albedo_rmax.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_alb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_nh.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_rmax.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

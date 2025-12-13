@@ -99,6 +99,15 @@ public:
 private:
 	Transform getInterpolatedLocalTransform(int baseFrameIndex, float interpolationFact, int boneIndex) const {
 		int nextFrameIndex = getNextFrameIndex(baseFrameIndex);
+		const auto& frame1 = frames[baseFrameIndex];
+		const auto& frame2 = frames[nextFrameIndex];
+
+		if (boneIndex >= frame1.boneLocalTransforms.size() ||
+			boneIndex >= frame2.boneLocalTransforms.size())
+		{
+			return Transform();
+		}
+
 
 		const Transform& t1 = frames[baseFrameIndex].boneLocalTransforms[boneIndex];
 		const Transform& t2 = frames[nextFrameIndex].boneLocalTransforms[boneIndex];

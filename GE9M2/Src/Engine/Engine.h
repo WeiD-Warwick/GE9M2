@@ -2,12 +2,13 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 #include "Scene/Scene.h"
+#include "ModelLoader.h"
+#include "Graphics/Mesh/MeshLib.h"
 #include "Platform/Window/Window.h"
 #include "Graphics/RenderContext.h"
+#include "Graphics/Material/Material.h"
 #include "Scene/Components/StaticMeshRenderComponent.h"
-#include "ModelLoader.h"
 #include "Scene/Components/PlayerControllerComponent.h"
-#include "Graphics/Mesh/MeshLib.h"
 #include "Scene/Components/SkySphereRenderComponent.h"
 
 class Engine {
@@ -88,9 +89,9 @@ public:
 	void initScene() {
 		// Camera
 		GameObject* player = _scene.createObject();
+		//GameObject* player = _loader.generateGameObjectFrom("Src/Assets/Models/Uzi.gem", &_scene);
 		CameraComponent* cam = player->addComponent<CameraComponent>((float)_width / (float)_height);
 		player->addComponent<PlayerControllerComponent>();
-		
 		_scene.setMainCamera(cam);
 
 		player->transform.position = Vec3(0, 10, -20);
@@ -118,10 +119,9 @@ public:
 	}
 
 	void createSkybox() {
+		SkySphereMaterial* skyMaterial = new SkySphereMaterial("skySphereShader", "Src/Assets/Textures/SkySphere/SkySphere.png");
 		GameObject* sky = _scene.createObject();
-		sky->addComponent<SkySphereRenderComponent>(
-			&_meshLib.skySphere,
-			"Src/Assets/Textures/SkySphere/SkySphere.png");
+		sky->addComponent<SkySphereRenderComponent>(&_meshLib.skySphere, skyMaterial);
 
 	}
 };

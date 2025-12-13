@@ -19,10 +19,18 @@ private:
     std::string                 _psoName                 = "animatedMeshPSO";
     std::string                 _constBufferName         = "animatedMeshBuffer";
 
+    std::string                 _currentAnimation        = "run";
+
 public:
 
+    void playAnimation(const std::string& name) {
+        if (_currentAnimation != name) {
+            _currentAnimation = name;
+        }
+    }
+
     void onUpdate(float dt) override {
-        _animationController.update("run", dt);
+        _animationController.update(_currentAnimation, dt);
         if (_animationController.animationFinished()) {
             _animationController.resetAnimationTime();
         }

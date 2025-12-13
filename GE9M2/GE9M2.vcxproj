@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationController.h" />
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationData.h" />
+    <ClInclude Include="Src\Engine\Graphics\Material\Material.h" />
     <ClInclude Include="Src\Engine\Graphics\Mesh\MeshLib.h" />
     <ClInclude Include="Src\Engine\ModelLoader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Src\Engine\Graphics\Texture\Texture.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\TextureManager.h" />
     <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\FPSWeaponRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h" />
     <ClInclude Include="Src\Engine\Platform\DX12\DX12CommandQueue.h" />
     <ClInclude Include="Src\Engine\Platform\DX12\DX12Device.h" />
@@ -202,16 +204,28 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Src\Assets\Models\acacia_003.gem" />
     <None Include="Src\Assets\Models\TRex.gem" />
+    <None Include="Src\Assets\Models\Uzi.gem" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Src\Assets\Models\Textures\arms_1_Albedo_alb.png" />
+    <Image Include="Src\Assets\Models\Textures\arms_1_Albedo_nh.png" />
+    <Image Include="Src\Assets\Models\Textures\arms_1_Albedo_rmax.png" />
+    <Image Include="Src\Assets\Models\Textures\arms_2_Albedo_alb.png" />
+    <Image Include="Src\Assets\Models\Textures\arms_2_Albedo_nh.png" />
+    <Image Include="Src\Assets\Models\Textures\arms_2_Albedo_rmax.png" />
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_alb.png" />
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_nh.png" />
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_rmax.png" />
     <Image Include="Src\Assets\Models\Textures\Textures1_ALB.png" />
     <Image Include="Src\Assets\Models\Textures\Textures1_NH.png" />
     <Image Include="Src\Assets\Models\Textures\Textures1_RMAX.png" />
+    <Image Include="Src\Assets\Models\Textures\Uzi_Albedo_alb.png" />
+    <Image Include="Src\Assets\Models\Textures\Uzi_Albedo_nh.png" />
+    <Image Include="Src\Assets\Models\Textures\Uzi_Albedo_rmax.png" />
+    <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_alb.png" />
+    <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_nh.png" />
+    <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_rmax.png" />
     <Image Include="Src\Assets\Textures\SkySphere\SkySphere.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

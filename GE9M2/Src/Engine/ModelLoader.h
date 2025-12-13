@@ -123,6 +123,8 @@ private:
 
         loader.load(filePath, gemmeshes, gemanimation);
 
+        listAnimationNames(gemanimation);
+
         // Load meshes
         for (auto& gemmesh : gemmeshes) {
             DX12Mesh* mesh = new DX12Mesh();
@@ -195,6 +197,13 @@ private:
 
         _loadedModelCache.insert({ filePath, data });
         return data;
+    }
+
+    void listAnimationNames(const GEMLoader::GEMAnimation& gemanimation) {
+        for (int i = 0; i < gemanimation.animations.size(); i++)
+        {
+            std::cout << gemanimation.animations[i].name << std::endl;
+        }
     }
 
 public:
