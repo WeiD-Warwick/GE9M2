@@ -50,5 +50,5 @@ public:
 
     void update(float dt);
 
-    void render(RenderContext& renderContext);
+    const std::vector<Component*>& components() const;
 };

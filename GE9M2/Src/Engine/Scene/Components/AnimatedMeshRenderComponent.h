@@ -4,21 +4,19 @@
 #include "../Component.h"
 #include "../../Graphics/Animation/AnimationController.h"
 
-using namespace std;
-
 class ModelData;
 class AnimationData;
 class AnimationController;
 class Material;
 
-class AnimatedMeshRenderComponent : public Component {
+class AnimatedMeshRenderComponent : public RenderComponent {
 
 private:
     ModelData*             _data;
     Material*              _material;
     AnimationController    _animationController;
-    string                 _psoName                 = "animatedMeshPSO";
-    string                 _currentAnimation        = "run";
+    std::string            _psoName                 = "animatedMeshPSO";
+    std::string            _currentAnimation        = "run";
 
 public:
 

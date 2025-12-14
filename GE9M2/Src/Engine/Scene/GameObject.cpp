@@ -32,7 +32,6 @@ void GameObject::update(float dt) {
         c->onUpdate(dt);
 }
 
-void GameObject::render(RenderContext& ctx) {
-    for (Component* c : _components)
-        c->onRender(ctx);
+const std::vector<Component*>& GameObject::components() const {
+    return _components;
 }

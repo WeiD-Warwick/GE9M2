@@ -7,7 +7,7 @@ class ModelData;
 class RenderContext;
 class Material;
 
-class StaticMeshRenderComponent : public Component {
+class StaticMeshRenderComponent : public RenderComponent {
 
 private:
     ModelData*        _data;

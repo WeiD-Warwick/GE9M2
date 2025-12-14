@@ -23,7 +23,7 @@ void SkySphereRenderComponent::onRender(RenderContext& renderContext) {
 
     MaterialParam param;
     param.W = Matrix::Translation(mainCamera()->transform().position);
-    param.V = mainCamera()->view;
+    param.V = mainCamera()->view.withoutTranslation();
     param.P = mainCamera()->projection;
 
     for (auto& mesh : _data->meshes) {

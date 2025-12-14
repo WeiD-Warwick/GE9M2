@@ -6,7 +6,6 @@ class AnimationController {
 private:
 	AnimationData* _animationData;
 	Matrix boneGlobalPoseMatrices[256];
-	std::vector<int> boneOrder;
 	std::string currentAnimationName;
 	float t;
 	Matrix coordTransform;
@@ -17,7 +16,6 @@ public:
 
 	void init(AnimationData* animationData, int fromYZX = 0) {
 		_animationData = animationData; 
-		buildBoneOrder();
 	}
 
 	void resetAnimationTime() {
@@ -30,16 +28,15 @@ public:
 		return t >= seq.duration();
 	}
 
-	void update(std::string name, float dt) {
-
-		// Update animation time
-		if (name == currentAnimationName) {
-			t += dt;
-		}
-		else {
+	void play(const std::string& name) {
+		if (currentAnimationName != name) {
 			currentAnimationName = name;
-			t = 0;
+			t = 0.0f;
 		}
+	}
+
+	void update(float dt) {
+		t += dt;
 
 		if (animationFinished() == true) {
 			return;
@@ -48,45 +45,21 @@ public:
 		// Get frame index and interpolation weight
 		int frameIndex = 0;
 		float interpolationWeight = 0;
-		_animationData->getFrameIndexAndInterpolationWeight(name, t, frameIndex, interpolationWeight);
+		_animationData->getFrameIndexAndInterpolationWeight(currentAnimationName, t, frameIndex, interpolationWeight);
 
 		// FK to get bone global pose matrices
-		for (int boneIdx : boneOrder) {
-			boneGlobalPoseMatrices[boneIdx] = 
+		for (int i = 0; i < _animationData->bonesSize(); i++) {
+			boneGlobalPoseMatrices[i] =
 				_animationData->getInterpolatedBoneMatrices(
 					currentAnimationName,
 					boneGlobalPoseMatrices,
 					frameIndex,
 					interpolationWeight,
-					boneIdx
+					i
 				);
 		}
 
 		// Skinning matrices
 		_animationData->getSkinningMatrices(boneGlobalPoseMatrices, skinningMatrices, coordTransform);
-	}
-
-private:
-	void buildBoneOrder() {
-		boneOrder.clear();
-		if (!_animationData) return;
-
-		int n = _animationData->bonesSize();
-		if (n <= 0) return;
-
-		for (int i = 0; i < n; ++i) {
-			if (_animationData->getBoneParentByIndex(i) == -1) {
-				dfsAddBone(i, n);
-			}
-		}
-	}
-
-	void dfsAddBone(int boneIndex, int boneCount) {
-		boneOrder.push_back(boneIndex);
-		for (int i = 0; i < boneCount; ++i) {
-			if (_animationData->getBoneParentByIndex(i) == boneIndex) {
-				dfsAddBone(i, boneCount);
-			}
-		}
 	}
 };

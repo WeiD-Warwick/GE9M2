@@ -8,6 +8,21 @@ class CameraComponent;
 class Transform;
 class RenderContext;
 
+enum class RenderLayer {
+    Sky = 0,
+    World = 1,
+    FPS = 2
+};
+
+class Renderable {
+public:
+    virtual ~Renderable() = default;
+
+    virtual RenderLayer layer() const = 0;
+    virtual void onRender(RenderContext& renderContext) = 0;
+};
+
+
 class Component {
 protected:
     GameObject* _owner = nullptr;
@@ -26,7 +41,15 @@ public:
 
     // Per-frame update logic, before render
     virtual void onUpdate(float dt) {}
+};
 
-    // Per-frame rendering callback for mesh
-    virtual void onRender(RenderContext& renderContext) {}
+class RenderComponent : public Component, public Renderable {
+
+public:
+
+    virtual ~RenderComponent() = default;
+
+    RenderLayer layer() const override {
+        return RenderLayer::World;
+    }
 };

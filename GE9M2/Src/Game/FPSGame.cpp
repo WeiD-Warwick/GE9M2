@@ -10,12 +10,13 @@
 #include "../Engine/Graphics/Material/AnimatedMeshMaterial.h"
 #include "../Engine/Scene/Components/AnimatedMeshRenderComponent.h"
 #include "../Engine/Graphics/Material/StaticMeshMaterial.h"
+#include "../Engine/Scene/Components/FPSRenderComponent.h"
 
 void FPSGame::onInit(Engine& engine, Scene& scene) {
+    createSky(engine, scene);
     createPlayer(engine, scene);
     createGround(engine, scene);
     createDinosaur(engine, scene);
-    createSky(engine, scene);
 }
 
 void FPSGame::createPlayer(Engine& engine, Scene& scene) {
@@ -28,6 +29,14 @@ void FPSGame::createPlayer(Engine& engine, Scene& scene) {
 
     // Controller
     player->addComponent<PlayerControllerComponent>();
+
+    // Arm & Gun Model
+    auto* modelData = engine.loader().loadModelFromFile("Src/Assets/Models/Uzi.gem");
+    auto* armsMaterial = new AnimatedMeshMaterial("animatedMeshShader");
+
+    player->addComponent<FPSRenderComponent>(modelData, armsMaterial);
+
+
     player->transform().position = Vec3(0, 5, -5);
 }
 

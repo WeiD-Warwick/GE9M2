@@ -137,6 +137,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
+    <ClCompile Include="Src\Engine\Scene\Components\FPSRenderComponent.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Material\AnimatedMeshMaterial.h" />
     <ClCompile Include="Src\Game\FPSGame.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Scene\Components\FPSRenderComponent.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\SkySphereMaterial.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\StaticMeshMaterial.h" />
     <ClInclude Include="Src\Game\FPSGame.h" />

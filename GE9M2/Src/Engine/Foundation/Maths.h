@@ -264,6 +264,14 @@ public:
         pers.a[3][2] = 1.0f;
         return pers;
     }
+
+    Matrix withoutTranslation() const {
+        Matrix r = *this;
+        r.a[0][3] = 0.0f;
+        r.a[1][3] = 0.0f;
+        r.a[2][3] = 0.0f;
+        return r;
+    }
 };
 
 class Quaternion {

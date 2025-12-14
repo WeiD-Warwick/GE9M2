@@ -6,7 +6,7 @@ using namespace std;
 class ModelData;
 class Material;
 
-class SkySphereRenderComponent : public Component {
+class SkySphereRenderComponent : public RenderComponent {
 
 private:
     ModelData*              _data;
@@ -21,4 +21,5 @@ public:
 
     void onRender(RenderContext& renderContext) override;
 
+    RenderLayer layer() const override { return RenderLayer::Sky; }
 };

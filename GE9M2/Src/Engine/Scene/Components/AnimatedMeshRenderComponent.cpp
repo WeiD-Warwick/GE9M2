@@ -20,10 +20,10 @@ void AnimatedMeshRenderComponent::playAnimation(const std::string& name) {
 }
 
 void AnimatedMeshRenderComponent::onUpdate(float dt) {
-    _animationController.update(_currentAnimation, dt);
-    if (_animationController.animationFinished()) {
-        _animationController.resetAnimationTime();
-    }
+    //_animationController.update(_currentAnimation, dt);
+    //if (_animationController.animationFinished()) {
+    //    _animationController.resetAnimationTime();
+    //}
 }
 
 void AnimatedMeshRenderComponent::onRender(RenderContext& renderContext) {

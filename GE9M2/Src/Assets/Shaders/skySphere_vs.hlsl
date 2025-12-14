@@ -25,14 +25,9 @@ PS_INPUT VS(VS_INPUT input)
 {
     PS_INPUT output;
 
-    float4x4 V_no_translation = V;
-    V_no_translation._41 = 0.0f;
-    V_no_translation._42 = 0.0f;
-    V_no_translation._43 = 0.0f;
-
     float4 pos = float4(input.Pos, 1.0f);
     pos = mul(pos, W);
-    pos = mul(pos, V_no_translation);
+    pos = mul(pos, V);
     pos = mul(pos, P);
 
     pos.z = pos.w;

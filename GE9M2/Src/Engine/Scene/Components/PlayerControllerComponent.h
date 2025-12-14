@@ -9,6 +9,10 @@ private:
     float _pitch = 0.0f;
     float _yaw = 0.0f;
 
+    bool _lastMouseLeft = false;
+    bool _lastReloadKey = false;
+
+
 public:
 
     void onStart() override;

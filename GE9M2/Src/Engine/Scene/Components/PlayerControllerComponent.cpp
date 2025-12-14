@@ -2,6 +2,8 @@
 #include "../../Foundation/Maths.h"
 #include "../../Foundation/Transform.h"
 #include "../../Platform/Window/Window.h"
+#include "FPSRenderComponent.h"
+#include "../GameObject.h"
 
 void PlayerControllerComponent::onStart() {
     Vec3 f = transform().forward();
@@ -45,11 +47,9 @@ void PlayerControllerComponent::onUpdate(float dt) {
     if (window->keys['A']) inputX -= 1.0f;
     if (window->keys['D']) inputX += 1.0f;
 
-    // Handle Z Inut
     Vec3 forward = transform().forward();
     forward.y = 0.0f;
 
-    // Handle X Input
     Vec3 right = transform().right();
     right.y = 0.0f;
 
@@ -57,5 +57,26 @@ void PlayerControllerComponent::onUpdate(float dt) {
     Vec3 moveDir = (forward * inputZ + right * inputX).normalized();
 
     transform().position += moveDir * (_moveSpeed * dt);
-}
 
+    // Fire
+    bool mouseLeft = window->mouseButtons[0];
+    if (mouseLeft && !_lastMouseLeft) {
+        if (FPSRenderComponent* arms = _owner->getComponent<FPSRenderComponent>()) {
+            arms->setIntent(WeaponIntent::Fire);
+        }
+    }
+
+    _lastMouseLeft = mouseLeft;
+
+
+    // Reload
+    bool reloadKey = window->keys['R'];
+
+    if (reloadKey && !_lastReloadKey) {
+        if (FPSRenderComponent* arms = _owner->getComponent<FPSRenderComponent>()) {
+            arms->setIntent(WeaponIntent::Reload);
+        }
+    }
+
+    _lastReloadKey = reloadKey;
+}
