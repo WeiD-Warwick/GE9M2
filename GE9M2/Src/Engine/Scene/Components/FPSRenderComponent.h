@@ -25,7 +25,7 @@ private:
     ModelData*           _data                    = nullptr;
     Material*            _material                = nullptr;
     AnimationController  _animationController;
-    std::string          _psoName                 = "animatedMeshPSO";
+    std::string          _psoName                 = "fpsPSO";
     std::string          _currentAnimation        = "04 idle";
 
     WeaponAnimState      _state                   = WeaponAnimState::Idle;

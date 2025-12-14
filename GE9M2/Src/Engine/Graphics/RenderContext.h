@@ -94,6 +94,15 @@ public:
             DX12VertexLayoutCache::getAnimatedLayout()
         );
 
+        _psoManager.createFPSPSO(
+            _device.dxDevice(),
+            _rootSignature.rootSignature(),
+            "fpsPSO",
+            _shaderManager.find("animatedMeshShader")->vs.Get(),
+            _shaderManager.find("animatedMeshShader")->ps.Get(),
+            DX12VertexLayoutCache::getAnimatedLayout()
+        );
+
         _psoManager.createSkySpherePSO(
             _device.dxDevice(),
             _rootSignature.rootSignature(),
