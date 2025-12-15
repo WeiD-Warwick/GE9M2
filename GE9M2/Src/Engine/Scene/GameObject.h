@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 class Component;
 class Scene;
@@ -16,7 +17,7 @@ protected:
     Scene* _scene = nullptr;
     Engine* _engine = nullptr;
 
-    std::string     _debugName;
+    std::string _debugName;
 
 public:
 

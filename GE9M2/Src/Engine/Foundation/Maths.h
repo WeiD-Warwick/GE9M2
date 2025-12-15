@@ -58,10 +58,22 @@ public:
 	float dot(const Vec3& v) const { return (x * v.x + y * v.y + z * v.z); }
 	Vec3 cross(const Vec3& v) const { return Vec3((y * v.z) - (z * v.y), (z * v.x) - (x * v.z), (x * v.y) - (y * v.x)); }
 
-    /*
-    static Vec3 Max(const Vec3& v1, const Vec3& v2) { return Vec3(std::max(v1.x, v2.x), std::max(v1.y, v2.y), std::max(v1.z, v2.z)); }
-    static Vec3 Min(const Vec3& v1, const Vec3& v2) { return Vec3(std::min(v1.x, v2.x), std::min(v1.y, v2.y), std::min(v1.z, v2.z)); }
-    */
+    static Vec3 Min(const Vec3& a, const Vec3& b) {
+        return Vec3(
+            (std::min)(a.x, b.x),
+            (std::min)(a.y, b.y),
+            (std::min)(a.z, b.z)
+        );
+    }
+
+    static Vec3 Max(const Vec3& a, const Vec3& b) {
+        return Vec3(
+            (std::max)(a.x, b.x),
+            (std::max)(a.y, b.y),
+            (std::max)(a.z, b.z)
+        );
+    }
+
 };
 
 class alignas(64) Matrix {
