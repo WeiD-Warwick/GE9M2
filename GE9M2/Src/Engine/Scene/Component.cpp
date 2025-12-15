@@ -13,6 +13,10 @@ Transform& Component::transform() {
     return _owner->transform();
 }
 
+const Transform& Component::transform() const {
+    return _owner->transform();
+}
+
 Scene* Component::scene() {
     return _owner->scene();
 }

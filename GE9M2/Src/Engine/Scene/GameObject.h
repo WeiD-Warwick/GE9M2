@@ -28,6 +28,7 @@ public:
     void setContext(Scene* scene, Engine* engine);
 
     Transform& transform();
+    const Transform& transform() const;
     Scene* scene() const;
     Engine* engine() const;
     CameraComponent* mainCamera();

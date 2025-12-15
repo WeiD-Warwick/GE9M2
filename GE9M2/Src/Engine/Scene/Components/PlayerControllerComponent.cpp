@@ -4,6 +4,8 @@
 #include "../../Platform/Window/Window.h"
 #include "FPSRenderComponent.h"
 #include "../GameObject.h"
+#include "../Scene.h"
+#include "ColliderComponent.h"
 
 void PlayerControllerComponent::onStart() {
     Vec3 f = transform().forward();
@@ -21,7 +23,7 @@ void PlayerControllerComponent::onStart() {
 void PlayerControllerComponent::onUpdate(float dt) {
     if (!window || !_owner) return;
 
-    // Mouse look
+    // ------------------- Mouse look -------------------
     float dx = window->mouseDeltaX;
     float dy = window->mouseDeltaY;
     window->mouseDeltaX = 0;
@@ -38,7 +40,7 @@ void PlayerControllerComponent::onUpdate(float dt) {
 
     transform().rotation = (qPitch * qYaw).normalized();
 
-    // Keyboard movement
+    // ------------------- Mouse look -------------------
     float inputX = 0.0f;
     float inputZ = 0.0f;
 
@@ -52,12 +54,31 @@ void PlayerControllerComponent::onUpdate(float dt) {
 
     Vec3 right = transform().right();
     right.y = 0.0f;
-
-
     Vec3 moveDir = (forward * inputZ + right * inputX).normalized();
-
+    // cache oldPose
+    Vec3 oldPos = transform().position;
+    // apply movement
     transform().position += moveDir * (_moveSpeed * dt);
 
+    // collision check
+    auto* selfCollider = _owner->getComponent<ColliderComponent>();
+    if (selfCollider && selfCollider->enabled()) {
+
+        for (auto* obj : scene()->objects()) {
+            if (obj == _owner) continue;
+
+            auto* otherCollider = obj->getComponent<ColliderComponent>();
+            if (!otherCollider || !otherCollider->enabled()) continue;
+
+            // If intersect, set position to old pos
+            if (selfCollider->intersect(otherCollider)) {
+                transform().position = oldPos;
+                break;
+            }
+        }
+    }
+
+    // ------------------- Player Animation -------------------
     // Fire
     bool mouseLeft = window->mouseButtons[0];
     if (mouseLeft && !_lastMouseLeft) {

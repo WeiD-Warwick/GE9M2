@@ -54,63 +54,103 @@ public:
 
         _uploader.create(_device.dxDevice(), _queues.graphicsQueue());
 
+        // load default texture
+        _textureManager.loadTexture(
+            _device.dxDevice(),
+            _uploader,
+            _srvHeap,
+            "__default",
+            "Src/Assets/Textures/__default.png");
+
+        _textureManager.loadTexture(
+            _device.dxDevice(),
+            _uploader,
+            _srvHeap,
+            "Src/Assets/Textures/skySphere.png",
+            "Src/Assets/Textures/skySphere.png");
+
         // load static mesh shaders
-        _shaderManager.load(
+        Shader* staticMeshShader = _shaderManager.load(
             _device.dxDevice(),
             "staticMeshShader",
             "Src/Assets/Shaders/staticMesh_vs.hlsl",
             "Src/Assets/Shaders/staticMesh_ps.hlsl"
         );
 
-        _shaderManager.load(
+        Shader* animatedMeshShader = _shaderManager.load(
             _device.dxDevice(), 
             "animatedMeshShader",
             "Src/Assets/Shaders/animatedMesh_vs.hlsl",
             "Src/Assets/Shaders/animatedMesh_ps.hlsl"
         );
 
-        _shaderManager.load(
+        Shader* skySphereShader = _shaderManager.load(
             _device.dxDevice(),
             "skySphereShader",
             "Src/Assets/Shaders/skySphere_vs.hlsl",
             "Src/Assets/Shaders/skySphere_ps.hlsl"
         );
 
+        PSOParam staticPSOParam;
+        staticPSOParam.psoName = "staticMeshPSO";
+        staticPSOParam.psBlob = staticMeshShader->ps.Get();
+        staticPSOParam.vsBlob = staticMeshShader->vs.Get();
+        staticPSOParam.layout = DX12VertexLayoutCache::getStaticLayout();
         _psoManager.createPSO(
             _device.dxDevice(),
             _rootSignature.rootSignature(),
-            "staticMeshPSO",
-            _shaderManager.find("staticMeshShader")->vs.Get(),
-            _shaderManager.find("staticMeshShader")->ps.Get(),
-            DX12VertexLayoutCache::getStaticLayout()
+            staticPSOParam
         );
 
+        PSOParam animatedPSOParam;
+        animatedPSOParam.psoName = "animatedMeshPSO";
+        animatedPSOParam.psBlob = animatedMeshShader->ps.Get();
+        animatedPSOParam.vsBlob = animatedMeshShader->vs.Get();
+        animatedPSOParam.layout = DX12VertexLayoutCache::getAnimatedLayout();
         _psoManager.createPSO(
             _device.dxDevice(),
             _rootSignature.rootSignature(),
-            "animatedMeshPSO",
-            _shaderManager.find("animatedMeshShader")->vs.Get(),
-            _shaderManager.find("animatedMeshShader")->ps.Get(),
-            DX12VertexLayoutCache::getAnimatedLayout()
+            animatedPSOParam
         );
 
-        _psoManager.createFPSPSO(
+        PSOParam skySpherePSOParam;
+        skySpherePSOParam.psoName = "skySpherePSO";
+        skySpherePSOParam.psBlob = skySphereShader->ps.Get();
+        skySpherePSOParam.vsBlob = skySphereShader->vs.Get();
+        skySpherePSOParam.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+        skySpherePSOParam.depthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+        skySpherePSOParam.layout = DX12VertexLayoutCache::getStaticLayout();
+        _psoManager.createPSO(
             _device.dxDevice(),
             _rootSignature.rootSignature(),
-            "fpsPSO",
-            _shaderManager.find("animatedMeshShader")->vs.Get(),
-            _shaderManager.find("animatedMeshShader")->ps.Get(),
-            DX12VertexLayoutCache::getAnimatedLayout()
+            skySpherePSOParam
         );
 
-        _psoManager.createSkySpherePSO(
+        PSOParam FPSPSOParam;
+        FPSPSOParam.psoName = "fpsPSO";
+        FPSPSOParam.psBlob = animatedMeshShader->ps.Get();
+        FPSPSOParam.vsBlob = animatedMeshShader->vs.Get();
+        FPSPSOParam.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+        FPSPSOParam.depthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
+        FPSPSOParam.layout = DX12VertexLayoutCache::getAnimatedLayout();
+        _psoManager.createPSO(
             _device.dxDevice(),
             _rootSignature.rootSignature(),
-            "skySpherePSO",
-            _shaderManager.find("skySphereShader")->vs.Get(),
-            _shaderManager.find("skySphereShader")->ps.Get(),
-            DX12VertexLayoutCache::getStaticLayout()
+            FPSPSOParam
         );
+
+        //PSOParam debugPSOParam;
+        //debugPSOParam.psoName = "debugPSO";
+        //debugPSOParam.psBlob = staticMeshShader->vs.Get();
+        //debugPSOParam.vsBlob = staticMeshShader->ps.Get();
+        //debugPSOParam.fillMode = D3D12_FILL_MODE_WIREFRAME;
+        //debugPSOParam.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+        //debugPSOParam.depthFunc = D3D12_COMPARISON_FUNC_LESS;
+        //_psoManager.createPSO(
+        //    _device.dxDevice(),
+        //    _rootSignature.rootSignature(),
+        //    debugPSOParam
+        //);
 
         _renderer.create(
             _device.dxDevice(),
@@ -125,20 +165,6 @@ public:
             width,
             height
         );
-
-        _textureManager.loadTexture(
-            _device.dxDevice(),
-            _uploader,
-            _srvHeap,
-            "__default",
-            "Src/Assets/Textures/__default.png");
-
-        _textureManager.loadTexture(
-            _device.dxDevice(),
-            _uploader,
-            _srvHeap,
-            "Src/Assets/Textures/skySphere.png",
-            "Src/Assets/Textures/skySphere.png");
     }
 
 public:

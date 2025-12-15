@@ -20,6 +20,7 @@ void GameObject::setContext(Scene* scene, Engine* engine) {
 }
 
 Transform& GameObject::transform() { return *_transform; }
+const Transform& GameObject::transform() const { return *_transform; }
 Scene* GameObject::scene() const { return _scene; }
 Engine* GameObject::engine() const { return _engine; }
 

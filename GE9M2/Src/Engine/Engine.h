@@ -39,4 +39,6 @@ public:
 	MeshLibrary& meshLib();
 
 	ModelLoader& loader();
+
+	bool showCollisionBoxes = false;
 };

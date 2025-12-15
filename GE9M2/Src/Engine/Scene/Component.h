@@ -32,6 +32,7 @@ public:
     void setOwner(GameObject* owner);
 
     Transform& transform();
+    const Transform& transform() const;
     Scene* scene();
     Engine* engine();
     CameraComponent* mainCamera();

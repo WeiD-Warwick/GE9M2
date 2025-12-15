@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Engine\Scene\Components\ColliderComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\FPSRenderComponent.cpp" />
     <ClCompile Include="Src\Game\FPSGame.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Scene\Components\ColliderComponent.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\ModelMaterial.h" />
     <ClInclude Include="Src\Engine\Scene\Components\FPSRenderComponent.h" />
     <ClInclude Include="Src\Game\FPSGame.h" />

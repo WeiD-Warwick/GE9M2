@@ -27,7 +27,11 @@ public:
 
     void renderLayer(RenderContext& ctx, RenderLayer layer);
 
+    void renderDebugColliders(RenderContext& ctx);
+
     void setMainCamera(CameraComponent* cam);
+
+    const std::vector<GameObject*>& objects() const;
 
     CameraComponent* mainCamera();
 
