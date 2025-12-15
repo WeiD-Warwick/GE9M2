@@ -54,6 +54,33 @@ public:
 
         _uploader.create(_device.dxDevice(), _queues.graphicsQueue());
 
+        _renderer.create(
+            _device.dxDevice(),
+            _queues.graphicsQueue(),
+            _swapchain,
+            _targets,
+            _rootSignature,
+            _srvHeap,
+            _shaderManager,
+            _psoManager,
+            _textureManager,
+            width,
+            height
+        );
+
+        registerResource();
+    }
+
+public:
+       
+    RenderContext(const RenderContext&) = delete;
+    RenderContext& operator=(const RenderContext&) = delete;
+
+    RenderContext(RenderContext&&) = default;
+    RenderContext& operator=(RenderContext&&) = default;
+
+private:
+    void registerResource() {
         // load default texture
         _textureManager.loadTexture(
             _device.dxDevice(),
@@ -61,6 +88,14 @@ public:
             _srvHeap,
             "__default",
             "Src/Assets/Textures/__default.png");
+
+        // load default texture
+        _textureManager.loadTexture(
+            _device.dxDevice(),
+            _uploader,
+            _srvHeap,
+            "rgb_green",
+            "Src/Assets/Textures/rgb_green.png");
 
         _textureManager.loadTexture(
             _device.dxDevice(),
@@ -78,7 +113,7 @@ public:
         );
 
         Shader* animatedMeshShader = _shaderManager.load(
-            _device.dxDevice(), 
+            _device.dxDevice(),
             "animatedMeshShader",
             "Src/Assets/Shaders/animatedMesh_vs.hlsl",
             "Src/Assets/Shaders/animatedMesh_ps.hlsl"
@@ -138,40 +173,5 @@ public:
             _rootSignature.rootSignature(),
             FPSPSOParam
         );
-
-        //PSOParam debugPSOParam;
-        //debugPSOParam.psoName = "debugPSO";
-        //debugPSOParam.psBlob = staticMeshShader->vs.Get();
-        //debugPSOParam.vsBlob = staticMeshShader->ps.Get();
-        //debugPSOParam.fillMode = D3D12_FILL_MODE_WIREFRAME;
-        //debugPSOParam.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
-        //debugPSOParam.depthFunc = D3D12_COMPARISON_FUNC_LESS;
-        //_psoManager.createPSO(
-        //    _device.dxDevice(),
-        //    _rootSignature.rootSignature(),
-        //    debugPSOParam
-        //);
-
-        _renderer.create(
-            _device.dxDevice(),
-            _queues.graphicsQueue(),
-            _swapchain,
-            _targets,
-            _rootSignature,
-            _srvHeap,
-            _shaderManager,
-            _psoManager,
-            _textureManager,
-            width,
-            height
-        );
     }
-
-public:
-       
-    RenderContext(const RenderContext&) = delete;
-    RenderContext& operator=(const RenderContext&) = delete;
-
-    RenderContext(RenderContext&&) = default;
-    RenderContext& operator=(RenderContext&&) = default;
 };

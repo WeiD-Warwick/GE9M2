@@ -5,6 +5,7 @@
 #include "FPSRenderComponent.h"
 #include "../GameObject.h"
 #include "../Scene.h"
+#include "../../Engine.h"
 #include "ColliderComponent.h"
 
 void PlayerControllerComponent::onStart() {
@@ -22,6 +23,15 @@ void PlayerControllerComponent::onStart() {
 
 void PlayerControllerComponent::onUpdate(float dt) {
     if (!window || !_owner) return;
+
+    // ------------------- ESC -------------------
+    //bool esc = window->keys[VK_ESCAPE];
+    //if (esc && !_lastEsc) {
+    //    engine()->continueLoop = false;
+    //    return;
+    //}
+    //_lastEsc = esc;
+
 
     // ------------------- Mouse look -------------------
     float dx = window->mouseDeltaX;

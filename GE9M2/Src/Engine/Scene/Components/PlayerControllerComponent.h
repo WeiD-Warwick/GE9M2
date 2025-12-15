@@ -12,6 +12,7 @@ private:
     bool _lastMouseLeft = false;
     bool _lastReloadKey = false;
 
+    bool _lastEsc = false;
 
 public:
 

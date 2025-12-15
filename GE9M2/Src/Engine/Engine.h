@@ -18,6 +18,8 @@ private:
 
 public:
 
+	bool			continueLoop = true;
+
 	Engine(HWND hwnd, int width, int height, Game* game);
 
 	~Engine();

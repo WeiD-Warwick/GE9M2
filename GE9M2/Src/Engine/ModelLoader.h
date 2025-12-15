@@ -44,6 +44,8 @@ private:
     std::map<std::string, ModelData*> _loadedModelCache;
 
 public:
+    MeshLibrary* meshLib() { return _meshLib; }
+    
     ModelLoader(RenderContext& renderContext) : _renderContext(renderContext) {
         _meshLib = new MeshLibrary(renderContext);
     }
@@ -67,6 +69,14 @@ public:
             skySphere->textureNames.push_back("Src/Assets/Textures/skySphere.png");
             ModelData* data = new ModelData();
             data->meshes = { skySphere };
+            _loadedModelCache.insert({ filePath, data });
+            return data;
+        }
+        else if (filePath == "primitive:cube") {
+            DX12Mesh* cube = &_meshLib->cube;
+            cube->textureNames.push_back("Src/Assets/Textures/ground_diffuse.png");
+            ModelData* data = new ModelData();
+            data->meshes = { cube };
             _loadedModelCache.insert({ filePath, data });
             return data;
         }

@@ -14,6 +14,7 @@
 #include "../../Engine/Scene/Components/AnimatedMeshRenderComponent.h"
 #include "../../Engine/Scene/Components/SkySphereRenderComponent.h"
 #include "../../Engine/Scene/Components/FPSRenderComponent.h"
+#include "../../Engine/Scene/Components/ColliderComponent.h"
 
 
 using ComponentArgs = std::vector<std::string>;
@@ -78,6 +79,22 @@ static void registerAllComponents() {
             auto* model = engine.loader().loadModelFromFile(args[0]);
             auto* material = new ModelMaterial(args[1], args[2]);
             obj->addComponent<SkySphereRenderComponent>(model, material);
+        }
+    );
+
+    registerComponent(
+        ColliderComponent::Name(),
+        [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
+            // args: offset(x y z), halfExtents(x y z)
+            assert(args.size() >= 3);
+
+            Vec3 size(
+                std::stof(args[0]),
+                std::stof(args[1]),
+                std::stof(args[2])
+            );
+
+            obj->addComponent<ColliderComponent>(size);
         }
     );
 }

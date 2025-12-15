@@ -123,7 +123,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Engine\Scene\Components\ColliderComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\FPSRenderComponent.cpp" />
     <ClCompile Include="Src\Game\FPSGame.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
@@ -206,6 +205,7 @@
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_alb.png" />
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_nh.png" />
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_rmax.png" />
+    <Image Include="Src\Assets\Textures\rgb_green.png" />
     <Image Include="Src\Assets\Textures\__default.png" />
     <Image Include="Src\Assets\Textures\skySphere.png" />
   </ItemGroup>

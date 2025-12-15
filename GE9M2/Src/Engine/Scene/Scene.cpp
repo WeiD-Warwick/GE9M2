@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "../Engine.h"
+#include "../ModelLoader.h"
 #include "Component.h"
 #include "Components/ColliderComponent.h"
 #include "Components/CameraComponent.h"
@@ -54,27 +55,43 @@ void Scene::renderLayer(RenderContext& renderContext, RenderLayer layer) {
 }
 
 void Scene::renderDebugColliders(RenderContext& renderContext) {
-    //CameraComponent* camera = mainCamera();
-    //if (!camera) return;
+    CameraComponent* camera = mainCamera();
+    if (!camera) return;
 
-    //Matrix V = camera->view;
-    //Matrix P = camera->projection;
+    ID3D12GraphicsCommandList4* cmd = renderContext.renderer().commandList();
+    PSOManager& psos = renderContext.psoManager();
 
-    //for (auto* obj : _objects) {
-    //    auto* col = obj->getComponent<ColliderComponent>();
-    //    if (!col || !col->enabled()) continue;
+    psos.bind(cmd, "staticMeshPSO");
 
-    //    Vec3 min = col->worldMin();
-    //    Vec3 max = col->worldMax();
+    Matrix V = camera->view;
+    Matrix P = camera->projection;
 
-    //    Vec3 center = (min + max) * 0.5f;
-    //    Vec3 half = (max - min) * 0.5f;
+    for (auto* obj : _objects) {
 
-    //    // World = Scale * Translate
-    //    Matrix W = Matrix::Scale(half * 2.0f) * Matrix::Translation(center);
+        auto* col = obj->getComponent<ColliderComponent>();
+        if (!col || !col->enabled()) continue;
 
-    //    //drawDebugCube(ctx, W, V, P);
-    //}
+        Vec3 min = col->worldMin();
+        Vec3 max = col->worldMax();
+
+        Vec3 center = (min + max) * 0.5f;
+        Vec3 size = (max - min);
+
+        Matrix W = Matrix::Translation(center) * Matrix::Scale(size);
+
+        renderContext.shaderManager().updateConstantVS(
+            "staticMeshShader", "staticMeshBuffer", "W", &W);
+        renderContext.shaderManager().updateConstantVS(
+            "staticMeshShader", "staticMeshBuffer", "V", &V);
+        renderContext.shaderManager().updateConstantVS(
+            "staticMeshShader", "staticMeshBuffer", "P", &P);
+
+        int texIndex = renderContext.textureManager().find("rgb_green");
+        renderContext.shaderManager()
+            .updateTexturePS(cmd, renderContext.srvHeap(), "staticMeshShader", "tex", texIndex);
+
+        _engine->loader().meshLib()->cube.draw(cmd);
+    }
 }
 
 

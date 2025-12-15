@@ -1,19 +1,22 @@
+
 # Player
-0 5 -5   0 0 0 1   1 1 1
+0 0 0     0 0 0 1     1 1 1
 PlayerControllerComponent
 CameraComponent
 FPSRenderComponent Src/Assets/Models/Uzi.gem animatedMeshShader animatedMeshBuffer
+ColliderComponent 1.2 1.8 1.2
 
-# Dino
-0 0 5   0 0 0 1   0.1 0.1 0.1
-AnimatedMeshRenderComponent Src/Assets/Models/TRex.gem animatedMeshShader animatedMeshBuffer
+
+# Wall
+5 0 0     0 0 0 1     14 4 3
+StaticMeshRenderComponent primitive:cube staticMeshShader staticMeshBuffer
+ColliderComponent 14 4 3
+
 
 # Ground
-0 0 0   0 0 0 1   100 1 100
+0 0 0     0 0 0 1     100 1 100
 StaticMeshRenderComponent primitive:plane staticMeshShader staticMeshBuffer
 
 # Sky
-0 0 0   0 0 0 1   1 1 1
+0 0 0     0 0 0 1     1 1 1
 SkySphereRenderComponent primitive:sphere skySphereShader skySphereBuffer
-
-

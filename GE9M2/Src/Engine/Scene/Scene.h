@@ -7,6 +7,7 @@ class GameObject;
 class Engine;
 class CameraComponent;
 class RenderContext;
+
 class Scene {
 private:
     std::vector<GameObject*> _objects;

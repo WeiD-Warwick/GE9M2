@@ -26,10 +26,10 @@ void CameraComponent::updateProjectionIfNeeded() {
 
 void CameraComponent::updateViewMatrix() {
 
-    Vec3 ownerPosition = transform().position;
+    Vec3 ownerEyePosition = transform().position + Vec3(0.0f, _eyeHeight, 0.0f);
     // -Z is forward
     Vec3 ownerForward = transform().forward();
     Vec3 ownerUp = transform().up();
 
-    view = Matrix::lookAt(ownerPosition, ownerPosition + ownerForward, ownerUp);
+    view = Matrix::lookAt(ownerEyePosition, ownerEyePosition + ownerForward, ownerUp);
 }
