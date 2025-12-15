@@ -18,4 +18,6 @@ public:
     void onStart() override;
 
     void onUpdate(float dt) override;
+
+    static std::string Name() { return "PlayerControllerComponent"; }
 };

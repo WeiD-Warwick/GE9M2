@@ -20,4 +20,6 @@ public:
     ~StaticMeshRenderComponent();
 
     void onRender(RenderContext& renderContext) override;
+
+    static std::string Name() { return "StaticMeshRenderComponent"; }
 };

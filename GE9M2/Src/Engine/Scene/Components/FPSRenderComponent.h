@@ -50,4 +50,6 @@ public:
     RenderLayer layer() const override { return RenderLayer::FPS; }
 
     void setIntent(WeaponIntent intent);
+
+    static std::string Name() { return "FPSRenderComponent"; }
 };

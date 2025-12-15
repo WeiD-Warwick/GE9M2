@@ -4,7 +4,6 @@
 #include "Platform/Window/Window.h"
 #include "Graphics/RenderContext.h"
 #include "ModelLoader.h"
-#include "Graphics/Mesh/MeshLib.h"
 
 class Engine {
 private:
@@ -16,7 +15,6 @@ private:
 	Game*			_game;
 	RenderContext   _renderContext;
 	ModelLoader		_loader;
-	MeshLibrary		_meshLib;
 
 public:
 

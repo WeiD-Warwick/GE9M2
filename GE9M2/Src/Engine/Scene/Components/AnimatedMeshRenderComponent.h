@@ -30,4 +30,6 @@ public:
 
     void onRender(RenderContext& renderContext) override;
 
+    static std::string Name() { return "AnimatedMeshRenderComponent"; }
+
 };

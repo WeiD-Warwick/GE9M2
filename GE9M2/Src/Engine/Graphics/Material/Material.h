@@ -8,12 +8,11 @@ struct MaterialParam {
     Matrix* bones = nullptr;
 };
 
-
 class Material
 {
 public:
     virtual ~Material() = default;
 
-    virtual void apply(RenderContext& ctx, const std::vector<std::string>& textureNames, MaterialParam param) = 0;
+    virtual void apply(RenderContext& ctx, const std::vector<std::string>& textureNames, MaterialParam& param) = 0;
      
 };

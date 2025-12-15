@@ -22,4 +22,6 @@ public:
     void onRender(RenderContext& renderContext) override;
 
     RenderLayer layer() const override { return RenderLayer::Sky; }
+
+    static std::string Name() { return "SkySphereRenderComponent"; }
 };

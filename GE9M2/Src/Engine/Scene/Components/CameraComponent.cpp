@@ -1,8 +1,15 @@
 #include "CameraComponent.h"
 #include "../../Foundation/Maths.h"
 #include "../../Foundation/Transform.h"
+#include "../Scene.h"
 
 CameraComponent::CameraComponent(float aspectRatio) : _aspectRatio(aspectRatio) {}
+
+void CameraComponent::onStart() {
+    if (!scene()->mainCamera()) {
+        scene()->setMainCamera(this);
+    }
+}
 
 void CameraComponent::onUpdate(float dt) {
     updateViewMatrix();

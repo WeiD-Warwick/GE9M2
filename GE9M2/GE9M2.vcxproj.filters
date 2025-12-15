@@ -54,7 +54,10 @@
     <ClCompile Include="Src\Game\FPSGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Graphics\Material\AnimatedMeshMaterial.h">
+    <ClCompile Include="Src\Engine\Scene\Components\FPSRenderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\Level\LevelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -170,20 +173,15 @@
     <ClInclude Include="Src\Game\FPSGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Material\SkySphereMaterial.h">
+    <ClInclude Include="Src\Engine\Scene\Components\FPSRenderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Material\StaticMeshMaterial.h">
+    <ClInclude Include="Src\Game\Level\LevelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\staticMesh_vs.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\animatedMesh_ps.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\animatedMesh_vs.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\skySphere_vs.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\skySphere_ps.hlsl" />
+    <ClInclude Include="Src\Engine\Graphics\Material\ModelMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Assets\Models\TRex.gem" />
@@ -250,5 +248,16 @@
     <Image Include="Src\Assets\Textures\__default.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Src\Assets\Shaders\animatedMesh_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\animatedMesh_vs.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\skySphere_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\skySphere_vs.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\staticMesh_vs.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Src\Assets\Levels\level_demo.txt" />
   </ItemGroup>
 </Project>

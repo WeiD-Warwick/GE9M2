@@ -7,6 +7,7 @@
 #include "Platform/DX12/DX12Resources.h"
 #include "../../Third_Party/GEMLoader.h"
 #include "Foundation/Transform.h"
+#include "Graphics/Mesh/MeshLib.h"
 
 class ModelData {
 public:
@@ -37,24 +38,46 @@ public:
 class ModelLoader {
 
 private:
-    GEMLoader::GEMModelLoader loader;
-    RenderContext& _renderContext;
+    GEMLoader::GEMModelLoader         loader;
+    MeshLibrary*		              _meshLib;
+    RenderContext&                    _renderContext;
     std::map<std::string, ModelData*> _loadedModelCache;
 
 public:
-    ModelLoader(RenderContext& renderContext) : _renderContext(renderContext) {}
+    ModelLoader(RenderContext& renderContext) : _renderContext(renderContext) {
+        _meshLib = new MeshLibrary(renderContext);
+    }
 
     ModelData* loadModelFromFile(const std::string& filePath) {
+
         if (_loadedModelCache.count(filePath)) {
             return _loadedModelCache.at(filePath);
         }
 
-        bool isAnimated = loader.isAnimatedModel(filePath);
-        if (isAnimated) {
-            return loadAnimatedModelFromFile(filePath);
+        if (filePath == "primitive:plane") {
+            DX12Mesh* plane = &_meshLib->plane;
+            plane->textureNames.push_back("Src/Assets/Textures/ground_diffuse.png");
+            ModelData* data = new ModelData();
+            data->meshes = { plane };
+            _loadedModelCache.insert({ filePath, data });
+            return data;
+        }
+        else if (filePath == "primitive:sphere") {
+            DX12Mesh* skySphere = &_meshLib->skySphere;
+            skySphere->textureNames.push_back("Src/Assets/Textures/skySphere.png");
+            ModelData* data = new ModelData();
+            data->meshes = { skySphere };
+            _loadedModelCache.insert({ filePath, data });
+            return data;
         }
         else {
-            return loadStaticModelFromFile(filePath);
+            bool isAnimated = loader.isAnimatedModel(filePath);
+            if (isAnimated) {
+                return loadAnimatedModelFromFile(filePath);
+            }
+            else {
+                return loadStaticModelFromFile(filePath);
+            }
         }
     }
 

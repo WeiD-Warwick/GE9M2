@@ -41,6 +41,8 @@ public:
 
     // Per-frame update logic, before render
     virtual void onUpdate(float dt) {}
+
+    static std::string Name() { return "Component"; }
 };
 
 class RenderComponent : public Component, public Renderable {

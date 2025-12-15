@@ -9,7 +9,6 @@ Engine::Engine(HWND hwnd, int width, int height, Game* game)
 	_scene(this),
 	_renderContext(hwnd, width, height),
 	_loader(_renderContext),
-	_meshLib(_renderContext),
 	_game(game)
 {
 	if (_game) {
@@ -48,10 +47,6 @@ DX12Upload& Engine::uploader() {
 
 RenderContext& Engine::renderContext() {
 	return _renderContext;
-}
-
-MeshLibrary& Engine::meshLib() {
-	return _meshLib;
 }
 
 ModelLoader& Engine::loader() {

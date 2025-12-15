@@ -20,9 +20,13 @@ public:
 
     CameraComponent(float aspectRatio);
 
+    void onStart() override;
+
     void onUpdate(float dt) override;
 
     void updateProjectionIfNeeded();
 
     void updateViewMatrix();
+
+    static std::string Name() { return "CameraComponent"; }
 };

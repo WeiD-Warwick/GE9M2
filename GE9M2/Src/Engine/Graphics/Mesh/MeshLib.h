@@ -15,6 +15,7 @@ public:
 	MeshLibrary(RenderContext& ctx) {
 		generatePlane(ctx);
 		generateCube(ctx);
+		generateSphere(ctx, 10, 10, 10);
 		generateSkySphere(ctx, 2000, 2000, 10000);
     }
 
