@@ -18,7 +18,7 @@ public:
         Matrix T = Matrix::Translation(position);
         Matrix R = rotation.toMatrix();
         Matrix S = Matrix::Scale(scale);
-        return T * R * S;
+        return S * R * T;
     }
 
     Matrix worldMatrix() {

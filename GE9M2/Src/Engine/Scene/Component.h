@@ -11,7 +11,8 @@ class RenderContext;
 enum class RenderLayer {
     Sky = 0,
     World = 1,
-    FPS = 2
+    FPS = 2,
+    DEBUG = 3
 };
 
 class Renderable {

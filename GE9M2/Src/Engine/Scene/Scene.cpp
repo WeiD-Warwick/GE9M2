@@ -39,7 +39,7 @@ void Scene::render(RenderContext& renderContext) {
     renderLayer(renderContext, RenderLayer::FPS);
 
     if (_engine->showCollisionBoxes) {
-        renderDebugColliders(renderContext);
+        renderLayer(renderContext, RenderLayer::DEBUG);
     }
 }
 
@@ -53,41 +53,6 @@ void Scene::renderLayer(RenderContext& renderContext, RenderLayer layer) {
         }
     }
 }
-
-void Scene::renderDebugColliders(RenderContext& renderContext) {
-    CameraComponent* camera = mainCamera();
-    if (!camera) return;
-
-    ID3D12GraphicsCommandList4* cmd = renderContext.renderer().commandList();
-    PSOManager& psos = renderContext.psoManager();
-
-    psos.bind(cmd, "debugLinePSO");
-
-    Matrix V = camera->view;
-    Matrix P = camera->projection;
-
-    for (auto* obj : _objects) {
-
-        auto* col = obj->getComponent<ColliderComponent>();
-        if (!col || !col->enabled()) continue;
-
-        Matrix W =
-            Matrix::Translation(col->transform().position)
-            * Matrix::Scale(col->size());
-
-        renderContext.shaderManager().updateConstantVS(
-            "debugShader", "debugCB", "W", &W);
-        renderContext.shaderManager().updateConstantVS(
-            "debugShader", "debugCB", "V", &V);
-        renderContext.shaderManager().updateConstantVS(
-            "debugShader", "debugCB", "P", &P);
-
-        renderContext.shaderManager().apply(cmd, "debugShader");
-
-        _engine->loader().meshLib()->debugBox.drawLineList(cmd);
-    }
-}
-
 
 void Scene::setMainCamera(CameraComponent* cam) {
     _mainCamera = cam;

@@ -44,11 +44,16 @@ void PlayerControllerComponent::onUpdate(float dt) {
 
     _pitch = clamp(_pitch, -1.5f, 1.5f);
 
+    // calculate Yaw rotation and apply to transform
     Quaternion qYaw = Quaternion::fromAxisAngle(Vec3(0, 1, 0), _yaw);
+    transform().rotation = qYaw;
+
+    // calculate pitch rotation BUT NOT APPLY(SAVE AND USE FOR CAMERA)
     Vec3 localRight = qYaw.rotate(Vec3(1, 0, 0));
     Quaternion qPitch = Quaternion::fromAxisAngle(localRight, _pitch);
 
-    transform().rotation = (qPitch * qYaw).normalized();
+    //transform().rotation = (qPitch * qYaw).normalized();
+    _fullLookRotation = (qPitch * qYaw).normalized();
 
     // ------------------- Mouse look -------------------
     float inputX = 0.0f;
@@ -67,24 +72,36 @@ void PlayerControllerComponent::onUpdate(float dt) {
     Vec3 moveDir = (forward * inputZ + right * inputX).normalized();
     // cache oldPose
     Vec3 oldPos = transform().position;
+    Vec3 newPos = oldPos + moveDir * (_moveSpeed * dt);
     // apply movement
     transform().position += moveDir * (_moveSpeed * dt);
 
-    // collision check
+    // ------------------- Collision Checker -------------------
     auto* selfCollider = _owner->getComponent<ColliderComponent>();
-    if (selfCollider && selfCollider->enabled()) {
 
-        for (auto* obj : scene()->objects()) {
-            if (obj == _owner) continue;
+    // --- X axis ---
+    transform().position.x = newPos.x;
+    for (auto* obj : scene()->objects()) {
+        if (obj == _owner) continue;
+        auto* other = obj->getComponent<ColliderComponent>();
+        if (!other) continue;
 
-            auto* otherCollider = obj->getComponent<ColliderComponent>();
-            if (!otherCollider || !otherCollider->enabled()) continue;
+        if (selfCollider->intersect(other)) {
+            transform().position.x = oldPos.x;
+            break;
+        }
+    }
 
-            // If intersect, set position to old pos
-            if (selfCollider->intersect(otherCollider)) {
-                transform().position = oldPos;
-                break;
-            }
+    // --- Z axis ---
+    transform().position.z = newPos.z;
+    for (auto* obj : scene()->objects()) {
+        if (obj == _owner) continue;
+        auto* other = obj->getComponent<ColliderComponent>();
+        if (!other) continue;
+
+        if (selfCollider->intersect(other)) {
+            transform().position.z = oldPos.z;
+            break;
         }
     }
 

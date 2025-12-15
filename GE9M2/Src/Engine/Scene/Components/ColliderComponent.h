@@ -2,48 +2,32 @@
 #include <string>
 #include "../Component.h"
 #include "../../Foundation/Maths.h"
+#include "../../Foundation/Transform.h"
 
-class ColliderComponent : public Component {
+// A bottom-centered AABB
+// transform.position represents the bottom center of the box
+class ColliderComponent : public RenderComponent {
 
 private:
     Vec3 _size;
-    bool _enabled = true;
 
 public:
 
     ColliderComponent(const Vec3& size) : _size(size) {}
 
-    bool enabled() const { return _enabled; }
-    void setEnabled(bool v) { _enabled = v; }
+    const Vec3& size() const;
 
-    Vec3 size() { return _size; }
+    Vec3 worldCenter() const;
 
-    Vec3 worldMin() const {
-        return Vec3(
-            transform().position.x - _size.x * 0.5f,
-            transform().position.y,
-            transform().position.z - _size.z * 0.5f
-        );
-    }
+    Vec3 worldMin() const;
 
-    Vec3 worldMax() const {
-        return Vec3(
-            transform().position.x + _size.x * 0.5f,
-            transform().position.y + _size.y,
-            transform().position.z + _size.z * 0.5f
-        );
-    }
+    Vec3 worldMax() const;
 
-    bool intersect(const ColliderComponent* other) const {
-        Vec3 aMin = worldMin();
-        Vec3 aMax = worldMax();
-        Vec3 bMin = other->worldMin();
-        Vec3 bMax = other->worldMax();
-
-        return !(aMax.x < bMin.x || aMin.x > bMax.x ||
-            aMax.y < bMin.y || aMin.y > bMax.y ||
-            aMax.z < bMin.z || aMin.z > bMax.z);
-    }
+    bool intersect(const ColliderComponent* other) const;
 
     static std::string Name() { return "ColliderComponent"; }
+
+    void onRender(RenderContext& renderContext) override;
+
+    RenderLayer layer() const override { return RenderLayer::DEBUG; }
 };

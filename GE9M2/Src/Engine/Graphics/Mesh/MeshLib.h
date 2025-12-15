@@ -38,6 +38,9 @@ public:
 		);
     }
 
+	// - Local Space (0, 0.5, 0)
+	// - Y = [0, 1]
+	// - X/Z = [-0.5, 0.5]
 	void generateCube(RenderContext& ctx) {
 
 		vertices.clear();
@@ -110,19 +113,21 @@ public:
 		);
 	}
 
+	// - Local Space (0, 0, 0)
+	// - X/Y/Z = [-0.5, 0.5]
 	void generateDebugBox(RenderContext& ctx) {
 
 		vertices.clear();
 		indices.clear();
 
-		Vec3 p0 = Vec3(-0.5f, 0.0f, -0.5f);
-		Vec3 p1 = Vec3(0.5f, 0.0f, -0.5f);
-		Vec3 p2 = Vec3(0.5f, 1.0f, -0.5f);
-		Vec3 p3 = Vec3(-0.5f, 1.0f, -0.5f);
-		Vec3 p4 = Vec3(-0.5f, 0.0f, 0.5f);
-		Vec3 p5 = Vec3(0.5f, 0.0f, 0.5f);
-		Vec3 p6 = Vec3(0.5f, 1.0f, 0.5f);
-		Vec3 p7 = Vec3(-0.5f, 1.0f, 0.5f);
+		Vec3 p0 = Vec3(-0.5f, -0.5f, -0.5f);
+		Vec3 p1 = Vec3(0.5f, -0.5f, -0.5f);
+		Vec3 p2 = Vec3(0.5f, 0.5f, -0.5f);
+		Vec3 p3 = Vec3(-0.5f, 0.5f, -0.5f);
+		Vec3 p4 = Vec3(-0.5f, -0.5f, 0.5f);
+		Vec3 p5 = Vec3(0.5f, -0.5f, 0.5f);
+		Vec3 p6 = Vec3(0.5f, 0.5f, 0.5f);
+		Vec3 p7 = Vec3(-0.5f, 0.5f, 0.5f);
 
 		const Vec3 zeroNormal(0.0f, 0.0f, 0.0f);
 		const float zeroUV = 0.0f;
