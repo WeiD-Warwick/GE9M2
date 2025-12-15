@@ -114,11 +114,16 @@ void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& lev
         if (line.empty())
             continue;
 
+        // Skip comments
+        if (line.rfind("//", 0) == 0)
+            continue;
+
         // ------------------------------------------------------------
         // New GameObject
         // ------------------------------------------------------------
         if (line[0] == '#') {
             currentObject = scene.createObject();
+            currentObject->setName(line.substr(1));
 
             if (!std::getline(file, line)) { break; }
 

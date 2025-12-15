@@ -16,6 +16,8 @@ protected:
     Scene* _scene = nullptr;
     Engine* _engine = nullptr;
 
+    std::string     _debugName;
+
 public:
 
     GameObject();
@@ -51,4 +53,6 @@ public:
     void update(float dt);
 
     const std::vector<Component*>& components() const;
+
+    void setName(std::string name) { _debugName = name; }
 };
