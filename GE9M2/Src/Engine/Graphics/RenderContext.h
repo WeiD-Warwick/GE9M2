@@ -101,7 +101,7 @@ private:
             _device.dxDevice(),
             _uploader,
             _srvHeap,
-            "Src/Assets/Textures/skySphere.png",
+            "skySphere",
             "Src/Assets/Textures/skySphere.png");
 
         // load static mesh shaders
@@ -124,6 +124,13 @@ private:
             "skySphereShader",
             "Src/Assets/Shaders/skySphere_vs.hlsl",
             "Src/Assets/Shaders/skySphere_ps.hlsl"
+        );
+
+        Shader* debugShader = _shaderManager.load(
+            _device.dxDevice(),
+            "debugShader",
+            "Src/Assets/Shaders/debug_vs.hlsl",
+            "Src/Assets/Shaders/debug_ps.hlsl"
         );
 
         PSOParam staticPSOParam;
@@ -172,6 +179,20 @@ private:
             _device.dxDevice(),
             _rootSignature.rootSignature(),
             FPSPSOParam
+        );
+
+        PSOParam debugParam;
+        debugParam.psoName = "debugLinePSO";
+        debugParam.psBlob = debugShader->ps.Get();
+        debugParam.vsBlob = debugShader->vs.Get();
+        debugParam.depthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+        debugParam.depthFunc = D3D12_COMPARISON_FUNC_LESS;
+        debugParam.layout = DX12VertexLayoutCache::getStaticLayout();
+        debugParam.topologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+        _psoManager.createPSO(
+            _device.dxDevice(),
+            _rootSignature.rootSignature(),
+            debugParam
         );
     }
 };

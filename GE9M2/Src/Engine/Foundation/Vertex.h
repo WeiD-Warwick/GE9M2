@@ -18,3 +18,7 @@ struct ANIMATED_VERTEX {
     unsigned int bonesIDs[4];
     float boneWeights[4];
 };
+
+struct DEBUG_VERTEX {
+    Vec3 pos;
+};

@@ -60,6 +60,9 @@
     <ClCompile Include="Src\Game\Level\LevelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Scene\Components\ColliderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Third_Party\GEMLoader.h">
@@ -262,6 +265,8 @@
     <FxCompile Include="Src\Assets\Shaders\skySphere_vs.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\staticMesh_vs.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\debug_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\debug_vs.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Src\Assets\Levels\level_demo.txt" />

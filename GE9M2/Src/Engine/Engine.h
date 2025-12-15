@@ -42,5 +42,5 @@ public:
 
 	ModelLoader& loader();
 
-	bool showCollisionBoxes = false;
+	bool showCollisionBoxes = true;
 };

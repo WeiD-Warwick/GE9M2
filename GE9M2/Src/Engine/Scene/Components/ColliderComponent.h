@@ -6,28 +6,32 @@
 class ColliderComponent : public Component {
 
 private:
-    Vec3 size;
+    Vec3 _size;
     bool _enabled = true;
 
 public:
 
-    ColliderComponent(const Vec3& size) : size(size) {}
-
-    Vec3 halfSize() const { return size * 0.5f; }
-
-    Vec3 center() const {
-        return transform().position + Vec3(0, halfSize().y, 0);
-    }
+    ColliderComponent(const Vec3& size) : _size(size) {}
 
     bool enabled() const { return _enabled; }
     void setEnabled(bool v) { _enabled = v; }
 
+    Vec3 size() { return _size; }
+
     Vec3 worldMin() const {
-        return center() - halfSize();
+        return Vec3(
+            transform().position.x - _size.x * 0.5f,
+            transform().position.y,
+            transform().position.z - _size.z * 0.5f
+        );
     }
 
     Vec3 worldMax() const {
-        return center() + halfSize();
+        return Vec3(
+            transform().position.x + _size.x * 0.5f,
+            transform().position.y + _size.y,
+            transform().position.z + _size.z * 0.5f
+        );
     }
 
     bool intersect(const ColliderComponent* other) const {

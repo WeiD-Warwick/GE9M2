@@ -58,7 +58,7 @@ public:
 
         if (filePath == "primitive:plane") {
             DX12Mesh* plane = &_meshLib->plane;
-            plane->textureNames.push_back("Src/Assets/Textures/ground_diffuse.png");
+            plane->textureNames.push_back("ground_diffuse");
             ModelData* data = new ModelData();
             data->meshes = { plane };
             _loadedModelCache.insert({ filePath, data });
@@ -66,7 +66,7 @@ public:
         }
         else if (filePath == "primitive:sphere") {
             DX12Mesh* skySphere = &_meshLib->skySphere;
-            skySphere->textureNames.push_back("Src/Assets/Textures/skySphere.png");
+            skySphere->textureNames.push_back("skySphere");
             ModelData* data = new ModelData();
             data->meshes = { skySphere };
             _loadedModelCache.insert({ filePath, data });
@@ -74,7 +74,7 @@ public:
         }
         else if (filePath == "primitive:cube") {
             DX12Mesh* cube = &_meshLib->cube;
-            cube->textureNames.push_back("Src/Assets/Textures/ground_diffuse.png");
+            cube->textureNames.push_back("rgb_green");
             ModelData* data = new ModelData();
             data->meshes = { cube };
             _loadedModelCache.insert({ filePath, data });

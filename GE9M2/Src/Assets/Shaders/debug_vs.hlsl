@@ -1,0 +1,29 @@
+cbuffer debugCB : register(b0)
+{
+    float4x4 W;
+    float4x4 V;
+    float4x4 P;
+};
+
+struct VS_INPUT
+{
+    float3 Pos : POSITION;
+    float3 Normal : NORMAL;
+    float3 Tangent : TANGENT;
+    float2 TexCoords : TEXCOORD;
+};
+struct PS_INPUT
+{
+    float4 pos : SV_POSITION;
+};
+
+PS_INPUT VS(VS_INPUT input)
+{
+    PS_INPUT output;
+    float4 pos = float4(input.Pos, 1.0f);
+    pos = mul(pos, W);
+    pos = mul(pos, V);
+    pos = mul(pos, P);
+    output.pos = pos;
+    return output;
+}

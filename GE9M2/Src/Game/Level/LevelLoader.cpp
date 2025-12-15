@@ -85,9 +85,7 @@ static void registerAllComponents() {
     registerComponent(
         ColliderComponent::Name(),
         [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
-            // args: offset(x y z), halfExtents(x y z)
             assert(args.size() >= 3);
-
             Vec3 size(
                 std::stof(args[0]),
                 std::stof(args[1]),

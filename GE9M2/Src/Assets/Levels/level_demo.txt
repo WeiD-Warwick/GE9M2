@@ -1,21 +1,22 @@
 
 # Player
-0 0 0     0 0 0 1     1 1 1
+0 0 0       0 0 0 1     1.2 2 1.2
 PlayerControllerComponent
 CameraComponent
 FPSRenderComponent Src/Assets/Models/Uzi.gem animatedMeshShader animatedMeshBuffer
-ColliderComponent 1.2 1.8 1.2
+ColliderComponent 1.2 2 1.2
 
 
 # Wall
-5 0 0     0 0 0 1     14 4 3
+-10 0 10     0 0 0 1     10 8 4
 StaticMeshRenderComponent primitive:cube staticMeshShader staticMeshBuffer
-ColliderComponent 14 4 3
+ColliderComponent 10 8 4
 
 
-# Ground
-0 0 0     0 0 0 1     100 1 100
-StaticMeshRenderComponent primitive:plane staticMeshShader staticMeshBuffer
+//# Ground
+//0 0 0     0 0 0 1     100 1 100
+//StaticMeshRenderComponent primitive:plane staticMeshShader staticMeshBuffer
+
 
 # Sky
 0 0 0     0 0 0 1     1 1 1

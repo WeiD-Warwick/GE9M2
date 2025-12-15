@@ -61,7 +61,7 @@ void Scene::renderDebugColliders(RenderContext& renderContext) {
     ID3D12GraphicsCommandList4* cmd = renderContext.renderer().commandList();
     PSOManager& psos = renderContext.psoManager();
 
-    psos.bind(cmd, "staticMeshPSO");
+    psos.bind(cmd, "debugLinePSO");
 
     Matrix V = camera->view;
     Matrix P = camera->projection;
@@ -71,26 +71,20 @@ void Scene::renderDebugColliders(RenderContext& renderContext) {
         auto* col = obj->getComponent<ColliderComponent>();
         if (!col || !col->enabled()) continue;
 
-        Vec3 min = col->worldMin();
-        Vec3 max = col->worldMax();
-
-        Vec3 center = (min + max) * 0.5f;
-        Vec3 size = (max - min);
-
-        Matrix W = Matrix::Translation(center) * Matrix::Scale(size);
+        Matrix W =
+            Matrix::Translation(col->transform().position)
+            * Matrix::Scale(col->size());
 
         renderContext.shaderManager().updateConstantVS(
-            "staticMeshShader", "staticMeshBuffer", "W", &W);
+            "debugShader", "debugCB", "W", &W);
         renderContext.shaderManager().updateConstantVS(
-            "staticMeshShader", "staticMeshBuffer", "V", &V);
+            "debugShader", "debugCB", "V", &V);
         renderContext.shaderManager().updateConstantVS(
-            "staticMeshShader", "staticMeshBuffer", "P", &P);
+            "debugShader", "debugCB", "P", &P);
 
-        int texIndex = renderContext.textureManager().find("rgb_green");
-        renderContext.shaderManager()
-            .updateTexturePS(cmd, renderContext.srvHeap(), "staticMeshShader", "tex", texIndex);
+        renderContext.shaderManager().apply(cmd, "debugShader");
 
-        _engine->loader().meshLib()->cube.draw(cmd);
+        _engine->loader().meshLib()->debugBox.drawLineList(cmd);
     }
 }
 

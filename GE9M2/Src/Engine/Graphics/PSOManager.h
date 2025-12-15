@@ -24,6 +24,9 @@ public:
     D3D12_DEPTH_WRITE_MASK depthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
     D3D12_COMPARISON_FUNC depthFunc = D3D12_COMPARISON_FUNC_LESS;
     D3D12_INPUT_LAYOUT_DESC layout = DX12VertexLayoutCache::getStaticLayout();
+
+    D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    
 };
 
 class PSOManager {
@@ -88,7 +91,7 @@ public:
 
         // Render Target State + Topology
         desc.SampleMask = UINT_MAX;
-        desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+        desc.PrimitiveTopologyType = param.topologyType;
         desc.NumRenderTargets = 1;
         desc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
         desc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
