@@ -14,8 +14,8 @@ ColliderComponent 10 8 4
 
 
 # Ground
-0 0 0     0 0 0 1     50 1 50
-StaticMeshRenderComponent primitive:plane staticMeshShader staticMeshBuffer staticMeshPSO Src/Assets/Textures/Ground/ground_basecolor.png 10 10
+0 0 0     0 0 0 1     500 1 500
+StaticMeshRenderComponent primitive:plane staticMeshShader staticMeshBuffer staticMeshPSO Src/Assets/Textures/Ground/ground_basecolor.png 100 100
 
 
 # Dino
