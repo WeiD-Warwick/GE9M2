@@ -11,24 +11,6 @@
 #include "../Graphics/Assets/ModelData.h"
 #include <cassert>
 
-static ModelLoadArgs loadFromComponentArgs(const ComponentArgs& args) {
-    assert(args.size() >= 4);
-    ModelLoadArgs loadArgs;
-    loadArgs.filePath = args[0];
-    loadArgs.shaderName = args[1];
-    loadArgs.cbufferName = args[2];
-    loadArgs.psoName = args[3];
-
-    if (args.size() > 4) {
-        loadArgs.textureName = args[4];
-    }
-
-    if (args.size() > 6) {
-        loadArgs.uvScale = { std::stof(args[5]), std::stof(args[6]) };
-    }
-    return loadArgs;
-}
-
 ComponentFactory& ComponentFactory::shared() {
     static ComponentFactory shared;
 
@@ -75,8 +57,7 @@ void ComponentFactory::registerAllComponents() {
     registerComponent(
         StaticMeshRenderComponent::Name(),
         [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
-            ModelLoadArgs loadArgs = loadFromComponentArgs(args);
-            auto* model = engine.loader().loadModel(loadArgs);
+            auto* model = engine.loader().loadModel(args[0], args[1]);
             obj->addComponent<StaticMeshRenderComponent>(model);
         }
     );
@@ -84,8 +65,7 @@ void ComponentFactory::registerAllComponents() {
     registerComponent(
         AnimatedMeshRenderComponent::Name(),
         [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
-            ModelLoadArgs loadArgs = loadFromComponentArgs(args);
-            auto* model = engine.loader().loadModel(loadArgs);
+            auto* model = engine.loader().loadModel(args[0], args[1]);
             obj->addComponent<AnimatedMeshRenderComponent>(model);
         }
     );
@@ -93,8 +73,7 @@ void ComponentFactory::registerAllComponents() {
     registerComponent(
         FPSRenderComponent::Name(),
         [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
-            ModelLoadArgs loadArgs = loadFromComponentArgs(args);
-            auto* model = engine.loader().loadModel(loadArgs);
+            auto* model = engine.loader().loadModel(args[0], args[1]);
             obj->addComponent<FPSRenderComponent>(model);
         }
     );
@@ -102,8 +81,7 @@ void ComponentFactory::registerAllComponents() {
     registerComponent(
         SkySphereRenderComponent::Name(),
         [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
-            ModelLoadArgs loadArgs = loadFromComponentArgs(args);
-            auto* model = engine.loader().loadModel(loadArgs);
+            auto* model = engine.loader().loadModel(args[0], args[1]);
             obj->addComponent<SkySphereRenderComponent>(model);
         }
     );

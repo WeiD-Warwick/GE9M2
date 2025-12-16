@@ -7,6 +7,7 @@
 #include "../Foundation/DX12/DX12Resources.h"
 #include "../Foundation/DX12/DX12Pipeline.h"
 #include "../Foundation/DX12/DX12Renderer.h"
+#include "Material/MaterialManager.h"
 
 class RenderContext {
 private:
@@ -25,6 +26,7 @@ private:
     PSOManager              _psoManager;
 	ShaderManager		    _shaderManager;
 	TextureManager          _textureManager;
+    MaterialManager         _materialManager;
 
 public:
 
@@ -36,6 +38,7 @@ public:
 	ShaderManager& shaderManager() { return _shaderManager; }
 	PSOManager& psoManager() { return _psoManager; }
 	TextureManager& textureManager() { return _textureManager; }
+    MaterialManager& materialManager() { return _materialManager; }
     float aspectRatio() { return _aspectRatio; }
 
     RenderContext(HWND hwnd, int width, int height) {

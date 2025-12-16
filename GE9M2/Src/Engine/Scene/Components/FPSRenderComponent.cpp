@@ -1,10 +1,12 @@
 #include "FPSRenderComponent.h"
 #include "CameraComponent.h"
+#include "../../Engine.h"
 #include "../../Graphics/RenderContext.h"
 #include "../../Foundation/Base/Maths.h"
 #include "../../Foundation/Base/Transform.h"
 #include "../../Graphics/Material/Material.h"
 #include "../../Graphics/Assets/ModelData.h"
+#include "../../Graphics/Material/ModelMaterial.h"
 
 FPSRenderComponent::FPSRenderComponent(ModelData* data) : _data(data) {
     _animationController.init(_data->animation);
@@ -20,6 +22,17 @@ void FPSRenderComponent::playAnimation(const std::string& name) {
     }
 }
 
+void FPSRenderComponent::onStart() {
+    auto& ctx = engine()->renderContext();
+    auto& matMgr = ctx.materialManager();
+
+    for (auto& subMesh : _data->subMeshes) {
+        _materials.push_back(
+            matMgr.createInstance(ctx, subMesh)
+        );
+    }
+}
+
 void FPSRenderComponent::onUpdate(float dt) {
 
     switch (_state) {
@@ -28,9 +41,6 @@ void FPSRenderComponent::onUpdate(float dt) {
         case WeaponIntent::Fire:
             _animationController.play("08 fire");
             _state = WeaponAnimState::Fire;
-
-            // recoil impulse
-            _recoilVel -= 1.5f;
             break;
 
         case WeaponIntent::Reload:
@@ -60,23 +70,18 @@ void FPSRenderComponent::onUpdate(float dt) {
         break;
     }
 
-    // Recoil
-    _recoilVel += -_recoilZ * 40.0f * dt;
-    _recoilVel *= 0.85f;
-    _recoilZ += _recoilVel * dt;
-
     _animationController.update(dt);
 }
 
 
 void FPSRenderComponent::onRender(RenderContext& renderContext) {
 
-    ID3D12GraphicsCommandList4* cmd = renderContext.renderer().commandList();
+    ID3D12GraphicsCommandList4* commandList = renderContext.renderer().commandList();
 
     MaterialParam param;
     // Rotate model to right direction
     Matrix armsRotateFix = Matrix::RotateY(M_PI);
-    Matrix armsOffset = Matrix::Translation(_baseOffset + Vec3(0, 0, _recoilZ));
+    Matrix armsOffset = Matrix::Translation(_baseOffset);
 
     // Move model to right position
     param.W = armsRotateFix * armsOffset;
@@ -86,9 +91,9 @@ void FPSRenderComponent::onRender(RenderContext& renderContext) {
     param.P = mainCamera()->projection;
     param.bones = _animationController.skinningMatrices;
 
-    for (auto& subMesh : _data->subMeshes) {
-        subMesh.material->apply(renderContext, param);
-        subMesh.mesh->draw(cmd);
+    for (int i = 0; i < _data->subMeshes.size(); ++i) {
+        _materials[i]->apply(renderContext, param);
+        _data->subMeshes[i].mesh->draw(commandList);
     }
 }
 

@@ -5,9 +5,22 @@
 #include "../../Foundation/Base/Transform.h"
 #include "../../Graphics/Material/Material.h"
 #include "../../Graphics/Assets/ModelData.h"
+#include "../../Engine.h"
+#include "../../Graphics/Material/ModelMaterial.h"
 
 AnimatedMeshRenderComponent::AnimatedMeshRenderComponent(ModelData* data) : _data(data) {
     _animationController.init(_data->animation);
+}
+
+void AnimatedMeshRenderComponent::onStart() {
+    auto& ctx = engine()->renderContext();
+    auto& matMgr = ctx.materialManager();
+
+    for (auto& subMesh : _data->subMeshes) {
+        _materials.push_back(
+            matMgr.createInstance(ctx, subMesh)
+        );
+    }
 }
 
 void AnimatedMeshRenderComponent::playAnimation(const std::string& name) {
@@ -33,8 +46,8 @@ void AnimatedMeshRenderComponent::onRender(RenderContext& renderContext) {
     param.P = mainCamera()->projection;
     param.bones = _animationController.skinningMatrices;
 
-    for (auto& subMesh : _data->subMeshes) {
-        subMesh.material->apply(renderContext, param);
-        subMesh.mesh->draw(commandList);
+    for (int i = 0; i < _data->subMeshes.size(); ++i) {
+        _materials[i]->apply(renderContext, param);
+        _data->subMeshes[i].mesh->draw(commandList);
     }
 }

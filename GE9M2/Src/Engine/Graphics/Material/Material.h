@@ -1,5 +1,5 @@
 #pragma once
-#include "../RenderContext.h"
+#include "../../Foundation/Base/Maths.h"
 
 struct MaterialParam {
     Matrix W;
@@ -7,6 +7,8 @@ struct MaterialParam {
     Matrix P;
     Matrix* bones = nullptr;
 };
+
+class RenderContext;
 
 class Material
 {

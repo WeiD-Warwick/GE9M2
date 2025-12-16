@@ -3,7 +3,6 @@
 #include <map>
 #include <filesystem>
 #include "ModelData.h"
-#include "../Material/ModelMaterial.h"
 #include "../Mesh/MeshLib.h"
 #include "../../../../Third_Party/GEMLoader.h"
 
@@ -20,53 +19,45 @@ ModelLoader::~ModelLoader() {
 
 MeshLibrary* ModelLoader::meshLib() { return _meshLib; }
 
-ModelData* ModelLoader::loadModel(const ModelLoadArgs& args) {
-    const std::string& filePath = args.filePath;
+ModelData* ModelLoader::loadModel(const std::string& modelPath, const std::string& materialKey) {
 
     // Load from cache
-    if (_loadedModelCache.count(filePath))
-        return _loadedModelCache[filePath];
+    if (_loadedModelCache.count(modelPath))
+        return _loadedModelCache[modelPath];
 
     // Load from primitive
-    if (filePath.starts_with(_prefix))
-        return loadPrimitiveModel(args);
+    if (modelPath.starts_with(_prefix))
+        return loadPrimitiveModel(modelPath, materialKey);
 
     // Load from GEM
-    if (_loader.isAnimatedModel(filePath))
-        return loadAnimatedGEMModel(args);
-    return loadStaticGEMModel(args);
+    if (_loader.isAnimatedModel(modelPath))
+        return loadAnimatedGEMModel(modelPath, materialKey);
+    return loadStaticGEMModel(modelPath, materialKey);
 }
 
-ModelData* ModelLoader::loadPrimitiveModel(const ModelLoadArgs& args) {
-    std::string primitiveName = args.filePath.substr(_prefix.size());
+ModelData* ModelLoader::loadPrimitiveModel(const std::string& modelPath, const std::string& materialKey) {
+    std::string primitiveName = modelPath.substr(_prefix.size());
 
     ModelData* data = new ModelData();
     Mesh* mesh = &_meshLib->getMesh(primitiveName);
-    ModelMaterial* material = new ModelMaterial(
-        args.psoName,
-        args.shaderName,
-        args.cbufferName,
-        args.textureName
-    );
-    material->setUVScale(args.uvScale);
 
-    data->subMeshes.push_back({ mesh, material });
+    data->subMeshes.push_back({ mesh, materialKey, "" });
 
-    _loadedModelCache[args.filePath] = data;
+    _loadedModelCache[modelPath] = data;
     return data;
 
 }
 
-ModelData* ModelLoader::loadStaticGEMModel(const ModelLoadArgs& args) {
+ModelData* ModelLoader::loadStaticGEMModel(const std::string& modelPath, const std::string& materialKey) {
     ModelData* data = new ModelData();
     std::vector<GEMLoader::GEMMesh> gemmeshes;
 
-    _loader.load(args.filePath, gemmeshes);
+    _loader.load(modelPath, gemmeshes);
 
     // ------------ Load Mesh & Textures ------------
 
     for (auto& gemmesh : gemmeshes) {
-        Mesh* mesh = new Mesh();
+        Mesh* subMesh = new Mesh();
 
         // Load Meshes
         std::vector<STATIC_VERTEX> vertices;
@@ -76,12 +67,12 @@ ModelData* ModelLoader::loadStaticGEMModel(const ModelLoadArgs& args) {
             vertices.push_back(vertex);
         }
 
-        mesh->createStatic(_renderContext.device().dxDevice(), _renderContext.uploader(), vertices, gemmesh.indices);
-
+        subMesh->createStatic(_renderContext.device().dxDevice(), _renderContext.uploader(), vertices, gemmesh.indices);
+        
         // Load Texture
         std::string texName = gemmesh.material.find("albedo").getValue();
-        std::string fileName = std::filesystem::path(texName).filename().string();
         if (!texName.empty()) {
+            std::string fileName = std::filesystem::path(texName).filename().string();
             std::string fullPath = "Src/Assets/Models/Textures/" + fileName;
             _renderContext.textureManager().loadTexture(
                 _renderContext.device().dxDevice(),
@@ -92,26 +83,25 @@ ModelData* ModelLoader::loadStaticGEMModel(const ModelLoadArgs& args) {
             );
         }
 
-        ModelMaterial* material = new ModelMaterial(args.psoName, args.shaderName, args.cbufferName, texName);
-        data->subMeshes.push_back({ mesh, material });
+        data->subMeshes.push_back({ subMesh, materialKey, texName });
     }
 
     return data;
 }
 
-ModelData* ModelLoader::loadAnimatedGEMModel(const ModelLoadArgs& args) {
+ModelData* ModelLoader::loadAnimatedGEMModel(const std::string& modelPath, const std::string& materialKey) {
     ModelData* data = new ModelData();
     std::vector<GEMLoader::GEMMesh> gemmeshes;
     GEMLoader::GEMAnimation gemanimation;
 
-    _loader.load(args.filePath, gemmeshes, gemanimation);
+    _loader.load(modelPath, gemmeshes, gemanimation);
 
     listAnimationNames(gemanimation);
 
     // ------------ Load Mesh & Textures ------------
 
     for (auto& gemmesh : gemmeshes) {
-        Mesh* mesh = new Mesh();
+        Mesh* subMesh = new Mesh();
 
         // Load Meshes
         std::vector<ANIMATED_VERTEX> animatedVertices;
@@ -121,12 +111,12 @@ ModelData* ModelLoader::loadAnimatedGEMModel(const ModelLoadArgs& args) {
             animatedVertices.push_back(vanimatedVertex);
         }
 
-        mesh->createAnimated(_renderContext.device().dxDevice(), _renderContext.uploader(), animatedVertices, gemmesh.indices);
+        subMesh->createAnimated(_renderContext.device().dxDevice(), _renderContext.uploader(), animatedVertices, gemmesh.indices);
 
         // Load Texture
         std::string texName = gemmesh.material.find("albedo").getValue();
-        std::string fileName = std::filesystem::path(texName).filename().string();
         if (!texName.empty()) {
+            std::string fileName = std::filesystem::path(texName).filename().string();
             std::string fullPath = "Src/Assets/Models/Textures/" + fileName;
             _renderContext.textureManager().loadTexture(
                 _renderContext.device().dxDevice(),
@@ -136,9 +126,7 @@ ModelData* ModelLoader::loadAnimatedGEMModel(const ModelLoadArgs& args) {
                 fullPath
             );
         }
-
-        ModelMaterial* material = new ModelMaterial(args.psoName, args.shaderName, args.cbufferName, texName);
-        data->subMeshes.push_back({ mesh, material });
+        data->subMeshes.push_back({ subMesh, materialKey, texName });
     }
 
     // ------------ Load Animation ------------
@@ -178,7 +166,7 @@ ModelData* ModelLoader::loadAnimatedGEMModel(const ModelLoadArgs& args) {
         data->animation->animations.insert({ name, aseq });
     }
 
-    _loadedModelCache.insert({ args.filePath, data });
+    _loadedModelCache.insert({ modelPath, data });
     return data;
 }
 

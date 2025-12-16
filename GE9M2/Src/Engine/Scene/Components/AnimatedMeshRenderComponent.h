@@ -7,11 +7,13 @@
 class ModelData;
 class AnimationData;
 class AnimationController;
+class ModelMaterial;
 
 class AnimatedMeshRenderComponent : public RenderComponent {
 
 private:
     ModelData*             _data;
+    std::vector<ModelMaterial*> _materials;
     AnimationController    _animationController;
     std::string            _currentAnimation        = "run";
 
@@ -20,6 +22,8 @@ public:
     AnimatedMeshRenderComponent(ModelData* data);
 
     ~AnimatedMeshRenderComponent() = default;
+
+    void onStart() override;
 
     void playAnimation(const std::string& name);
 

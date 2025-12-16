@@ -6,6 +6,7 @@
 #include "../../Engine/Engine.h"
 #include "../../Engine/Scene/Scene.h"
 #include "../../Engine/Scene/GameObject.h"
+#include "../../Engine/Graphics/Material/Material.h"
 #include "../../Engine/Graphics/Material/ModelMaterial.h"
 #include "../../Engine/Graphics/Assets/ModelData.h"
 #include "../../Engine/Graphics/Assets/ModelLoader.h"
@@ -16,6 +17,7 @@ enum class Section {
     Texture,
     Shader,
     PSO,
+    Material,
     Scene
 };
 
@@ -32,26 +34,19 @@ void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& lev
         if (line.empty() || line.rfind(commentFlag, 0) == 0) continue;
 
         // Handle Scetion
-        if (line == textureSectionFlag) { section = Section::Texture; continue; }
-        if (line == shaderSectionFlag)  { section = Section::Shader;  continue; }
-        if (line == psoSectionFlag)     { section = Section::PSO;     continue; }
-        if (line == sceneSectionFlag)   { section = Section::Scene;   continue; };
+        if (line == textureSectionFlag)  { section = Section::Texture;  continue; }
+        if (line == shaderSectionFlag)   { section = Section::Shader;   continue; }
+        if (line == psoSectionFlag)      { section = Section::PSO;      continue; }
+        if (line == materialSectionFlag) { section = Section::Material; continue; }
+        if (line == sceneSectionFlag)    { section = Section::Scene;    continue; };
 
         switch (section) {
-        case Section::Texture: 
-            parseTexture(engine, line);
-            break;
-        case Section::Shader:
-            parseShader(engine, line);
-            break;
-        case Section::PSO:
-            parsePSO(engine, line);
-            break;
-        case Section::Scene:
-            parseSceneLine(engine, scene, line);
-            break;
-        default:
-            break;
+        case Section::Texture:  parseTexture(engine, line);             break;
+        case Section::Shader:   parseShader(engine, line);              break;
+        case Section::PSO:      parsePSO(engine, line);                 break;
+        case Section::Material: parseMaterialLine(engine, line);        break;
+        case Section::Scene:    parseSceneLine(engine, scene, line);    break;
+        default: break;
         }
     }
 };
@@ -123,6 +118,60 @@ void LevelLoader::parsePSO(Engine& engine, const std::string& line) {
         engine.renderContext().rootSignature().rootSignature(),
         param
     );
+}
+
+void LevelLoader::parseMaterialLine(Engine& engine, const std::string& line) {
+    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
+
+    // ------------------------------------
+    // New material
+    // ------------------------------------
+    if (!line.starts_with(materialPropFlag)) {
+        std::string materialName = line;
+        _currentMaterial = new ModelMaterial();
+        engine.renderContext().materialManager().add(materialName, _currentMaterial);
+        return;
+    }
+
+    if (!_currentMaterial) return;
+
+    // ------------------------------------
+    // Handle Props
+    // ------------------------------------
+
+    std::stringstream propLine(line);
+    std::string flag;
+    std::string key;
+    propLine >> flag >> key;
+    if (key == "shader") {
+        std::string shaderName;
+        std::string cbufferName;
+        propLine >> shaderName >> cbufferName;
+        _currentMaterial->setShader(shaderName, cbufferName);
+        return;
+    }
+
+    if (key == "pso") {
+        std::string psoName;
+        propLine >> psoName;
+        _currentMaterial->setPSO(psoName);
+        return;
+    }
+
+    if (key == "texture") {
+        std::string textureSlot;
+        std::string textureName;
+        propLine >> textureSlot >> textureName;
+        _currentMaterial->addTexture(textureSlot, textureName);
+        return;
+    }
+
+    if (key == "uv") {
+        float u = 1.0f, v = 1.0f;
+        propLine >> u >> v;
+        _currentMaterial->setUVScale({ u, v });
+        return;
+    }
 }
 
 void LevelLoader::parseSceneLine(Engine& engine, Scene& scene, const std::string& line) {

@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Engine\Graphics\Assets\ModelLoader.cpp" />
+    <ClCompile Include="Src\Engine\Graphics\Material\ModelMaterial.cpp" />
     <ClCompile Include="Src\Engine\Scene\ComponentFactory.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\ColliderComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\FPSRenderComponent.cpp" />
@@ -145,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Engine\Graphics\Assets\ModelData.h" />
+    <ClInclude Include="Src\Engine\Graphics\Material\MaterialManager.h" />
     <ClInclude Include="Src\Engine\Graphics\Mesh\Mesh.h" />
     <ClInclude Include="Src\Engine\Scene\ComponentFactory.h" />
     <ClInclude Include="Src\Engine\Scene\Components\ColliderComponent.h" />

@@ -6,7 +6,6 @@
 class RenderContext;
 class MeshLibrary;
 class ModelData;
-struct ModelLoadArgs;
 
 class ModelLoader {
 private:
@@ -20,12 +19,12 @@ public:
     ModelLoader(RenderContext& renderContext);
     ~ModelLoader();
 
-    ModelData* loadModel(const ModelLoadArgs& args);
+    ModelData* loadModel(const std::string& modelPath, const std::string& materialKey);
     MeshLibrary* meshLib();
 
 private:
-    ModelData* loadPrimitiveModel(const ModelLoadArgs& args);
-    ModelData* loadStaticGEMModel(const ModelLoadArgs& args);
-    ModelData* loadAnimatedGEMModel(const ModelLoadArgs& args);
+    ModelData* loadPrimitiveModel(const std::string& modelPath, const std::string& materialKey);
+    ModelData* loadStaticGEMModel(const std::string& modelPath, const std::string& materialKey);
+    ModelData* loadAnimatedGEMModel(const std::string& modelPath, const std::string& materialKey);
     void listAnimationNames(const GEMLoader::GEMAnimation& gemanimation);
 };
