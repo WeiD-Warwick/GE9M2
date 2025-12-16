@@ -224,7 +224,7 @@
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_rmax.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Assets\Textures\skySphere.png">
+    <Image Include="Src\Assets\Textures\skysphere.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Models\Textures\arms_1_Albedo_alb.png">
@@ -276,7 +276,7 @@
   <ItemGroup>
     <FxCompile Include="Src\Assets\Shaders\animatedMesh_ps.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\animatedMesh_vs.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\skySphere_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\skysphere_ps.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\skySphere_vs.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\staticMesh_vs.hlsl" />

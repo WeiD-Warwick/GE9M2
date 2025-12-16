@@ -1,4 +1,4 @@
-cbuffer skySphereBuffer : register(b0)
+cbuffer skysphereBuffer : register(b0)
 {
     float4x4 W;
     float4x4 V;

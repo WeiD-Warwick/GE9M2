@@ -1,27 +1,48 @@
 
+=== TEXTURE ===
+// <key>				<filePath>
+ground_basecolor		Src/Assets/Textures/Ground/ground_basecolor.png
+skysphere				Src/Assets/Textures/skysphere.png
+rgb_green				Src/Assets/Textures/rgb_green.png
+
+=== SHADER ===
+// <shaderName>		<cbufferName>		  <vsPath>							        <psPath>
+skysphereShader		skysphereBuffer		  Src/Assets/Shaders/skysphere_vs.hlsl      Src/Assets/Shaders/skysphere_ps.hlsl
+staticMeshShader	staticMeshBuffer	  Src/Assets/Shaders/staticMesh_vs.hlsl		Src/Assets/Shaders/staticMesh_ps.hlsl
+animatedMeshShader  animatedMeshBuffer    Src/Assets/Shaders/animatedMesh_vs.hlsl   Src/Assets/Shaders/animatedMesh_ps.hlsl
+
+=== PSO ===
+// <psoName>		<shaderName>		<layout>	<depthFunc>			<depthWrite>
+staticMeshPSO		staticMeshShader	static		depth_less			write
+animatedMeshPSO		animatedMeshShader	animated	depth_less			write
+skyspherePSO		skysphereShader		static		depth_less_equal	nowrite
+fpsPSO				animatedMeshShader	animated	depth_always		nowrite
+
+=== SCENE ===
+// # description
+// transform <position> <rotation> <scale>
+// RenderComponent <ModelPath> <shaderName> <cbufferName> <psoName> <customTextureKey> <UVScale.U>  <UVScale.V>
+
 # Player
-0 0 0       0 0 0 1     1.2 2 1.2
-PlayerControllerComponent
+transform 0 0 0       0 0 0 1     1.2 2 1.2
+PlayerControllerComponent 15 0.002
 CameraComponent
 FPSRenderComponent Src/Assets/Models/Uzi.gem animatedMeshShader animatedMeshBuffer fpsPSO
 ColliderComponent 1.2 2 1.2
 
-
 # Wall
--10 0 10     0 0 0 1     10 8 4
-StaticMeshRenderComponent primitive:cube staticMeshShader staticMeshBuffer staticMeshPSO
+transform -20 0 20     0 0 0 1     10 8 4
+StaticMeshRenderComponent primitive:cube staticMeshShader staticMeshBuffer staticMeshPSO rgb_green
 ColliderComponent 10 8 4
 
-
 # Ground
-0 0 0     0 0 0 1     500 1 500
-StaticMeshRenderComponent primitive:plane staticMeshShader staticMeshBuffer staticMeshPSO Src/Assets/Textures/Ground/ground_basecolor.png 100 100
-
+transform 0 0 0     0 0 0 1     500 1 500
+StaticMeshRenderComponent primitive:plane staticMeshShader staticMeshBuffer staticMeshPSO ground_basecolor 100 100
 
 # Dino
-0 0 5   0 0 0 1   0.1 0.1 0.1
+transform 0 0 5   0 0 0 1   0.1 0.1 0.1
 AnimatedMeshRenderComponent Src/Assets/Models/TRex.gem animatedMeshShader animatedMeshBuffer animatedMeshPSO
 
 # Sky
-0 0 0     0 0 0 1     1 1 1
-SkySphereRenderComponent primitive:skySphere skySphereShader skySphereBuffer skySpherePSO Src/Assets/Textures/skySphere.png
+transform 0 0 0     0 0 0 1     1 1 1
+SkySphereRenderComponent primitive:skySphere skysphereShader skysphereBuffer skyspherePSO skysphere

@@ -7,91 +7,184 @@
 #include "../../Engine/Scene/Scene.h"
 #include "../../Engine/Scene/GameObject.h"
 #include "../../Engine/Graphics/Material/ModelMaterial.h"
-// Components
 #include "../../Engine/Graphics/Assets/ModelData.h"
 #include "../../Engine/Graphics/Assets/ModelLoader.h"
 #include "../../Engine/Scene/ComponentFactory.h"
 
-
-static bool parseTransform(
-    std::istream& in,
-    Vec3& position,
-    Quaternion& rotation,
-    Vec3& scale
-) { 
-    return (in >> position.x >> position.y >> position.z) 
-        && (in >> rotation.x >> rotation.y >> rotation.z >> rotation.w) 
-        && (in >> scale.x >> scale.y >> scale.z); 
-}
+enum class Section {
+    None,
+    Texture,
+    Shader,
+    PSO,
+    Scene
+};
 
 void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& levelPath) {
-    static bool registered = false;
-    auto& componentFactory = ComponentFactory::shared();
 
     std::ifstream file(levelPath);
 
     std::string line;
-    GameObject* currentObject = nullptr;
+
+    Section section = Section::None;
 
     while (std::getline(file, line)) {
-        // Skip empty lines
-        if (line.empty())
-            continue;
+        // Skip empty lines and  comments
+        if (line.empty() || line.rfind(commentFlag, 0) == 0) continue;
 
-        // Skip comments
-        if (line.rfind("//", 0) == 0)
-            continue;
+        // Handle Scetion
+        if (line == textureSectionFlag) { section = Section::Texture; continue; }
+        if (line == shaderSectionFlag)  { section = Section::Shader;  continue; }
+        if (line == psoSectionFlag)     { section = Section::PSO;     continue; }
+        if (line == sceneSectionFlag)   { section = Section::Scene;   continue; };
 
-        // ------------------------------------------------------------
-        // New GameObject
-        // ------------------------------------------------------------
-        if (line[0] == '#') {
-            currentObject = scene.createObject();
-            currentObject->setName(line.substr(1));
-
-            if (!std::getline(file, line)) { break; }
-
-            std::stringstream transformLine(line);
-
-            Vec3 position;
-            Quaternion rotation;
-            Vec3 scale;
-
-            if (!parseTransform(transformLine, position, rotation, scale)) {
-                currentObject = nullptr;
-                continue;
-            }
-
-            currentObject->transform().position = position;
-            currentObject->transform().rotation = rotation;
-            currentObject->transform().scale = scale;
-
-            continue;
+        switch (section) {
+        case Section::Texture: 
+            parseTexture(engine, line);
+            break;
+        case Section::Shader:
+            parseShader(engine, line);
+            break;
+        case Section::PSO:
+            parsePSO(engine, line);
+            break;
+        case Section::Scene:
+            parseSceneLine(engine, scene, line);
+            break;
+        default:
+            break;
         }
-
-        // ------------------------------------------------------------
-        // Component line (create components belong to this GameObject)
-        // ------------------------------------------------------------
-        if (!currentObject) { 
-            continue;
-        }
-
-        std::stringstream componentLine(line);
-
-        std::string componentName;
-        componentLine >> componentName;
-
-        if (componentName.empty()) {
-            continue;
-        }
-
-        // read arguments
-        std::vector<std::string> args;
-        std::string arg;
-        while (componentLine >> arg) {
-            args.push_back(arg);
-        }
-
-        assert(componentFactory.create(componentName, currentObject, engine, args));
     }
+};
+
+void LevelLoader::parseTexture(Engine& engine, const std::string& line) {
+    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
+
+    std::stringstream textureLine(line);
+    std::string key, path;
+    textureLine >> key >> path;
+
+    auto* texture = engine.renderContext().textureManager().loadTexture(
+        engine.renderContext().device().dxDevice(),
+        engine.renderContext().uploader(),
+        engine.renderContext().srvHeap(),
+        key,
+        path
+    );
+
+    assert(texture);
+}
+
+void LevelLoader::parseShader(Engine& engine, const std::string& line) {
+    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
+
+    std::stringstream shaderLine(line);
+    std::string name, cbuffer, vsPath, psPath;
+    shaderLine >> name >> cbuffer >> vsPath >> psPath;
+
+    auto* shader = engine.renderContext().shaderManager().load(
+        engine.renderContext().device().dxDevice(),
+        name,
+        vsPath,
+        psPath
+    );
+
+    assert(shader);
+}
+
+void LevelLoader::parsePSO(Engine& engine, const std::string& line) {
+    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
+
+    std::stringstream psoLine(line);
+
+    std::string psoName, shaderName, layout, depthFunc, depthWrite;
+    psoLine >> psoName >> shaderName >> layout >> depthFunc >> depthWrite;
+
+    Shader* shader = engine.renderContext().shaderManager().find(shaderName);
+
+    PSOParam param;
+    param.psoName = psoName;
+    param.vsBlob = shader->vs.Get();
+    param.psBlob = shader->ps.Get();
+
+    param.layout = (layout == "animated")
+        ? DX12VertexLayoutCache::getAnimatedLayout()
+        : DX12VertexLayoutCache::getStaticLayout();
+
+    param.depthFunc =
+        (depthFunc == "depth_less_equal") ? D3D12_COMPARISON_FUNC_LESS_EQUAL :
+        (depthFunc == "depth_always") ? D3D12_COMPARISON_FUNC_ALWAYS :
+        D3D12_COMPARISON_FUNC_LESS;
+
+    param.depthWriteMask =
+        (depthWrite == "nowrite") ? D3D12_DEPTH_WRITE_MASK_ZERO : D3D12_DEPTH_WRITE_MASK_ALL;
+
+    engine.renderContext().psoManager().createPSO(
+        engine.renderContext().device().dxDevice(),
+        engine.renderContext().rootSignature().rootSignature(),
+        param
+    );
+}
+
+void LevelLoader::parseSceneLine(Engine& engine, Scene& scene, const std::string& line) {
+
+    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
+
+    auto& componentFactory = ComponentFactory::shared();
+
+    // ------------------------------------------------------------
+    // New GameObject
+    // ------------------------------------------------------------
+    if (line.starts_with(newObjectFlag)) {
+        std::stringstream nameLine(line);
+        std::string signal, name;
+        nameLine >> signal >> name;
+        _currentObject = scene.createObject();
+        _currentObject->setName(name);
+        return;
+    }
+
+    if (!_currentObject) return;
+
+    // ------------------------------------------------------------
+    // Transform line
+    // ------------------------------------------------------------
+    if (line.starts_with(transformFlag)) {
+        std::stringstream transformLine(line);
+
+        std::string flag;
+        Vec3 position;
+        Quaternion rotation;
+        Vec3 scale;
+
+        transformLine >> flag >> position.x >> position.y >> position.z
+            >> rotation.x >> rotation.y >> rotation.z >> rotation.w
+            >> scale.x >> scale.y >> scale.z;
+
+        _currentObject->transform().position = position;
+        _currentObject->transform().rotation = rotation;
+        _currentObject->transform().scale = scale;
+        return;
+    }
+
+    // ------------------------------------------------------------
+    // Component line
+    // ------------------------------------------------------------
+    std::stringstream componentLine(line);
+
+    std::string componentName;
+    componentLine >> componentName;
+    if (componentName.empty()) return;
+
+    std::vector<std::string> args;
+    std::string arg;
+    while (componentLine >> arg) {
+        args.push_back(arg);
+    }
+
+    assert(componentFactory.create(
+        componentName,
+        _currentObject,
+        engine,
+        args
+    ));
 }

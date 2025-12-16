@@ -214,7 +214,7 @@
     <Image Include="Src\Assets\Textures\Ground\ground_basecolor.png" />
     <Image Include="Src\Assets\Textures\rgb_green.png" />
     <Image Include="Src\Assets\Textures\__default.png" />
-    <Image Include="Src\Assets\Textures\skySphere.png" />
+    <Image Include="Src\Assets\Textures\skysphere.png" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Assets\Shaders\animatedMesh_ps.hlsl">
@@ -239,7 +239,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Src\Assets\Shaders\skySphere_ps.hlsl">
+    <FxCompile Include="Src\Assets\Shaders\skysphere_ps.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
