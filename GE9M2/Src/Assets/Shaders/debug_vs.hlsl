@@ -3,6 +3,8 @@ cbuffer debugCB : register(b0)
     float4x4 W;
     float4x4 V;
     float4x4 P;
+    float2 uvScale;
+    float2 _padding;
 };
 
 struct VS_INPUT

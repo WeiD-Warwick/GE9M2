@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "../Engine.h"
-#include "../Foundation/Transform.h"
+#include "../Foundation/Base/Transform.h"
 #include "Components/CameraComponent.h"
 
 void Component::setOwner(GameObject* owner) {

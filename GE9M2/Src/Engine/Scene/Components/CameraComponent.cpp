@@ -1,6 +1,6 @@
 #include "CameraComponent.h"
-#include "../../Foundation/Maths.h"
-#include "../../Foundation/Transform.h"
+#include "../../Foundation/Base/Maths.h"
+#include "../../Foundation/Base/Transform.h"
 #include "../Scene.h"
 #include "../GameObject.h"
 #include "PlayerControllerComponent.h"

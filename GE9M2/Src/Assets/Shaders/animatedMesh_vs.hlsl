@@ -3,6 +3,8 @@ cbuffer animatedMeshBuffer {
     float4x4 V;
     float4x4 P;
     float4x4 bones[256];
+    float2 uvScale;
+    float2 _padding;
 };
 
 struct VS_INPUT

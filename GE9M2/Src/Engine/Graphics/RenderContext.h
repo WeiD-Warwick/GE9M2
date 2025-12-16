@@ -1,11 +1,12 @@
 #pragma once
-#include "../Platform/DX12/DX12Device.h"
-#include "../Platform/DX12/DX12CommandQueue.h"
-#include "../Platform/DX12/DX12Renderer.h"
-#include "../Platform/DX12/DX12Upload.h"
 #include "PSOManager.h"
 #include "Shader/ShaderManager.h"
 #include "Texture/TextureManager.h"
+#include "../Foundation/DX12/DX12Device.h"
+#include "../Foundation/DX12/DX12CommandQueue.h"
+#include "../Foundation/DX12/DX12Resources.h"
+#include "../Foundation/DX12/DX12Pipeline.h"
+#include "../Foundation/DX12/DX12Renderer.h"
 
 class RenderContext {
 private:
@@ -94,15 +95,23 @@ private:
             _device.dxDevice(),
             _uploader,
             _srvHeap,
-            "rgb_green",
+            "Src/Assets/Textures/rgb_green.png",
             "Src/Assets/Textures/rgb_green.png");
 
         _textureManager.loadTexture(
             _device.dxDevice(),
             _uploader,
             _srvHeap,
-            "skySphere",
+            "Src/Assets/Textures/skySphere.png",
             "Src/Assets/Textures/skySphere.png");
+
+        _textureManager.loadTexture(
+            _device.dxDevice(),
+            _uploader,
+            _srvHeap,
+            "Src/Assets/Textures/Ground/ground_basecolor.png",
+            "Src/Assets/Textures/Ground/ground_basecolor.png");
+
 
         // load static mesh shaders
         Shader* staticMeshShader = _shaderManager.load(

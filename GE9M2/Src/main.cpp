@@ -1,6 +1,6 @@
-﻿#include "Engine/Platform/Window/Window.h"
-#include "Engine/Engine.h"
-#include "Engine/foundation/Timer.h"
+﻿#include "Engine/Engine.h"
+#include "Engine/Foundation/Base/Timer.h"
+#include "Engine/Foundation/Window/Window.h"
 #include "Game/FPSGame.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {

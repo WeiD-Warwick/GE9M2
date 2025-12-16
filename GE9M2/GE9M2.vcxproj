@@ -102,6 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -123,12 +124,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Engine\Graphics\Assets\ModelLoader.cpp" />
+    <ClCompile Include="Src\Engine\Scene\ComponentFactory.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\ColliderComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\FPSRenderComponent.cpp" />
     <ClCompile Include="Src\Game\FPSGame.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Texture\Texture.cpp" />
-    <ClCompile Include="Src\Engine\Platform\Window\Window.cpp" />
+    <ClCompile Include="Src\Engine\Foundation\Window\Window.cpp" />
     <ClCompile Include="Src\Engine\Scene\Component.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\CameraComponent.cpp" />
@@ -141,6 +144,9 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Graphics\Assets\ModelData.h" />
+    <ClInclude Include="Src\Engine\Graphics\Mesh\Mesh.h" />
+    <ClInclude Include="Src\Engine\Scene\ComponentFactory.h" />
     <ClInclude Include="Src\Engine\Scene\Components\ColliderComponent.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\ModelMaterial.h" />
     <ClInclude Include="Src\Engine\Scene\Components\FPSRenderComponent.h" />
@@ -149,12 +155,11 @@
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationData.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\Material.h" />
     <ClInclude Include="Src\Engine\Graphics\Mesh\MeshLib.h" />
-    <ClInclude Include="Src\Engine\ModelLoader.h" />
+    <ClInclude Include="Src\Engine\Graphics\Assets\ModelLoader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
-    <ClInclude Include="Src\Engine\Foundation\Timer.h" />
-    <ClInclude Include="Src\Engine\Foundation\Transform.h" />
-    <ClInclude Include="Src\Engine\Foundation\Vertex.h" />
-    <ClInclude Include="Src\Engine\Graphics\ConstantBuffer.h" />
+    <ClInclude Include="Src\Engine\Foundation\Base\Timer.h" />
+    <ClInclude Include="Src\Engine\Foundation\Base\Transform.h" />
+    <ClInclude Include="Src\Engine\Foundation\Base\Vertex.h" />
     <ClInclude Include="Src\Engine\Graphics\PSOManager.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\Shader.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderCompiler.h" />
@@ -162,13 +167,13 @@
     <ClInclude Include="Src\Engine\Graphics\Texture\TextureManager.h" />
     <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12CommandQueue.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Device.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Pipeline.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Resources.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Upload.h" />
-    <ClInclude Include="Src\Engine\Platform\DX12\DX12Renderer.h" />
-    <ClInclude Include="Src\Engine\Foundation\Maths.h" />
+    <ClInclude Include="Src\Engine\Foundation\DX12\DX12CommandQueue.h" />
+    <ClInclude Include="Src\Engine\Foundation\DX12\DX12Device.h" />
+    <ClInclude Include="Src\Engine\Foundation\DX12\DX12Pipeline.h" />
+    <ClInclude Include="Src\Engine\Foundation\DX12\DX12Resources.h" />
+    <ClInclude Include="Src\Engine\Foundation\DX12\DX12Upload.h" />
+    <ClInclude Include="Src\Engine\Foundation\DX12\DX12Renderer.h" />
+    <ClInclude Include="Src\Engine\Foundation\Base\Maths.h" />
     <ClInclude Include="Src\Engine\Graphics\RenderContext.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderManager.h" />
     <ClInclude Include="Src\Engine\Scene\Component.h" />
@@ -180,7 +185,7 @@
     <ClInclude Include="Src\Game\Game.h" />
     <ClInclude Include="Src\Game\Level\LevelLoader.h" />
     <ClInclude Include="Third_Party\GEMLoader.h" />
-    <ClInclude Include="Src\Engine\Platform\Window\Window.h" />
+    <ClInclude Include="Src\Engine\Foundation\Window\Window.h" />
     <ClInclude Include="Third_Party\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +211,7 @@
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_alb.png" />
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_nh.png" />
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_rmax.png" />
+    <Image Include="Src\Assets\Textures\Ground\ground_basecolor.png" />
     <Image Include="Src\Assets\Textures\rgb_green.png" />
     <Image Include="Src\Assets\Textures\__default.png" />
     <Image Include="Src\Assets\Textures\skySphere.png" />

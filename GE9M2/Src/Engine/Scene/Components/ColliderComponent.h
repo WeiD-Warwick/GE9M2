@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include "../Component.h"
-#include "../../Foundation/Maths.h"
-#include "../../Foundation/Transform.h"
+#include "../../Foundation/Base/Maths.h"
+#include "../../Foundation/Base/Transform.h"
 
 // A bottom-centered AABB
 // transform.position represents the bottom center of the box

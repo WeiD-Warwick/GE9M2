@@ -11,13 +11,11 @@ class StaticMeshRenderComponent : public RenderComponent {
 
 private:
     ModelData*        _data;
-    Material*         _material;
-    std::string       _psoName                = "staticMeshPSO";
 
 public:
-    StaticMeshRenderComponent(ModelData* _data, Material* material);
+    StaticMeshRenderComponent(ModelData* _data);
 
-    ~StaticMeshRenderComponent();
+    ~StaticMeshRenderComponent() = default;
 
     void onRender(RenderContext& renderContext) override;
 

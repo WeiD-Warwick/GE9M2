@@ -1,34 +1,23 @@
 #include "StaticMeshRenderComponent.h"
 #include "CameraComponent.h"
+#include "../../Foundation/Base/Maths.h"
+#include "../../Foundation/Base/Transform.h"
 #include "../../Graphics/RenderContext.h"
-#include "../../Foundation/Maths.h"
-#include "../../Foundation/Transform.h"
 #include "../../Graphics/Material/Material.h"
-#include "../../ModelLoader.h"
+#include "../../Graphics/Assets/ModelData.h"
 
-using namespace std;
-
-StaticMeshRenderComponent::StaticMeshRenderComponent(ModelData* data, Material* material)
-    : _data(data), _material(material) {}
-
-StaticMeshRenderComponent::~StaticMeshRenderComponent() {
-    delete _material;
-}
+StaticMeshRenderComponent::StaticMeshRenderComponent(ModelData* data) : _data(data) {}
 
 void StaticMeshRenderComponent::onRender(RenderContext& renderContext) {
     auto* commandList = renderContext.renderer().commandList();
-    auto& psos = renderContext.psoManager();
-
-    psos.bind(commandList, _psoName);
 
     MaterialParam param;
     param.W = transform().worldMatrix();
     param.V = mainCamera()->view;
     param.P = mainCamera()->projection;
    
-   
-    for (auto& mesh : _data->meshes) {
-        _material->apply(renderContext, mesh->textureNames, param);
-        mesh->draw(commandList);
+    for (auto& subMesh : _data->subMeshes) {
+        subMesh.material->apply(renderContext, param);
+        subMesh.mesh->draw(commandList);
     }
 }

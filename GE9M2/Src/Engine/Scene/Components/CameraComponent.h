@@ -1,6 +1,6 @@
 #pragma once
 #include "../Component.h"
-#include "../../Foundation/Maths.h"
+#include "../../Foundation/Base/Maths.h"
 
 class Transform;
 

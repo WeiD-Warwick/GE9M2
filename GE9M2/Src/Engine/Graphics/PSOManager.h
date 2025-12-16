@@ -3,8 +3,8 @@
 #include <d3d12.h>
 #include <string>
 #include <wrl/client.h>
-#include "../Platform/DX12/DX12Resources.h"
 #include <cassert>
+#include "../Foundation/DX12/DX12Resources.h"
 
 using Microsoft::WRL::ComPtr;
 

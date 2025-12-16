@@ -5,11 +5,26 @@
 #define SQ(x) ((x) * (x))
 
 template<typename T>
-T clamp(const T& v, const T& low, const T& high) {
+T _clamp(const T& v, const T& low, const T& high) {
     return (v < low) ? low : (v > high) ? high : v;
 }
 
 class Quaternion;
+
+class Vec2
+{
+public:
+    float x, y;
+
+    Vec2(float _x = 0.0f, float _y = 0.0f)
+        : x(_x), y(_y) {
+    }
+
+    Vec2 operator+(const Vec2& r) const { return { x + r.x, y + r.y }; }
+    Vec2 operator-(const Vec2& r) const { return { x - r.x, y - r.y }; }
+    Vec2 operator*(float s) const { return { x * s, y * s }; }
+};
+
 
 class Vec3 {
 public:
@@ -201,11 +216,6 @@ public:
         return output;
     }
 
-    Matrix operator=(const Matrix& matrix) {
-        memcpy(m, matrix.m, sizeof(float) * 16);
-        return (*this);
-    }
-
     Matrix invert() {
 		Matrix inv = Matrix::Zero();
         inv[0] = m[5] * m[10] * m[15] - m[5] * m[11] * m[14] - m[9] * m[6] * m[15] + m[9] * m[7] * m[14] + m[13] * m[6] * m[11] - m[13] * m[7] * m[10];
@@ -334,7 +344,6 @@ public:
         return Vec3(r.x, r.y, r.z);
     }
 
-
     Matrix toMatrix() const {
         Quaternion n = normalized();
         float xx = n.x * n.x, yy = n.y * n.y, zz = n.z * n.z;
@@ -371,7 +380,7 @@ public:
                 q1.w + t * (q2.w - q1.w));
             return r.normalized();
         }
-        float theta = std::acos(clamp(dot, -1.0f, 1.0f));
+        float theta = std::acos(_clamp(dot, -1.0f, 1.0f));
         float s0 = std::sinf((1 - t) * theta) / std::sinf(theta);
         float s1 = std::sinf(t * theta) / std::sinf(theta);
         return Quaternion(

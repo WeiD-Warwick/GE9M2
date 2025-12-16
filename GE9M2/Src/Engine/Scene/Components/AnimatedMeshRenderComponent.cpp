@@ -1,17 +1,14 @@
 #include "AnimatedMeshRenderComponent.h"
 #include "CameraComponent.h"
 #include "../../Graphics/RenderContext.h"
-#include "../../Foundation/Maths.h"
-#include "../../Foundation/Transform.h"
+#include "../../Foundation/Base/Maths.h"
+#include "../../Foundation/Base/Transform.h"
 #include "../../Graphics/Material/Material.h"
-#include "../../ModelLoader.h"
+#include "../../Graphics/Assets/ModelData.h"
 
-AnimatedMeshRenderComponent::AnimatedMeshRenderComponent(ModelData* data, Material* material)
-    : _data(data), _material(material) {
+AnimatedMeshRenderComponent::AnimatedMeshRenderComponent(ModelData* data) : _data(data) {
     _animationController.init(_data->animation);
 }
-
-AnimatedMeshRenderComponent::~AnimatedMeshRenderComponent() { delete _material; }
 
 void AnimatedMeshRenderComponent::playAnimation(const std::string& name) {
     if (_currentAnimation != name) {
@@ -29,8 +26,6 @@ void AnimatedMeshRenderComponent::onUpdate(float dt) {
 
 void AnimatedMeshRenderComponent::onRender(RenderContext& renderContext) {
     ID3D12GraphicsCommandList4* commandList = renderContext.renderer().commandList();
-    PSOManager& psos = renderContext.psoManager();
-    psos.bind(commandList, _psoName);
 
     MaterialParam param;
     param.W = transform().worldMatrix();
@@ -38,8 +33,8 @@ void AnimatedMeshRenderComponent::onRender(RenderContext& renderContext) {
     param.P = mainCamera()->projection;
     param.bones = _animationController.skinningMatrices;
 
-    for (auto& mesh : _data->meshes) {
-        _material->apply(renderContext, mesh->textureNames, param);
-        mesh->draw(commandList);
+    for (auto& subMesh : _data->subMeshes) {
+        subMesh.material->apply(renderContext, param);
+        subMesh.mesh->draw(commandList);
     }
 }

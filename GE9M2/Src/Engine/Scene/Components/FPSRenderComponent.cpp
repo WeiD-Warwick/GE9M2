@@ -1,22 +1,17 @@
 #include "FPSRenderComponent.h"
 #include "CameraComponent.h"
 #include "../../Graphics/RenderContext.h"
-#include "../../Foundation/Maths.h"
-#include "../../Foundation/Transform.h"
+#include "../../Foundation/Base/Maths.h"
+#include "../../Foundation/Base/Transform.h"
 #include "../../Graphics/Material/Material.h"
-#include "../../ModelLoader.h"
+#include "../../Graphics/Assets/ModelData.h"
 
-FPSRenderComponent::FPSRenderComponent(ModelData* data, Material* material)
-    : _data(data), _material(material) {
+FPSRenderComponent::FPSRenderComponent(ModelData* data) : _data(data) {
     _animationController.init(_data->animation);
 
     _animationController.play("04 idle");
     _state = WeaponAnimState::Idle;
 
-}
-
-FPSRenderComponent::~FPSRenderComponent() {
-    delete _material;
 }
 
 void FPSRenderComponent::playAnimation(const std::string& name) {
@@ -77,9 +72,6 @@ void FPSRenderComponent::onUpdate(float dt) {
 void FPSRenderComponent::onRender(RenderContext& renderContext) {
 
     ID3D12GraphicsCommandList4* cmd = renderContext.renderer().commandList();
-    PSOManager& psos = renderContext.psoManager();
-
-    psos.bind(cmd, _psoName);
 
     MaterialParam param;
     // Rotate model to right direction
@@ -94,9 +86,9 @@ void FPSRenderComponent::onRender(RenderContext& renderContext) {
     param.P = mainCamera()->projection;
     param.bones = _animationController.skinningMatrices;
 
-    for (auto& mesh : _data->meshes) {
-        _material->apply(renderContext, mesh->textureNames, param);
-        mesh->draw(cmd);
+    for (auto& subMesh : _data->subMeshes) {
+        subMesh.material->apply(renderContext, param);
+        subMesh.mesh->draw(cmd);
     }
 }
 

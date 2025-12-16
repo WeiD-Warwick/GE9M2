@@ -1,7 +1,7 @@
 #include "PlayerControllerComponent.h"
-#include "../../Foundation/Maths.h"
-#include "../../Foundation/Transform.h"
-#include "../../Platform/Window/Window.h"
+#include "../../Foundation/Base/Maths.h"
+#include "../../Foundation/Base/Transform.h"
+#include "../../Foundation/Window/Window.h"
 #include "FPSRenderComponent.h"
 #include "../GameObject.h"
 #include "../Scene.h"
@@ -13,7 +13,7 @@ void PlayerControllerComponent::onStart() {
     if (f.lengthSqrt() > 0.0001f) {
         f = f.normalized();
         _yaw = std::atan2(f.x, f.z);
-        _pitch = std::asin(clamp(f.y, -1.0f, 1.0f));
+        _pitch = std::asin(_clamp(f.y, -1.0f, 1.0f));
     }
     else {
         _yaw = 0.0f;
@@ -42,7 +42,7 @@ void PlayerControllerComponent::onUpdate(float dt) {
     _yaw += dx * _mouseSensitivity;
     _pitch += dy * _mouseSensitivity;
 
-    _pitch = clamp(_pitch, -1.5f, 1.5f);
+    _pitch = _clamp(_pitch, -1.5f, 1.5f);
 
     // calculate Yaw rotation and apply to transform
     Quaternion qYaw = Quaternion::fromAxisAngle(Vec3(0, 1, 0), _yaw);

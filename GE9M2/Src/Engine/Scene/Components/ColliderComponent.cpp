@@ -1,12 +1,14 @@
 #include "ColliderComponent.h"
 #include <string>
 #include "CameraComponent.h"
+#include "../GameObject.h"
 #include "../Component.h"
 #include "../../Engine.h"
-#include "../../Foundation/Maths.h"
-#include "../../Foundation/Transform.h"
+#include "../../Foundation/Base/Maths.h"
+#include "../../Foundation/Base/Transform.h"
 #include "../../Graphics/RenderContext.h"
-#include "../../ModelLoader.h"
+#include "../../Graphics/Assets/ModelData.h"
+#include "../../Graphics/Mesh/MeshLib.h"
 
 const Vec3& ColliderComponent::size() const { return _size; }
 
@@ -61,7 +63,9 @@ void ColliderComponent::onRender(RenderContext& renderContext) {
     Vec3 center = (min + max) * 0.5f;
     Vec3 size = max - min;
 
-    Matrix W = Matrix::Scale(size) * Matrix::Translation(center);
+    Transform collisionT = Transform(center, Quaternion(), size);
+
+    Matrix W = collisionT.localMatrix();
     Matrix V = mainCamera()->view;
     Matrix P = mainCamera()->projection;
 

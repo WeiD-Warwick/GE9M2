@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "Scene.h"
 #include "../Engine.h"
-#include "../Foundation/Transform.h"
+#include "../Foundation/Base/Transform.h"
 
 GameObject::GameObject() {
     _transform = new Transform();

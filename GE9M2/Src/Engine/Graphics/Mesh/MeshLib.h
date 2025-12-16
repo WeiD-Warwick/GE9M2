@@ -1,5 +1,6 @@
 #pragma once
 #include "../RenderContext.h"
+#include "Mesh.h"
 
 class MeshLibrary {
 private:
@@ -7,14 +8,20 @@ private:
 	std::vector<unsigned int> indices;
 
 public:
-    DX12Mesh plane;
-    DX12Mesh cube;
-	DX12Mesh skySphere;
-	DX12Mesh debugBox;
+    Mesh plane;
+    Mesh cube;
+	Mesh skySphere;
+	Mesh debugBox;
+
+	Mesh& getMesh(std::string name) {
+		if (name == "plane")		return plane;
+		if (name == "cube")			return cube;
+		if (name == "skySphere")	return skySphere;
+		if (name == "debugBox")		return debugBox;
+	}
 
 	MeshLibrary(RenderContext& ctx) {
 		generatePlane(ctx);
-		
 		generateCube(ctx);
 		generateDebugBox(ctx);
 		generateSkySphere(ctx, 2000, 2000, 10000);
@@ -29,7 +36,7 @@ public:
 		vertices.push_back(addVertex(Vec3(-0.5, 0, 0.5), Vec3(0, 1, 0), 0, 1));
 		vertices.push_back(addVertex(Vec3(0.5, 0, 0.5), Vec3(0, 1, 0), 1, 1));
 		
-		indices = { 0, 1, 2, 0, 2, 3 };
+		indices = { 0, 1, 2, 1, 3, 2 };
 		plane.createStatic(
 			ctx.device().dxDevice(),
 			ctx.uploader(),

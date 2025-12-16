@@ -3,8 +3,7 @@
 #include <d3d12.h>
 #include <string>
 #include <wrl/client.h>
-#include "../../Platform/DX12/DX12Upload.h"
-#include "../../Platform/DX12/DX12Resources.h"
+#include "../RenderContext.h"
 #include "../../../../Third_Party/stb_image.h"
 
 using Microsoft::WRL::ComPtr;

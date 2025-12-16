@@ -3,6 +3,7 @@
 #include <map>
 #include "Shader.h"
 #include <cassert>
+#include "../../Foundation/DX12/DX12Resources.h"
 
 class ShaderManager {
 public:

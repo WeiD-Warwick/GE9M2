@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "../../Foundation/Maths.h"
-#include "../../Foundation/Transform.h"
+#include "../../Foundation/Base/Maths.h"
+#include "../../Foundation/Base/Transform.h"
 #include "../../../../Third_Party/GEMLoader.h"
 
 struct Bone {

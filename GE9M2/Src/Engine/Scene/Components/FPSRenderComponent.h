@@ -6,7 +6,6 @@
 class ModelData;
 class AnimationData;
 class AnimationController;
-class Material;
 
 enum class WeaponAnimState {
     Idle,
@@ -23,9 +22,7 @@ enum class WeaponIntent {
 class FPSRenderComponent : public RenderComponent {
 private:
     ModelData*           _data                    = nullptr;
-    Material*            _material                = nullptr;
     AnimationController  _animationController;
-    std::string          _psoName                 = "fpsPSO";
     std::string          _currentAnimation        = "04 idle";
 
     WeaponAnimState      _state                   = WeaponAnimState::Idle;
@@ -39,8 +36,8 @@ private:
 
 
 public:
-    FPSRenderComponent(ModelData* data, Material* material);
-    ~FPSRenderComponent();
+    FPSRenderComponent(ModelData* data);
+    ~FPSRenderComponent() = default;
 
     void playAnimation(const std::string& name);
 

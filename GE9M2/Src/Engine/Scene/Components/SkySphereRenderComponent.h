@@ -1,23 +1,20 @@
 #pragma once
+#include <string>
 #include "../Component.h"
 
-using namespace std;
-
 class ModelData;
-class Material;
+class RenderContext;
 
 class SkySphereRenderComponent : public RenderComponent {
 
 private:
-    ModelData*              _data;
-    Material*               _material;
-    string                  _psoName = "skySpherePSO";
+    ModelData* _data;
 
 public:
 
-    SkySphereRenderComponent(ModelData* model, Material* material);
+    SkySphereRenderComponent(ModelData* model);
 
-    ~SkySphereRenderComponent();
+    ~SkySphereRenderComponent() = default;
 
     void onRender(RenderContext& renderContext) override;
 

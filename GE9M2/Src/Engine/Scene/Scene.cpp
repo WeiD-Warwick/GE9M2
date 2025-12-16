@@ -1,10 +1,10 @@
 #include "Scene.h"
 #include "GameObject.h"
-#include "../Engine.h"
-#include "../ModelLoader.h"
 #include "Component.h"
 #include "Components/ColliderComponent.h"
 #include "Components/CameraComponent.h"
+#include "../Engine.h"
+#include "../Graphics/Assets/ModelLoader.h"
 
 Scene::Scene(Engine* engine) : _engine(engine) {}
 

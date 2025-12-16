@@ -1,9 +1,9 @@
 #pragma once
 #include <d3d12.h>
 #include "../Game/Game.h"
-#include "Platform/Window/Window.h"
+#include "Scene/Scene.h"
 #include "Graphics/RenderContext.h"
-#include "ModelLoader.h"
+#include "Graphics/Assets/ModelLoader.h"
 
 class Engine {
 private:

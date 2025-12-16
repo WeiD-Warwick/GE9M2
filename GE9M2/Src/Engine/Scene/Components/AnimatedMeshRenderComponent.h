@@ -7,22 +7,19 @@
 class ModelData;
 class AnimationData;
 class AnimationController;
-class Material;
 
 class AnimatedMeshRenderComponent : public RenderComponent {
 
 private:
     ModelData*             _data;
-    Material*              _material;
     AnimationController    _animationController;
-    std::string            _psoName                 = "animatedMeshPSO";
     std::string            _currentAnimation        = "run";
 
 public:
 
-    AnimatedMeshRenderComponent(ModelData* data, Material* material);
+    AnimatedMeshRenderComponent(ModelData* data);
 
-    ~AnimatedMeshRenderComponent();
+    ~AnimatedMeshRenderComponent() = default;
 
     void playAnimation(const std::string& name);
 

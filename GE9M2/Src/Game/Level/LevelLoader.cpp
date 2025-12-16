@@ -8,94 +8,10 @@
 #include "../../Engine/Scene/GameObject.h"
 #include "../../Engine/Graphics/Material/ModelMaterial.h"
 // Components
-#include "../../Engine/Scene/Components/StaticMeshRenderComponent.h"
-#include "../../Engine/Scene/Components/CameraComponent.h"
-#include "../../Engine/Scene/Components/PlayerControllerComponent.h"
-#include "../../Engine/Scene/Components/AnimatedMeshRenderComponent.h"
-#include "../../Engine/Scene/Components/SkySphereRenderComponent.h"
-#include "../../Engine/Scene/Components/FPSRenderComponent.h"
-#include "../../Engine/Scene/Components/ColliderComponent.h"
+#include "../../Engine/Graphics/Assets/ModelData.h"
+#include "../../Engine/Graphics/Assets/ModelLoader.h"
+#include "../../Engine/Scene/ComponentFactory.h"
 
-
-using ComponentArgs = std::vector<std::string>;
-using ComponentCreator = std::function<void(GameObject*, Engine&, const ComponentArgs&)>;
-
-static std::unordered_map<std::string, ComponentCreator> ComponentContainer;
-
-static void registerComponent(const std::string& name, ComponentCreator creator) {
-    ComponentContainer[name] = creator;
-}
-
-// args[0] = model path
-// args[1] = shader name
-// args[2] = cbuffer name
-static void registerAllComponents() {
-
-    registerComponent(
-        CameraComponent::Name(),
-        [](GameObject* obj, Engine& engine, const ComponentArgs&) {
-            float aspect = engine.renderContext().aspectRatio();
-            obj->addComponent<CameraComponent>(aspect);
-        }
-    );
-
-    registerComponent(
-        PlayerControllerComponent::Name(),
-        [](GameObject* obj, Engine&, const ComponentArgs&) {
-            obj->addComponent<PlayerControllerComponent>();
-        }
-    );
-
-    registerComponent(
-        StaticMeshRenderComponent::Name(),
-        [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
-            auto* model = engine.loader().loadModelFromFile(args[0]);
-            auto* material = new ModelMaterial(args[1], args[2]);
-            obj->addComponent<StaticMeshRenderComponent>(model, material);
-        }
-    );
-
-    registerComponent(
-        AnimatedMeshRenderComponent::Name(),
-        [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
-            auto* model = engine.loader().loadModelFromFile(args[0]);
-            auto* material = new ModelMaterial(args[1], args[2]);
-            obj->addComponent<AnimatedMeshRenderComponent>(model, material);
-        }
-    );
-
-    registerComponent(
-        FPSRenderComponent::Name(),
-        [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
-            auto* model = engine.loader().loadModelFromFile(args[0]);
-            auto* material = new ModelMaterial(args[1], args[2]);
-            obj->addComponent<FPSRenderComponent>(model, material);
-        }
-    );
-
-    registerComponent(
-        SkySphereRenderComponent::Name(),
-        [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
-            auto* model = engine.loader().loadModelFromFile(args[0]);
-            auto* material = new ModelMaterial(args[1], args[2]);
-            obj->addComponent<SkySphereRenderComponent>(model, material);
-        }
-    );
-
-    registerComponent(
-        ColliderComponent::Name(),
-        [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
-            assert(args.size() >= 3);
-            Vec3 size(
-                std::stof(args[0]),
-                std::stof(args[1]),
-                std::stof(args[2])
-            );
-
-            obj->addComponent<ColliderComponent>(size);
-        }
-    );
-}
 
 static bool parseTransform(
     std::istream& in,
@@ -110,16 +26,9 @@ static bool parseTransform(
 
 void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& levelPath) {
     static bool registered = false;
-    if (!registered) {
-        registerAllComponents();
-        registered = true;
-    }
+    auto& componentFactory = ComponentFactory::shared();
 
     std::ifstream file(levelPath);
-
-    std::string animatedMeshShaderCBName = "animatedMeshBuffer";
-    std::string staticMeshShaderCBName = "staticMeshBuffer";
-    std::string skySphereShaderCBName = "skySphereBuffer";
 
     std::string line;
     GameObject* currentObject = nullptr;
@@ -183,12 +92,6 @@ void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& lev
             args.push_back(arg);
         }
 
-        auto it = ComponentContainer.find(componentName);
-        if (it == ComponentContainer.end()) {
-            continue;
-        }
-
-        // add component to Gameobject
-        it->second(currentObject, engine, args);
+        assert(componentFactory.create(componentName, currentObject, engine, args));
     }
 }
