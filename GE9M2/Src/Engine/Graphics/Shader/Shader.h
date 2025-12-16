@@ -160,6 +160,7 @@ private:
             buffers.push_back(cb);
         }
 
+        // Handle 
         for (UINT i = 0; i < desc.BoundResources; i++) {
             D3D12_SHADER_INPUT_BIND_DESC bindDesc;
             reflection->GetResourceBindingDesc(i, &bindDesc);

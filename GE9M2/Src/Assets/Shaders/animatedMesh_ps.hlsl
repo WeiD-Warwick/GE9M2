@@ -1,4 +1,4 @@
-Texture2D tex : register(t0);
+Texture2D albedoTex : register(t0);
 SamplerState samplerLinear : register(s0);
 
 struct PS_INPUT
@@ -11,6 +11,6 @@ struct PS_INPUT
 
 float4 PS(PS_INPUT input) : SV_Target0
 {
-    float4 colour = tex.Sample(samplerLinear, input.TexCoords);
+    float4 colour = albedoTex.Sample(samplerLinear, input.TexCoords);
     return float4(colour.rgb, 1.0);
 }

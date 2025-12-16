@@ -2,6 +2,7 @@
 === TEXTURE ===
 // <key>				<filePath>
 ground_basecolor		Src/Assets/Textures/Ground/ground_basecolor.png
+ground_normal			Src/Assets/Textures/Ground/ground_normal.png
 skysphere				Src/Assets/Textures/skysphere.png
 rgb_green				Src/Assets/Textures/rgb_green.png
 
@@ -24,7 +25,8 @@ fpsPSO				animatedMeshShader	animated	depth_always		nowrite
 groundMaterial
 : shader staticMeshShader staticMeshBuffer
 : pso staticMeshPSO
-: texture albedo ground_basecolor
+: texture albedoTex ground_basecolor
+: texture normalTex ground_normal
 : uv 100 100
 
 
@@ -32,13 +34,13 @@ groundMaterial
 wallGreenMaterial
 : shader staticMeshShader staticMeshBuffer
 : pso staticMeshPSO
-: texture albedo rgb_green
+: texture albedoTex rgb_green
 
 # ---------- Sky ----------
 skysphereMaterial
 : shader skysphereShader skysphereBuffer
 : pso skyspherePSO
-: texture SkyTex skysphere
+: texture albedoTex skysphere
 
 
 # ---------- FPS Weapon ----------

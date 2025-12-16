@@ -35,7 +35,11 @@ public:
 
 		// apply the model texture
 		if (!subMesh.albedoTex.empty()) {
-			instance->addTexture("albedo", subMesh.albedoTex);
+			instance->addTexture("albedoTex", subMesh.albedoTex);
+		}
+
+		if (!subMesh.normalTex.empty()) {
+			instance->addTexture("normalTex", subMesh.normalTex);
 		}
 
 		return instance;

@@ -1,4 +1,4 @@
-Texture2D tex : register(t0);
+Texture2D albedoTex : register(t0);
 SamplerState samplerLinear : register(s0);
 cbuffer staticMeshBuffer : register(b0)
 {
@@ -20,5 +20,5 @@ struct PS_INPUT
 float4 PS(PS_INPUT input) : SV_Target0
 {
     float2 tiledUV = input.TexCoords * uvScale;
-    return tex.Sample(samplerLinear, tiledUV);
+    return albedoTex.Sample(samplerLinear, tiledUV);
 }

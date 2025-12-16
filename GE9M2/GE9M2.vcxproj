@@ -214,6 +214,7 @@
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_nh.png" />
     <Image Include="Src\Assets\Models\Textures\Uzi_bullet_shell_Albedo_rmax.png" />
     <Image Include="Src\Assets\Textures\Ground\ground_basecolor.png" />
+    <Image Include="Src\Assets\Textures\Ground\ground_normal.png" />
     <Image Include="Src\Assets\Textures\rgb_green.png" />
     <Image Include="Src\Assets\Textures\__default.png" />
     <Image Include="Src\Assets\Textures\skysphere.png" />

@@ -8,6 +8,7 @@ public:
     Mesh* mesh = nullptr;
     std::string materialKey;
     std::string albedoTex;
+    std::string normalTex;
 };
 
 class ModelData {
