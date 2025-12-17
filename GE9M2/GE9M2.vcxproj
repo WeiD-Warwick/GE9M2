@@ -145,6 +145,7 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Scene\Light.h" />
     <ClInclude Include="Src\Engine\Graphics\Assets\ModelData.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\MaterialManager.h" />
     <ClInclude Include="Src\Engine\Graphics\Mesh\Mesh.h" />

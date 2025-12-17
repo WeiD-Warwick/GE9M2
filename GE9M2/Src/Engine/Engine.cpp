@@ -13,6 +13,19 @@ Engine::Engine(HWND hwnd, int width, int height, Game* game)
 {
 	if (_game) {
 		_game->onInit(*this, _scene);
+
+		SkyLight skylight;
+		skylight.color = { 1, 1, 1 };
+		skylight.intensity = 0.1;
+		_scene.setSkyLight(skylight);
+
+		PointLight light1;
+		light1.position = { 0, 5, 0 };
+		light1.color = { 1, 1, 1 };
+		light1.range = 12;
+		light1.intensity = 15;
+
+		_scene.addLight(light1);
 	}
 }
 

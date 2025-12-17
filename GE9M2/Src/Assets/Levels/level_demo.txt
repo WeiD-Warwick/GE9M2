@@ -26,7 +26,7 @@ groundMaterial
 : shader staticMeshShader staticMeshBuffer
 : pso staticMeshPSO
 : texture albedoTex ground_basecolor
-: texture normalTex ground_normal
+//: texture normalTex ground_normal
 : uv 100 100
 
 
