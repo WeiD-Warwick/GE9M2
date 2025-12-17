@@ -102,13 +102,28 @@ public:
     }
 
     void apply(ID3D12GraphicsCommandList4* cmd) {
-        for (int i = 0; i < vsCBs.size(); i++) {
-            cmd->SetGraphicsRootConstantBufferView(0, vsCBs[i].getGPUAddress());
-            vsCBs[i].next();
+        if (!vsCBs.empty()) {
+            // RootParam 0 : VS b0
+            cmd->SetGraphicsRootConstantBufferView(0, vsCBs[0].getGPUAddress());
+            vsCBs[0].next();
         }
-        for (int i = 0; i < psCBs.size(); i++) {
-            cmd->SetGraphicsRootConstantBufferView(1, psCBs[i].getGPUAddress());
-            psCBs[i].next();
+
+        if (vsCBs.size() > 1) {
+            // RootParam 1 : VS b1
+            cmd->SetGraphicsRootConstantBufferView(1, vsCBs[1].getGPUAddress());
+            vsCBs[1].next();
+        }
+
+        if (!psCBs.empty()) {
+            // RootParam 2 : PS b0
+            cmd->SetGraphicsRootConstantBufferView(2, psCBs[0].getGPUAddress());
+            psCBs[0].next();
+        }
+
+        if (psCBs.size() > 1) {
+            // RootParam 3 : PS b1
+            cmd->SetGraphicsRootConstantBufferView(3, psCBs[1].getGPUAddress());
+            psCBs[1].next();
         }
     }
 

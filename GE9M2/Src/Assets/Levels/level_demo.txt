@@ -50,10 +50,10 @@ fpsWeaponMaterial
 
 
 
-# ---------- Dino ----------
-dinoMaterial
-: shader animatedMeshShader animatedMeshBuffer
-: pso animatedMeshPSO
+//# ---------- Dino ----------
+//dinoMaterial
+//: shader animatedMeshShader animatedMeshBuffer
+//: pso animatedMeshPSO
 
 
 === SCENE ===
@@ -77,9 +77,9 @@ ColliderComponent 10 8 4
 transform 0 0 0     0 0 0 1     500 1 500
 StaticMeshRenderComponent primitive:plane groundMaterial
 
-# Dino
-transform 0 0 5   0 0 0 1   0.1 0.1 0.1
-AnimatedMeshRenderComponent Src/Assets/Models/TRex.gem dinoMaterial
+//# Dino
+//transform 0 0 5   0 0 0 1   0.1 0.1 0.1
+//AnimatedMeshRenderComponent Src/Assets/Models/TRex.gem dinoMaterial
 
 # Sky
 transform 0 0 0     0 0 0 1     1 1 1

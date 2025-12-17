@@ -16,16 +16,23 @@ Engine::Engine(HWND hwnd, int width, int height, Game* game)
 
 		SkyLight skylight;
 		skylight.color = { 1, 1, 1 };
-		skylight.intensity = 0.1;
+		skylight.intensity = 0.3;
 		_scene.setSkyLight(skylight);
 
 		PointLight light1;
 		light1.position = { 0, 5, 0 };
-		light1.color = { 1, 1, 1 };
-		light1.range = 12;
+		light1.color = { 255, 0, 0 };
+		light1.range = 20;
+		light1.intensity = 15;
+
+		PointLight light2;
+		light1.position = { 0, 10, 0 };
+		light1.color = { 0, 0.5, 0 };
+		light1.range = 20;
 		light1.intensity = 15;
 
 		_scene.addLight(light1);
+		_scene.addLight(light2);
 	}
 }
 

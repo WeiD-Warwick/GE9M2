@@ -12,11 +12,16 @@ void Texture::init(
 	ID3D12Device5* device,
 	DX12Upload& uploader,
 	DX12CBVSRVUAVHeap& srvHeap,
-	const std::string& filename
+	const std::string& filename,
+	TextureUsage usage
 ) {
 	int width = 0;
 	int height = 0;
 	int channels = 0;
+
+	format = (usage == TextureUsage::Color) 
+		? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB 
+		: DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	unsigned char* texels = stbi_load(filename.c_str(), &width, &height, &channels, 4);
 	channels = 4;
@@ -54,7 +59,7 @@ void Texture::init(
 	);
 
 	UINT rowPitch = footprint.Footprint.RowPitch;
-	UINT srcRowSize = width * 4;
+	UINT srcRowSize = width * channels;
 
 	unsigned char* uploadData = new unsigned char[rowPitch * height];
 

@@ -9,16 +9,22 @@ class ID3D12Device5;
 class DX12Upload;
 class DX12CBVSRVUAVHeap;
 
+enum class TextureUsage {
+	Color,   // Albedo
+	Data     // Normal / Roughness
+};
+
 class Texture {
 
 public:
 	ComPtr<ID3D12Resource> texResource;
 	int heapOffset = -1;
-	DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	DXGI_FORMAT format;
 
 	void init(
 		ID3D12Device5* device,
 		DX12Upload& uploader,
 		DX12CBVSRVUAVHeap& srvHeap,
-		const std::string& filename);
+		const std::string& filename,
+		TextureUsage usage);
 };

@@ -18,6 +18,14 @@ void ModelMaterial::addTexture(const std::string& slot, const std::string& name)
     _textures.push_back({ slot, name });
 }
 
+bool ModelMaterial::hasTexture(const std::string& slot) const {
+    for (auto& t : _textures) {
+        if (t.slot == slot)
+            return true;
+    }
+    return false;
+}
+
 void ModelMaterial::setUVScale(const Vec2& scale) { _uvScale = scale; }
 
 void ModelMaterial::apply(RenderContext& ctx, MaterialParam& param) {
@@ -38,9 +46,12 @@ void ModelMaterial::apply(RenderContext& ctx, MaterialParam& param) {
     if (param.bones) {
         shaders.updateConstantVS(_shaderName, _cbufferName, "bones", param.bones);
     }
-
     // Bind shader
     shaders.apply(commandList, _shaderName);
+
+    // Normal Map Guard
+    //int useNormalMap = hasTexture("normalTex") ? 1 : 0;
+    //shaders.updateConstantPS(_shaderName, _cbufferName, "useNormalMap", &useNormalMap);
 
     for (auto& tex : _textures) {
         int index = textures.find(tex.name);

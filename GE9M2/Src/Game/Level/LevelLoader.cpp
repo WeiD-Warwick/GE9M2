@@ -58,12 +58,18 @@ void LevelLoader::parseTexture(Engine& engine, const std::string& line) {
     std::string key, path;
     textureLine >> key >> path;
 
+    TextureUsage usgae = (key == "albedoTex")
+        ? TextureUsage::Color
+        : TextureUsage::Data;
+    
+
     auto* texture = engine.renderContext().textureManager().loadTexture(
         engine.renderContext().device().dxDevice(),
         engine.renderContext().uploader(),
         engine.renderContext().srvHeap(),
         key,
-        path
+        path,
+        usgae
     );
 
     assert(texture);

@@ -79,7 +79,8 @@ ModelData* ModelLoader::loadStaticGEMModel(const std::string& modelPath, const s
                 _renderContext.uploader(),
                 _renderContext.srvHeap(),
                 texName,
-                fullPath
+                fullPath,
+                TextureUsage::Color
             );
         }
 
@@ -123,7 +124,8 @@ ModelData* ModelLoader::loadAnimatedGEMModel(const std::string& modelPath, const
                 _renderContext.uploader(),
                 _renderContext.srvHeap(),
                 texName,
-                fullPath
+                fullPath,
+                TextureUsage::Color
             );
         }
         data->subMeshes.push_back({ subMesh, materialKey, texName });

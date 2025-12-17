@@ -31,10 +31,10 @@ public:
 		vertices.clear();
 		indices.clear();
 
-		vertices.push_back(addVertex(Vec3(-0.5, 0, -0.5), Vec3(0, 1, 0), 0, 0));
-		vertices.push_back(addVertex(Vec3(0.5, 0, -0.5), Vec3(0, 1, 0), 1, 0));
-		vertices.push_back(addVertex(Vec3(-0.5, 0, 0.5), Vec3(0, 1, 0), 0, 1));
-		vertices.push_back(addVertex(Vec3(0.5, 0, 0.5), Vec3(0, 1, 0), 1, 1));
+		vertices.push_back(addVertex(Vec3(-0.5, 0, -0.5), Vec3(0, 1, 0), Vec3(1, 0, 0), 0, 0));
+		vertices.push_back(addVertex(Vec3(0.5, 0, -0.5), Vec3(0, 1, 0), Vec3(1, 0, 0), 1, 0));
+		vertices.push_back(addVertex(Vec3(-0.5, 0, 0.5), Vec3(0, 1, 0), Vec3(1, 0, 0), 0, 1));
+		vertices.push_back(addVertex(Vec3(0.5, 0, 0.5), Vec3(0, 1, 0), Vec3(1, 0, 0), 1, 1));
 		
 		indices = { 0, 1, 2, 1, 3, 2 };
 		plane.createStatic(
@@ -63,35 +63,58 @@ public:
 		Vec3 p7 = Vec3(-0.5f, 1.0f, 0.5f);
 
 		// back
-		vertices.push_back(addVertex(p0, Vec3(0.0f, 0.0f, -1.0f), 0.0f, 1.0f));
-		vertices.push_back(addVertex(p1, Vec3(0.0f, 0.0f, -1.0f), 1.0f, 1.0f));
-		vertices.push_back(addVertex(p2, Vec3(0.0f, 0.0f, -1.0f), 1.0f, 0.0f));
-		vertices.push_back(addVertex(p3, Vec3(0.0f, 0.0f, -1.0f), 0.0f, 0.0f));
+		Vec3 nBack(0, 0, -1);
+		Vec3 tBack(1, 0, 0);
+
+		vertices.push_back(addVertex(p0, nBack, tBack, 0, 1));
+		vertices.push_back(addVertex(p1, nBack, tBack, 1, 1));
+		vertices.push_back(addVertex(p2, nBack, tBack, 1, 0));
+		vertices.push_back(addVertex(p3, nBack, tBack, 0, 0));
 		// front
-		vertices.push_back(addVertex(p5, Vec3(0.0f, 0.0f, 1.0f), 0.0f, 1.0f));
-		vertices.push_back(addVertex(p4, Vec3(0.0f, 0.0f, 1.0f), 1.0f, 1.0f));
-		vertices.push_back(addVertex(p7, Vec3(0.0f, 0.0f, 1.0f), 1.0f, 0.0f));
-		vertices.push_back(addVertex(p6, Vec3(0.0f, 0.0f, 1.0f), 0.0f, 0.0f));
+		Vec3 nFront(0, 0, 1);
+		Vec3 tFront(-1, 0, 0);
+
+		vertices.push_back(addVertex(p5, nFront, tFront, 0, 1));
+		vertices.push_back(addVertex(p4, nFront, tFront, 1, 1));
+		vertices.push_back(addVertex(p7, nFront, tFront, 1, 0));
+		vertices.push_back(addVertex(p6, nFront, tFront, 0, 0));
+
 		// left
-		vertices.push_back(addVertex(p4, Vec3(-1.0f, 0.0f, 0.0f), 0.0f, 1.0f));
-		vertices.push_back(addVertex(p0, Vec3(-1.0f, 0.0f, 0.0f), 1.0f, 1.0f));
-		vertices.push_back(addVertex(p3, Vec3(-1.0f, 0.0f, 0.0f), 1.0f, 0.0f));
-		vertices.push_back(addVertex(p7, Vec3(-1.0f, 0.0f, 0.0f), 0.0f, 0.0f));
+		Vec3 nLeft(-1, 0, 0);
+		Vec3 tLeft(0, 0, 1);
+
+		vertices.push_back(addVertex(p4, nLeft, tLeft, 0, 1));
+		vertices.push_back(addVertex(p0, nLeft, tLeft, 1, 1));
+		vertices.push_back(addVertex(p3, nLeft, tLeft, 1, 0));
+		vertices.push_back(addVertex(p7, nLeft, tLeft, 0, 0));
+
 		// right
-		vertices.push_back(addVertex(p1, Vec3(1.0f, 0.0f, 0.0f), 0.0f, 1.0f));
-		vertices.push_back(addVertex(p5, Vec3(1.0f, 0.0f, 0.0f), 1.0f, 1.0f));
-		vertices.push_back(addVertex(p6, Vec3(1.0f, 0.0f, 0.0f), 1.0f, 0.0f));
-		vertices.push_back(addVertex(p2, Vec3(1.0f, 0.0f, 0.0f), 0.0f, 0.0f));
+		Vec3 nRight(1, 0, 0);
+		Vec3 tRight(0, 0, -1);
+
+		vertices.push_back(addVertex(p1, nRight, tRight, 0, 1));
+		vertices.push_back(addVertex(p5, nRight, tRight, 1, 1));
+		vertices.push_back(addVertex(p6, nRight, tRight, 1, 0));
+		vertices.push_back(addVertex(p2, nRight, tRight, 0, 0));
+
 		// top
-		vertices.push_back(addVertex(p3, Vec3(0.0f, 1.0f, 0.0f), 0.0f, 1.0f));
-		vertices.push_back(addVertex(p2, Vec3(0.0f, 1.0f, 0.0f), 1.0f, 1.0f));
-		vertices.push_back(addVertex(p6, Vec3(0.0f, 1.0f, 0.0f), 1.0f, 0.0f));
-		vertices.push_back(addVertex(p7, Vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f));
+		Vec3 nTop(0, 1, 0);
+		Vec3 tTop(1, 0, 0);
+
+		vertices.push_back(addVertex(p3, nTop, tTop, 0, 1));
+		vertices.push_back(addVertex(p2, nTop, tTop, 1, 1));
+		vertices.push_back(addVertex(p6, nTop, tTop, 1, 0));
+		vertices.push_back(addVertex(p7, nTop, tTop, 0, 0));
+
 		// bottom
-		vertices.push_back(addVertex(p4, Vec3(0.0f, -1.0f, 0.0f), 0.0f, 1.0f));
-		vertices.push_back(addVertex(p5, Vec3(0.0f, -1.0f, 0.0f), 1.0f, 1.0f));
-		vertices.push_back(addVertex(p1, Vec3(0.0f, -1.0f, 0.0f), 1.0f, 0.0f));
-		vertices.push_back(addVertex(p0, Vec3(0.0f, -1.0f, 0.0f), 0.0f, 0.0f));
+		Vec3 nBottom(0, -1, 0);
+		Vec3 tBottom(1, 0, 0);
+
+		vertices.push_back(addVertex(p4, nBottom, tBottom, 0, 1));
+		vertices.push_back(addVertex(p5, nBottom, tBottom, 1, 1));
+		vertices.push_back(addVertex(p1, nBottom, tBottom, 1, 0));
+		vertices.push_back(addVertex(p0, nBottom, tBottom, 0, 0));
+
 
 		// back
 		indices.push_back(0); indices.push_back(1); indices.push_back(2);
@@ -136,17 +159,18 @@ public:
 		Vec3 p6 = Vec3(0.5f, 0.5f, 0.5f);
 		Vec3 p7 = Vec3(-0.5f, 0.5f, 0.5f);
 
-		const Vec3 zeroNormal(0.0f, 0.0f, 0.0f);
-		const float zeroUV = 0.0f;
+		const Vec3 zeroNormal(0, 0, 0);
+		const Vec3 zeroTangent(0, 0, 0);
+		const float zeroUV = 0;
 
-		vertices.push_back(addVertex(p0, zeroNormal, zeroUV, zeroUV));
-		vertices.push_back(addVertex(p1, zeroNormal, zeroUV, zeroUV));
-		vertices.push_back(addVertex(p2, zeroNormal, zeroUV, zeroUV));
-		vertices.push_back(addVertex(p3, zeroNormal, zeroUV, zeroUV));
-		vertices.push_back(addVertex(p4, zeroNormal, zeroUV, zeroUV));
-		vertices.push_back(addVertex(p5, zeroNormal, zeroUV, zeroUV));
-		vertices.push_back(addVertex(p6, zeroNormal, zeroUV, zeroUV));
-		vertices.push_back(addVertex(p7, zeroNormal, zeroUV, zeroUV));
+		vertices.push_back(addVertex(p0, zeroNormal, zeroTangent, zeroUV, zeroUV));
+		vertices.push_back(addVertex(p1, zeroNormal, zeroTangent, zeroUV, zeroUV));
+		vertices.push_back(addVertex(p2, zeroNormal, zeroTangent, zeroUV, zeroUV));
+		vertices.push_back(addVertex(p3, zeroNormal, zeroTangent, zeroUV, zeroUV));
+		vertices.push_back(addVertex(p4, zeroNormal, zeroTangent, zeroUV, zeroUV));
+		vertices.push_back(addVertex(p5, zeroNormal, zeroTangent, zeroUV, zeroUV));
+		vertices.push_back(addVertex(p6, zeroNormal, zeroTangent, zeroUV, zeroUV));
+		vertices.push_back(addVertex(p7, zeroNormal, zeroTangent, zeroUV, zeroUV));
 
 		// bottom
 		indices.push_back(4); indices.push_back(5);
@@ -178,6 +202,8 @@ public:
 		vertices.clear();
 		indices.clear();
 
+		const Vec3 zeroTangent(0, 0, 0);
+
 		for (int lat = 0; lat <= rings; lat++) {
 			float theta = lat * M_PI / rings;
 			float sinTheta = sinf(theta);
@@ -190,7 +216,7 @@ public:
 				Vec3 normal = position.normalized();
 				float tu = (float)lon / segments;
 				float tv = (float)lat / rings;
-				vertices.push_back(addVertex(position, normal, tu, tv));
+				vertices.push_back(addVertex(position, normal, zeroTangent, tu, tv));
 			}
 		}
 
@@ -215,11 +241,11 @@ public:
 		);
 	}
 
-	STATIC_VERTEX addVertex(Vec3 p, Vec3 n, float tu, float tv) {
+	STATIC_VERTEX addVertex(Vec3 p, Vec3 n, Vec3 t, float tu, float tv) {
 		STATIC_VERTEX v;
 		v.pos = p;
 		v.normal = n;
-		v.tangent = Vec3(0, 0, 0);
+		v.tangent = t;
 		v.tu = tu;
 		v.tv = tv;
 		return v;

@@ -16,6 +16,8 @@ private:
 
 public:
 
+    int srvRootIndex = INT_MAX;
+
     // RootParam 0: VS CBV(b0)
     // RootParam 1: PS CBV(b0)
     // RootParam 2: SRV Table (t0–t7)
@@ -25,22 +27,38 @@ public:
         std::vector<D3D12_ROOT_PARAMETER> params;
 
         // VS CBV(b0)
-        D3D12_ROOT_PARAMETER cbvVS{};
-        cbvVS.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-        cbvVS.Descriptor.ShaderRegister = 0;
-        cbvVS.Descriptor.RegisterSpace = 0;
-        cbvVS.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-        params.push_back(cbvVS);
+        D3D12_ROOT_PARAMETER meshVS_CBV{};
+        meshVS_CBV.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        meshVS_CBV.Descriptor.ShaderRegister = 0;
+        meshVS_CBV.Descriptor.RegisterSpace = 0;
+        meshVS_CBV.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+        params.push_back(meshVS_CBV);
+
+        D3D12_ROOT_PARAMETER lightVS_CBV{};
+        lightVS_CBV.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        lightVS_CBV.Descriptor.ShaderRegister = 1;
+        lightVS_CBV.Descriptor.RegisterSpace = 0;
+        lightVS_CBV.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+        params.push_back(lightVS_CBV);
 
         // PS CBV(b0)
-        D3D12_ROOT_PARAMETER cbvPS{};
-        cbvPS.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-        cbvPS.Descriptor.ShaderRegister = 0;
-        cbvPS.Descriptor.RegisterSpace = 0;
-        cbvPS.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-        params.push_back(cbvPS);
+        D3D12_ROOT_PARAMETER meshPS_CBV{};
+        meshPS_CBV.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        meshPS_CBV.Descriptor.ShaderRegister = 0;
+        meshPS_CBV.Descriptor.RegisterSpace = 0;
+        meshPS_CBV.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        params.push_back(meshPS_CBV);
+
+        // PS CBV(b1)
+        D3D12_ROOT_PARAMETER lightPS_CBV{};
+        lightPS_CBV.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+        lightPS_CBV.Descriptor.ShaderRegister = 1;
+        lightPS_CBV.Descriptor.RegisterSpace = 0;
+        lightPS_CBV.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        params.push_back(lightPS_CBV);
 
         // SRV Table (t0–t7)
+        srvRootIndex = params.size();
         D3D12_DESCRIPTOR_RANGE srvRange = {};
         srvRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
         srvRange.NumDescriptors = 8;        // number of SRVs (t0–t7)

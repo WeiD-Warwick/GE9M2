@@ -3,8 +3,7 @@
 Texture2D albedoTex : register(t0);
 SamplerState samplerLinear : register(s0);
 
-cbuffer animatedMeshBuffer
-{
+cbuffer animatedMeshBuffer {
     // ---------- Mesh ----------
     float4x4 W;
     float4x4 V;

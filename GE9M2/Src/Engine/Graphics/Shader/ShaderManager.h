@@ -6,8 +6,13 @@
 #include "../../Foundation/DX12/DX12Resources.h"
 
 class ShaderManager {
+private:
+    int _srvRootIndex = INT_MAX;
+
 public:
     std::map<std::string, Shader*> shaders;
+
+    void setSRVRootIndex(int index) { _srvRootIndex = index; }
 
     Shader* load(ID3D12Device5* device, const std::string& name, const std::string& vs, const std::string& ps) {
         if (shaders.find(name) != shaders.end()) {
@@ -29,12 +34,20 @@ public:
     void apply(ID3D12GraphicsCommandList4* cmd, const std::string& name) {
         find(name)->apply(cmd);
     }
-    void updateTexturePS(ID3D12GraphicsCommandList4* cmd, DX12CBVSRVUAVHeap& srvHeap, const std::string& shaderName, const std::string& textureName, int heapOffset) {
+
+    void updateTexturePS(
+        ID3D12GraphicsCommandList4* cmd,
+        DX12CBVSRVUAVHeap& srvHeap,
+        const std::string& shaderName,
+        const std::string& textureName,
+        int heapOffset
+    ) {
+        
         UINT bindPoint = shaders[shaderName]->textureBindPoints[textureName];
         D3D12_GPU_DESCRIPTOR_HANDLE handle = srvHeap.gpuHandle;
 
         handle.ptr = handle.ptr + (UINT64)(heapOffset - bindPoint) * (UINT64)srvHeap.incrementSize;
-        cmd->SetGraphicsRootDescriptorTable(2, handle);
+        cmd->SetGraphicsRootDescriptorTable(4, handle);
     }
 
     void updateConstantVS(std::string shaderName, std::string cbName, std::string vName, void* data) {

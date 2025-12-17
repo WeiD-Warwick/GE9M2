@@ -2,6 +2,7 @@
 #include "PSOManager.h"
 #include "Shader/ShaderManager.h"
 #include "Texture/TextureManager.h"
+#include "Texture/Texture.h"
 #include "../Foundation/DX12/DX12Device.h"
 #include "../Foundation/DX12/DX12CommandQueue.h"
 #include "../Foundation/DX12/DX12Resources.h"
@@ -39,6 +40,7 @@ public:
 	PSOManager& psoManager() { return _psoManager; }
 	TextureManager& textureManager() { return _textureManager; }
     MaterialManager& materialManager() { return _materialManager; }
+
     float aspectRatio() { return _aspectRatio; }
 
     RenderContext(HWND hwnd, int width, int height) {
@@ -50,6 +52,7 @@ public:
         _queues.create(_device.dxDevice());
 
         _rootSignature.create(_device.dxDevice());
+        _shaderManager.setSRVRootIndex(_rootSignature.srvRootIndex);
 
         _swapchain.create(_queues.graphicsQueue(), hwnd, width, height, bufferCount);
 
@@ -72,7 +75,7 @@ public:
             width,
             height
         );
-
+        
         registerDefaultResource();
     }
 
@@ -92,7 +95,8 @@ private:
             _uploader,
             _srvHeap,
             "__default",
-            "Src/Assets/Textures/__default.png"
+            "Src/Assets/Textures/__default.png",
+            TextureUsage::Color
         );
 
         Shader* debugShader = _shaderManager.load(

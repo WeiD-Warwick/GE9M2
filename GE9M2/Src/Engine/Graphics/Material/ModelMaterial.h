@@ -28,6 +28,8 @@ public:
 
     void addTexture(const std::string& slot, const std::string& name);
 
+    bool hasTexture(const std::string& slot) const;
+
     void setUVScale(const Vec2& scale);
 
     void apply(RenderContext& ctx, MaterialParam& param) override;

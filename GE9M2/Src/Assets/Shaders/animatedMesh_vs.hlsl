@@ -68,6 +68,6 @@ PS_INPUT VS(VS_INPUT input)
     output.Normal = mul(output.Normal, (float3x3) W);
     output.Normal = normalize(output.Normal);
     
-    output.TexCoords = input.TexCoords;
+    output.TexCoords = input.TexCoords * uvScale;
     return output;
 }
