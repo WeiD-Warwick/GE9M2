@@ -50,11 +50,14 @@ void ModelMaterial::apply(RenderContext& ctx, MaterialParam& param) {
     shaders.apply(commandList, _shaderName);
 
     // Normal Map Guard
-    //int useNormalMap = hasTexture("normalTex") ? 1 : 0;
-    //shaders.updateConstantPS(_shaderName, _cbufferName, "useNormalMap", &useNormalMap);
+    int useNormalMap = hasTexture("normalTex") ? 1 : 0;
+    shaders.updateConstantPS(_shaderName, _cbufferName, "useNormalMap", &useNormalMap);
 
-    for (auto& tex : _textures) {
-        int index = textures.find(tex.name);
-        shaders.updateTexturePS(commandList, srvHeap, _shaderName, tex.slot, index);
+    // MARK: SRV Update
+    if (!_textures.empty()) {
+        int baseOffset = textures.find(_textures[0].name);
+
+        // find the heapStart
+        shaders.updateTexturePS(commandList, srvHeap, _shaderName, _textures[0].slot, baseOffset);
     }
 }

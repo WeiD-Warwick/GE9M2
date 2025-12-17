@@ -69,6 +69,9 @@
     <ClCompile Include="Src\Engine\Graphics\Assets\ModelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Graphics\Material\ModelMaterial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Third_Party\GEMLoader.h">
@@ -179,7 +182,7 @@
     <ClInclude Include="Src\Engine\Foundation\DX12\DX12Device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Foundation\DX12\DX12Pipeline.h">
+    <ClInclude Include="Src\Engine\Foundation\DX12\DX12RootSignature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Foundation\DX12\DX12Resources.h">
@@ -198,6 +201,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Scene\ComponentFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Material\MaterialManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -270,6 +279,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Textures\Ground\ground_basecolor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Textures\Ground\ground_normal.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -26,8 +26,8 @@ groundMaterial
 : shader staticMeshShader staticMeshBuffer
 : pso staticMeshPSO
 : texture albedoTex ground_basecolor
-//: texture normalTex ground_normal
-: uv 100 100
+: texture normalTex ground_normal
+: uv 1 1
 
 
 # ---------- Wall (debug / simple color) ----------
@@ -74,7 +74,7 @@ StaticMeshRenderComponent primitive:cube wallGreenMaterial
 ColliderComponent 10 8 4
 
 # Ground
-transform 0 0 0     0 0 0 1     500 1 500
+transform 0 0 0     0 0 0 1     1 1 1
 StaticMeshRenderComponent primitive:plane groundMaterial
 
 //# Dino

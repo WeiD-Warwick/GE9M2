@@ -1,5 +1,6 @@
-#pragma once
+﻿#pragma once
 #include <map>
+#include <iostream>
 #include "Texture.h"
 
 class TextureManager {
@@ -17,6 +18,7 @@ public:
 		const std::string& file,
 		TextureUsage usage
 	) {
+
 		auto it = textures.find(name);
 		if (it != textures.end())
 			return it->second;

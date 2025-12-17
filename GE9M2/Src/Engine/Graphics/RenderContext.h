@@ -6,7 +6,7 @@
 #include "../Foundation/DX12/DX12Device.h"
 #include "../Foundation/DX12/DX12CommandQueue.h"
 #include "../Foundation/DX12/DX12Resources.h"
-#include "../Foundation/DX12/DX12Pipeline.h"
+#include "../Foundation/DX12/DX12RootSignature.h"
 #include "../Foundation/DX12/DX12Renderer.h"
 #include "Material/MaterialManager.h"
 

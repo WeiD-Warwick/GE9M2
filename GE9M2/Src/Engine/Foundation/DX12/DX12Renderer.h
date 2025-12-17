@@ -2,7 +2,7 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 #include "DX12Resources.h"
-#include "DX12Pipeline.h"
+#include "DX12RootSignature.h"
 #include "../../Graphics/PSOManager.h"
 #include "../../Graphics/Shader/ShaderManager.h"
 #include "../../Graphics/Texture/TextureManager.h"
