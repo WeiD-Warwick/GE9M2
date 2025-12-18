@@ -39,35 +39,34 @@ struct PS_INPUT
 {
     float4 Pos : SV_POSITION;
     float3 PosWS : TEXCOORD0;
-    float3 Normal : TEXCOORD1;
-    float2 TexCoords : TEXCOORD2;
+    float3 NormalWS : TEXCOORD1;
+    float3 TangentWS : TEXCOORD2;
+    float2 TexCoords : TEXCOORD3;
 };
-
 
 PS_INPUT VS(VS_INPUT input)
 {
     PS_INPUT output;
     
-    // transform for animation
+    // --- Transform
     float4x4 transform = bones[input.BoneIDs[0]] * input.BoneWeights[0];
     transform += bones[input.BoneIDs[1]] * input.BoneWeights[1];
     transform += bones[input.BoneIDs[2]] * input.BoneWeights[2];
     transform += bones[input.BoneIDs[3]] * input.BoneWeights[3];
     
-    // model -> view -> projection
+    // --- Position ---
     float4 pos = float4(input.Pos, 1.0f);
-    pos = mul(pos, transform);
-    pos = mul(pos, W);
+    pos = mul(mul(pos, transform), W);
     output.PosWS = pos.xyz;
+    output.Pos = mul(mul(pos, V), P);
     
-    pos = mul(pos, V);
-    pos = mul(pos, P);
-    output.Pos = pos;
+    // --- NormalWS ---
+    output.NormalWS = normalize(mul(mul(input.Normal, (float3x3) transform), (float3x3) W));
     
-    output.Normal = mul(input.Normal, (float3x3) transform);
-    output.Normal = mul(output.Normal, (float3x3) W);
-    output.Normal = normalize(output.Normal);
+    // --- TangentWS ---
+    output.TangentWS = normalize(mul(input.Tangent, (float3x3) W));
     
-    output.TexCoords = input.TexCoords * uvScale;
+    // --- TexCoords ---
+    output.TexCoords = input.TexCoords;
     return output;
 }

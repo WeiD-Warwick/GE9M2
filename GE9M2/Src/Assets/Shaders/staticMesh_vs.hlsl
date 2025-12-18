@@ -23,15 +23,20 @@ struct PS_INPUT {
 
 PS_INPUT VS(VS_INPUT input) {
     PS_INPUT output;
+    // --- Position ---
     float4 pos = float4(input.Pos, 1.0f);
-    float4 posW = mul(pos, W);
-    float4 cameraSpace = mul(posW, V);
-    float4 clipSpace = mul(cameraSpace, P);
+    pos = mul(pos, W);
     
-    output.Pos = clipSpace;
-    output.PosWS = posW.xyz;
+    output.PosWS = pos.xyz;
+    output.Pos = mul(mul(pos, V), P);
+    
+    // --- NormalWS ---
     output.NormalWS = normalize(mul(input.Normal, (float3x3) W));
+    
+    // --- TangentWS ---
     output.TangentWS = normalize(mul(input.Tangent, (float3x3) W));
+    
+    // --- TexCoords ---
     output.TexCoords = input.TexCoords;
 
     return output;

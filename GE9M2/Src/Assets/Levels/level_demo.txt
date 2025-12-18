@@ -94,7 +94,7 @@ ColliderComponent 1.2 2 1.2
 //StaticMeshRenderComponent primitive:plane groundMaterial
 
 # Grass
-transform 5 0 5     0 0 0 1     0.01 0.01 0.01
+transform 5 0 5     0 0 0 1     0.02 0.02 0.02
 StaticMeshRenderComponent Src/Assets/Models/beech.gem grassMaterial
 ColliderComponent 1 10 1
 

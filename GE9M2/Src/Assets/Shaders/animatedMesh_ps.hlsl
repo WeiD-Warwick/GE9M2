@@ -1,63 +1,88 @@
 #define MAX_POINT_LIGHTS 10
+#define PI 3.1415926
 
 Texture2D albedoTex : register(t0);
+Texture2D normalTex : register(t1);
 SamplerState samplerLinear : register(s0);
 
 cbuffer animatedMeshBuffer {
-    // ---------- Mesh ----------
-    float4x4 W;
-    float4x4 V;
-    float4x4 P;
-    float4x4 bones[256];
     float2 uvScale;
-    float2 _padding;
     
-    // ---------- SkyLight ----------
-    float3 skyLightColor;
+    int useNormalMap;
+    bool useAlphaTest;
+    
     float skyLightIntensity;
+    float3 skyLightColor;
     
-
-    // ---------- PointLights ----------
     int pointLightCount;
-    float3 _pad0;
-
     float3 lightPosWS[MAX_POINT_LIGHTS];
     float lightRange[MAX_POINT_LIGHTS];
     float3 lightColor[MAX_POINT_LIGHTS];
     float lightIntensity[MAX_POINT_LIGHTS];
-   
 };
 
-struct PS_INPUT {
+struct PS_INPUT
+{
     float4 Pos : SV_POSITION;
     float3 PosWS : TEXCOORD0;
-    float3 Normal : TEXCOORD1;
-    float2 TexCoords : TEXCOORD2;
+    float3 NormalWS : TEXCOORD1;
+    float3 TangentWS : TEXCOORD2;
+    float2 TexCoords : TEXCOORD3;
 };
 
-float Attenuation(float d, float range) {
-    float x = saturate(1.0 - d / max(range, 1e-4));
-    return x * x;
+float3x3 getTBN(PS_INPUT input)
+{
+    float3 N = normalize(input.NormalWS);
+    float3 T = normalize(input.TangentWS);
+    float3 B = normalize(cross(N, T));
+    float3x3 TBN = float3x3(T, B, N);
+    return TBN;
 }
 
-float4 PS(PS_INPUT input) : SV_Target0 {
-    float3 albedo = albedoTex.Sample(samplerLinear, input.TexCoords).rgb;
+float4 PS(PS_INPUT input) : SV_Target0
+{
     
-    float3 lighting = 0.0f;
-    float3 N = normalize(input.Normal);
+    // --- Albedo ---
+    float4 albedoSample = albedoTex.Sample(samplerLinear, input.TexCoords * uvScale);
 
-    for (int i = 0; i < pointLightCount; ++i) {
-        float3 Lvec = lightPosWS[i] - input.PosWS;
-        float dist = length(Lvec);
-        float3 L = Lvec / max(dist, 1e-4);
+    // Alpha Test
+    if (useAlphaTest && albedoSample.a < 0.5f)
+        discard;
 
-        float NdotL = saturate(dot(N, L));
-        float atten = Attenuation(dist, lightRange[i]);
+    float3 albedo = albedoSample.rgb;
+    //return float4(albedo, 1.0);
 
-        lighting += lightColor[i]
-              * (lightIntensity[i] * NdotL * atten);
+    // --- TBN ---
+    float3 normalWS = normalize(input.NormalWS);
+    if (useNormalMap)
+    {
+        float3x3 TBN = getTBN(input);
+    
+        float3 mapNormal = normalTex.Sample(samplerLinear, input.TexCoords * uvScale).xyz;
+        mapNormal = normalize(mapNormal * 2.0 - 1.0);
+        normalWS = normalize(mul(mapNormal, TBN));
     }
 
-    float3 ambient = albedo * skyLightColor * skyLightIntensity;
-    return float4(ambient + albedo * lighting, 1.0);
+    // --- Sky Light ---
+    float3 lighting = albedo * skyLightColor * skyLightIntensity;
+    
+    // --- Point Light ---
+    for (int i = 0; i < pointLightCount; ++i)
+    {
+        float3 L = lightPosWS[i] - input.PosWS;
+        float dist = length(L);
+        float3 lightDir = normalize(L);
+        
+        // attenuation
+        float attenuation = saturate(1.0 - dist / lightRange[i]);
+        attenuation *= attenuation;
+        
+        // Lambert
+        float NdotL = max(dot(normalWS, lightDir), 0.0);
+        float3 diffuse = (albedo / PI) * lightColor[i] * NdotL;
+
+        lighting += diffuse * lightIntensity[i] * attenuation;
+    }
+
+    return float4(lighting, 1.0);
 }

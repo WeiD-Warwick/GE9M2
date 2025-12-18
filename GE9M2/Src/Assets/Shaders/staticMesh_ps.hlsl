@@ -34,7 +34,7 @@ float3x3 getTBN(PS_INPUT input)
 {
     float3 N = normalize(input.NormalWS);
     float3 T = normalize(input.TangentWS);
-    float3 B = normalize(cross(input.NormalWS, T));
+    float3 B = normalize(cross(N, T));
     float3x3 TBN = float3x3(T, B, N);
     return TBN;
 }
@@ -44,7 +44,7 @@ float4 PS(PS_INPUT input) : SV_Target0 {
     // --- Albedo ---
     float4 albedoSample = albedoTex.Sample(samplerLinear, input.TexCoords * uvScale);
 
-    // Alpha Test
+    // --- Alpha Test ---
     if (useAlphaTest && albedoSample.a < 0.5f)
         discard;
 
@@ -52,30 +52,34 @@ float4 PS(PS_INPUT input) : SV_Target0 {
     //return float4(albedo, 1.0);
 
     // --- TBN ---
-    float3x3 TBN = getTBN(input);
+    float3 normalWS = normalize(input.NormalWS);
+    if (useNormalMap)
+    {
+        float3x3 TBN = getTBN(input);
     
-    float3 mapNormal = normalTex.Sample(samplerLinear, input.TexCoords * uvScale).xyz;
-    mapNormal = normalize(mapNormal * 2.0 - 1.0);
+        float3 mapNormal = normalTex.Sample(samplerLinear, input.TexCoords * uvScale).xyz;
+        mapNormal = normalize(mapNormal * 2.0 - 1.0);
+        normalWS = normalize(mul(mapNormal, TBN));
+    }
 
     // --- Sky Light ---
     float3 lighting = albedo * skyLightColor * skyLightIntensity;
     
     // --- Point Light ---
     for (int i = 0; i < pointLightCount; ++i) {
-        float dist = length(lightPosWS[i] - input.PosWS);
-        float3 lightDir = normalize(lightPosWS[i] - input.PosWS);
-        float3 localLightDir = normalize(mul(lightDir, transpose(TBN)));
+        float3 L = lightPosWS[i] - input.PosWS;
+        float dist = length(L);
+        float3 lightDir = normalize(L);
         
         // attenuation
         float attenuation = saturate(1.0 - dist / lightRange[i]);
         attenuation *= attenuation;
         
         // Lambert
-        float diffuse = (albedo / PI) * lightColor[i] * max(dot(mapNormal, localLightDir), 0);
+        float NdotL = max(dot(normalWS, lightDir), 0.0);
+        float3 diffuse = (albedo / PI) * lightColor[i] * NdotL;
 
-        float finalLight = diffuse * lightIntensity[i] * attenuation;
-
-        lighting += finalLight;
+        lighting += diffuse * lightIntensity[i] * attenuation;
     }
 
     return float4(lighting, 1.0);
