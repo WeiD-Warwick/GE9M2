@@ -1,7 +1,6 @@
 #define MAX_POINT_LIGHTS 10
 
-cbuffer animatedMeshBuffer
-{
+cbuffer amCB {
     // ---------- Mesh ----------
     float4x4 W;
     float4x4 V;

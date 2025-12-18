@@ -37,11 +37,11 @@ void Scene::uploadLights(RenderContext& ctx) {
     Vec3 skyColor = _skyLight.color;
     float skyIntensity = _skyLight.intensity;
 
-    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "skyLightColor", &skyColor);
-    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "skyLightIntensity", &skyIntensity);
+    shaderManager.updateConstantPS("smShader", "smCB", "skyLightColor", &skyColor);
+    shaderManager.updateConstantPS("smShader", "smCB", "skyLightIntensity", &skyIntensity);
 
-    shaderManager.updateConstantPS("animatedMeshShader", "animatedMeshBuffer", "skyLightColor", &skyColor);
-    shaderManager.updateConstantPS("animatedMeshShader", "animatedMeshBuffer", "skyLightIntensity", &skyIntensity);
+    shaderManager.updateConstantPS("amShader", "amCB", "skyLightColor", &skyColor);
+    shaderManager.updateConstantPS("amShader", "amCB", "skyLightIntensity", &skyIntensity);
 
     // Point Light
     struct Align16 { float x, y, z, w; };
@@ -59,15 +59,15 @@ void Scene::uploadLights(RenderContext& ctx) {
         lightParams[i] = { light.range, light.intensity, 0, 0 };
     }
 
-    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "pointLightCount", &count);
-    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "lightPosWS", lightPosWS);
-    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "lightParams", lightParams);
-    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "lightColor", lightColor);
+    shaderManager.updateConstantPS("smShader", "smCB", "pointLightCount", &count);
+    shaderManager.updateConstantPS("smShader", "smCB", "lightPosWS", lightPosWS);
+    shaderManager.updateConstantPS("smShader", "smCB", "lightParams", lightParams);
+    shaderManager.updateConstantPS("smShader", "smCB", "lightColor", lightColor);
 
-    shaderManager.updateConstantPS("animatedMeshShader", "animatedMeshBuffer", "pointLightCount", &count);
-    shaderManager.updateConstantPS("animatedMeshShader", "animatedMeshBuffer", "lightPosWS", lightPosWS);
-    shaderManager.updateConstantPS("animatedMeshShader", "animatedMeshBuffer", "lightParams", lightParams);
-    shaderManager.updateConstantPS("animatedMeshShader", "animatedMeshBuffer", "lightColor", lightColor);
+    shaderManager.updateConstantPS("amShader", "amCB", "pointLightCount", &count);
+    shaderManager.updateConstantPS("amShader", "amCB", "lightPosWS", lightPosWS);
+    shaderManager.updateConstantPS("amShader", "amCB", "lightParams", lightParams);
+    shaderManager.updateConstantPS("amShader", "amCB", "lightColor", lightColor);
 }
 
 void Scene::update(float dt) {

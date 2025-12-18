@@ -3,10 +3,9 @@
 
 Texture2D albedoTex : register(t0);
 Texture2D normalTex : register(t1);
-
 SamplerState samplerLinear : register(s0);
 
-cbuffer staticMeshBuffer : register(b0) {
+cbuffer amCB {
     float2 uvScale;
     int useNormalMap;
     int useAlphaTest;
@@ -20,7 +19,8 @@ cbuffer staticMeshBuffer : register(b0) {
     float4 lightParams[MAX_POINT_LIGHTS]; // x range, y intensity
 };
 
-struct PS_INPUT {
+struct PS_INPUT
+{
     float4 Pos : SV_POSITION;
     float3 PosWS : TEXCOORD0;
     float3 NormalWS : TEXCOORD1;
@@ -37,12 +37,13 @@ float3x3 getTBN(PS_INPUT input)
     return TBN;
 }
 
-float4 PS(PS_INPUT input) : SV_Target0 {
+float4 PS(PS_INPUT input) : SV_Target0
+{
     
     // --- Albedo ---
     float4 albedoSample = albedoTex.Sample(samplerLinear, input.TexCoords * uvScale);
 
-    // --- Alpha Test ---
+    // Alpha Test
     if (useAlphaTest == 1 && albedoSample.a < 0.5f)
         discard;
 

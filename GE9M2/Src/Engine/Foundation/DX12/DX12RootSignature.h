@@ -34,13 +34,6 @@ public:
         meshVS_CBV.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
         params.push_back(meshVS_CBV);
 
-        //D3D12_ROOT_PARAMETER lightVS_CBV{};
-        //lightVS_CBV.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-        //lightVS_CBV.Descriptor.ShaderRegister = 1;
-        //lightVS_CBV.Descriptor.RegisterSpace = 0;
-        //lightVS_CBV.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-        //params.push_back(lightVS_CBV);
-
         // PS CBV(b0)
         D3D12_ROOT_PARAMETER meshPS_CBV{};
         meshPS_CBV.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -48,14 +41,6 @@ public:
         meshPS_CBV.Descriptor.RegisterSpace = 0;
         meshPS_CBV.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
         params.push_back(meshPS_CBV);
-
-        // PS CBV(b1)
-        //D3D12_ROOT_PARAMETER lightPS_CBV{};
-        //lightPS_CBV.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-        //lightPS_CBV.Descriptor.ShaderRegister = 1;
-        //lightPS_CBV.Descriptor.RegisterSpace = 0;
-        //lightPS_CBV.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-        //params.push_back(lightPS_CBV);
 
         // SRV Table (t0–t7)
         srvRootIndex = params.size();

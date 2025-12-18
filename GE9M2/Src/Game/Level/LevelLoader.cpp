@@ -71,8 +71,8 @@ void LevelLoader::parseShader(Engine& engine, const std::string& line) {
     if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
 
     std::stringstream shaderLine(line);
-    std::string name, cbuffer, vsPath, psPath;
-    shaderLine >> name >> cbuffer >> vsPath >> psPath;
+    std::string name, vsPath, psPath;
+    shaderLine >> name >> vsPath >> psPath;
 
     auto* shader = engine.renderContext().shaderManager().load(
         engine.renderContext().device().dxDevice(),
