@@ -47,7 +47,7 @@ public:
         D3D12_GPU_DESCRIPTOR_HANDLE handle = srvHeap.gpuHandle;
 
         handle.ptr = handle.ptr + (UINT64)(heapOffset - bindPoint) * (UINT64)srvHeap.incrementSize;
-        cmd->SetGraphicsRootDescriptorTable(4, handle);
+        cmd->SetGraphicsRootDescriptorTable(2, handle);
     }
 
     void updateConstantVS(std::string shaderName, std::string cbName, std::string vName, void* data) {

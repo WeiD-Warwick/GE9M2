@@ -1,8 +1,11 @@
-
 === TEXTURE ===
 // <key>				<filePath>
-ground_basecolor		Src/Assets/Textures/Ground/ground_basecolor.png
-ground_normal			Src/Assets/Textures/Ground/ground_normal.png
+ground_basecolor		Src/Assets/Textures/ground_basecolor.png
+ground_normal			Src/Assets/Textures/ground_normal.png
+ground_roughness		Src/Assets/Textures/ground_roughness.png
+wall1_basecolor			Src/Assets/Textures/wall1_basecolor.png
+wall1_normal			Src/Assets/Textures/wall1_normal.png
+wall1_roughness			Src/Assets/Textures/wall1_roughness.png
 skysphere				Src/Assets/Textures/skysphere.png
 rgb_green				Src/Assets/Textures/rgb_green.png
 
@@ -27,14 +30,15 @@ groundMaterial
 : pso staticMeshPSO
 : texture albedoTex ground_basecolor
 : texture normalTex ground_normal
-: uv 1 1
+: uv 100 100
 
 
 # ---------- Wall (debug / simple color) ----------
 wallGreenMaterial
 : shader staticMeshShader staticMeshBuffer
 : pso staticMeshPSO
-: texture albedoTex rgb_green
+: texture albedoTex wall1_basecolor
+: texture normalTex wall1_normal
 
 # ---------- Sky ----------
 skysphereMaterial
@@ -49,17 +53,24 @@ fpsWeaponMaterial
 : pso fpsPSO
 
 
+# ---------- Dino ----------
+dinoMaterial
+: shader animatedMeshShader animatedMeshBuffer
+: pso animatedMeshPSO
 
-//# ---------- Dino ----------
-//dinoMaterial
-//: shader animatedMeshShader animatedMeshBuffer
-//: pso animatedMeshPSO
 
+=== LIGHT ===
+skylight 1 1 1 0.2
+
+//			<position>		<color>		<range>		<intensity>
+pointlight	0 10 0			1 1 1		5.0			30.0
+pointlight -10 5 10			1 1 1		5.0			30.0
 
 === SCENE ===
+// -------------------------------------------------------
 // # description
 // transform <position> <rotation> <scale>
-// RenderComponent <ModelPath> <shaderName> <cbufferName> <psoName> <customTextureKey> <UVScale.U>  <UVScale.V>
+// RenderComponent <ModelPath> <psoName>
 
 # Player
 transform 0 0 0       0 0 0 1     1.2 2 1.2
@@ -68,13 +79,13 @@ CameraComponent
 FPSRenderComponent Src/Assets/Models/Uzi.gem fpsWeaponMaterial
 ColliderComponent 1.2 2 1.2
 
-# Wall
-transform -20 0 20     0 0 0 1     10 8 4
-StaticMeshRenderComponent primitive:cube wallGreenMaterial
-ColliderComponent 10 8 4
+//# Wall
+//transform -20 0 20     0 0 0 1     10 8 4
+//StaticMeshRenderComponent primitive:cube wallGreenMaterial
+//ColliderComponent 10 8 4
 
 # Ground
-transform 0 0 0     0 0 0 1     1 1 1
+transform 0 0 0     0 0 0 1     100 1 100
 StaticMeshRenderComponent primitive:plane groundMaterial
 
 //# Dino

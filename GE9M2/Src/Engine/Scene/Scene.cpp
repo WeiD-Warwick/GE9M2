@@ -37,8 +37,8 @@ void Scene::uploadLights(RenderContext& ctx) {
     Vec3 skyColor = _skyLight.color;
     float skyIntensity = _skyLight.intensity;
 
-    shaderManager.updateConstantPS("staticMeshShader", "lightCB", "skyLightColor", &skyColor);
-    shaderManager.updateConstantPS("staticMeshShader", "lightCB", "skyLightIntensity", &skyIntensity);
+    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "skyLightColor", &skyColor);
+    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "skyLightIntensity", &skyIntensity);
 
     shaderManager.updateConstantPS("animatedMeshShader", "animatedMeshBuffer", "skyLightColor", &skyColor);
     shaderManager.updateConstantPS("animatedMeshShader", "animatedMeshBuffer", "skyLightIntensity", &skyIntensity);
@@ -61,11 +61,11 @@ void Scene::uploadLights(RenderContext& ctx) {
         lightIntensity[i] = light.intensity;
     }
 
-    shaderManager.updateConstantPS("staticMeshShader", "lightCB", "pointLightCount", &count);
-    shaderManager.updateConstantPS("staticMeshShader", "lightCB", "lightPosWS", lightPosWS);
-    shaderManager.updateConstantPS("staticMeshShader", "lightCB", "lightRange", lightRange);
-    shaderManager.updateConstantPS("staticMeshShader", "lightCB", "lightColor", lightColor);
-    shaderManager.updateConstantPS("staticMeshShader", "lightCB", "lightIntensity", lightIntensity);
+    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "pointLightCount", &count);
+    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "lightPosWS", lightPosWS);
+    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "lightRange", lightRange);
+    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "lightColor", lightColor);
+    shaderManager.updateConstantPS("staticMeshShader", "staticMeshBuffer", "lightIntensity", lightIntensity);
 
     shaderManager.updateConstantPS("animatedMeshShader", "animatedMeshBuffer", "pointLightCount", &count);
     shaderManager.updateConstantPS("animatedMeshShader", "animatedMeshBuffer", "lightPosWS", lightPosWS);

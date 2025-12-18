@@ -42,5 +42,7 @@ public:
 
 	ModelLoader& loader();
 
+	Scene& scene();
+
 	bool showCollisionBoxes = true;
 };

@@ -6,6 +6,16 @@ class Engine;
 class GameObject;
 class ModelMaterial;
 
+enum class Section {
+    None,
+    Texture,
+    Shader,
+    PSO,
+    Material,
+    Light,
+    Scene
+};
+
 class LevelLoader {
 private:
     GameObject* _currentObject = nullptr;
@@ -16,6 +26,7 @@ private:
     std::string shaderSectionFlag = "=== SHADER ===";
     std::string psoSectionFlag = "=== PSO ===";
     std::string materialSectionFlag = "=== MATERIAL ===";
+    std::string lightSectionFlag = "=== LIGHT ===";
     std::string sceneSectionFlag = "=== SCENE ===";
 
     std::string newObjectFlag = "#";
@@ -26,6 +37,7 @@ private:
     void parseShader(Engine& engine, const std::string& line);
     void parsePSO(Engine& engine, const std::string& line);
     void parseMaterialLine(Engine& engine, const std::string& line);
+    void parseLight(Engine& engine, const std::string& line);
     void parseSceneLine(Engine& engine, Scene& scene, const std::string& line);
 
 public:

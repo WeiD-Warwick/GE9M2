@@ -12,15 +12,6 @@
 #include "../../Engine/Graphics/Assets/ModelLoader.h"
 #include "../../Engine/Scene/ComponentFactory.h"
 
-enum class Section {
-    None,
-    Texture,
-    Shader,
-    PSO,
-    Material,
-    Scene
-};
-
 void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& levelPath) {
 
     std::ifstream file(levelPath);
@@ -38,6 +29,7 @@ void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& lev
         if (line == shaderSectionFlag)   { section = Section::Shader;   continue; }
         if (line == psoSectionFlag)      { section = Section::PSO;      continue; }
         if (line == materialSectionFlag) { section = Section::Material; continue; }
+        if (line == lightSectionFlag)    { section = Section::Light;    continue; }
         if (line == sceneSectionFlag)    { section = Section::Scene;    continue; };
 
         switch (section) {
@@ -45,6 +37,7 @@ void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& lev
         case Section::Shader:   parseShader(engine, line);              break;
         case Section::PSO:      parsePSO(engine, line);                 break;
         case Section::Material: parseMaterialLine(engine, line);        break;
+        case Section::Light:    parseLight(engine, line);               break;
         case Section::Scene:    parseSceneLine(engine, scene, line);    break;
         default: break;
         }
@@ -177,6 +170,34 @@ void LevelLoader::parseMaterialLine(Engine& engine, const std::string& line) {
         propLine >> u >> v;
         _currentMaterial->setUVScale({ u, v });
         return;
+    }
+}
+
+void LevelLoader::parseLight(Engine& engine, const std::string& line) {
+    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
+    
+    if (line.starts_with("skylight")) {
+        SkyLight skylight;
+        std::string key;
+        std::stringstream lightLine(line);
+
+        lightLine >> key 
+            >> skylight.color.x >> skylight.color.y >> skylight.color.z 
+            >> skylight.intensity;
+
+        engine.scene().setSkyLight(skylight);
+    }
+
+    if (line.starts_with("pointlight")) {
+        PointLight pointlight;
+        std::string key;
+        std::stringstream lightLine(line);
+        lightLine >> key
+            >> pointlight.position.x >> pointlight.position.y >> pointlight.position.z
+            >> pointlight.color.x >> pointlight.color.y >> pointlight.color.z
+            >> pointlight.range >> pointlight.intensity;
+
+        engine.scene().addLight(pointlight);
     }
 }
 

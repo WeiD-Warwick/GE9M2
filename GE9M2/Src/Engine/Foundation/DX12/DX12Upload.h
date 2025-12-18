@@ -1,5 +1,6 @@
 #pragma once
 #include <d3d12.h>
+#include <cassert>
 #include <wrl/client.h>
 #include "DX12CommandQueue.h"
 
@@ -77,7 +78,7 @@ public:
         desc.SampleDesc.Count = 1;
         desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-        _device->CreateCommittedResource(
+        HRESULT hr = _device->CreateCommittedResource(
             &heapProps,
             D3D12_HEAP_FLAG_NONE,
             &desc,
@@ -85,6 +86,8 @@ public:
             nullptr,
             IID_PPV_ARGS(&uploadBuffer)
         );
+
+        if (FAILED(hr)) assert(false);
 
         void* mappeddata = nullptr;
         uploadBuffer->Map(0, nullptr, &mappeddata);

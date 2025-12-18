@@ -13,26 +13,6 @@ Engine::Engine(HWND hwnd, int width, int height, Game* game)
 {
 	if (_game) {
 		_game->onInit(*this, _scene);
-
-		SkyLight skylight;
-		skylight.color = { 1, 1, 1 };
-		skylight.intensity = 0.3;
-		_scene.setSkyLight(skylight);
-
-		PointLight light1;
-		light1.position = { 0, 5, 0 };
-		light1.color = { 255, 0, 0 };
-		light1.range = 20;
-		light1.intensity = 15;
-
-		PointLight light2;
-		light1.position = { 0, 10, 0 };
-		light1.color = { 0, 0.5, 0 };
-		light1.range = 20;
-		light1.intensity = 15;
-
-		_scene.addLight(light1);
-		_scene.addLight(light2);
 	}
 }
 
@@ -71,4 +51,8 @@ RenderContext& Engine::renderContext() {
 
 ModelLoader& Engine::loader() {
 	return _loader;
+}
+
+Scene& Engine::scene() {
+	return _scene;
 }
