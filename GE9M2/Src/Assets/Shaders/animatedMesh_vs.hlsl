@@ -7,22 +7,6 @@ cbuffer animatedMeshBuffer
     float4x4 V;
     float4x4 P;
     float4x4 bones[256];
-    float2 uvScale;
-    float2 _padding;
-    
-    // ---------- SkyLight ----------
-    float3 skyLightColor;
-    float skyLightIntensity;
-    
-
-    // ---------- PointLights ----------
-    int pointLightCount;
-    float3 _pad0;
-
-    float3 lightPosWS[MAX_POINT_LIGHTS];
-    float lightRange[MAX_POINT_LIGHTS];
-    float3 lightColor[MAX_POINT_LIGHTS];
-    float lightIntensity[MAX_POINT_LIGHTS];
 };
 
 struct VS_INPUT

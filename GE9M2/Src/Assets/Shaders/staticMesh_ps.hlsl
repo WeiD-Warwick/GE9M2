@@ -8,18 +8,16 @@ SamplerState samplerLinear : register(s0);
 
 cbuffer staticMeshBuffer : register(b0) {
     float2 uvScale;
-    
     int useNormalMap;
-    bool useAlphaTest;
+    int useAlphaTest;
     
     float skyLightIntensity;
     float3 skyLightColor;
     
     int pointLightCount;
-    float3 lightPosWS[MAX_POINT_LIGHTS];
-    float lightRange[MAX_POINT_LIGHTS];
-    float3 lightColor[MAX_POINT_LIGHTS];
-    float lightIntensity[MAX_POINT_LIGHTS];
+    float4 lightPosWS[MAX_POINT_LIGHTS];
+    float4 lightColor[MAX_POINT_LIGHTS];
+    float4 lightParams[MAX_POINT_LIGHTS]; // x range, y intensity
 };
 
 struct PS_INPUT {
@@ -45,7 +43,7 @@ float4 PS(PS_INPUT input) : SV_Target0 {
     float4 albedoSample = albedoTex.Sample(samplerLinear, input.TexCoords * uvScale);
 
     // --- Alpha Test ---
-    if (useAlphaTest && albedoSample.a < 0.5f)
+    if (useAlphaTest == 1 && albedoSample.a < 0.5f)
         discard;
 
     float3 albedo = albedoSample.rgb;
@@ -67,19 +65,19 @@ float4 PS(PS_INPUT input) : SV_Target0 {
     
     // --- Point Light ---
     for (int i = 0; i < pointLightCount; ++i) {
-        float3 L = lightPosWS[i] - input.PosWS;
+        float3 L = lightPosWS[i].xyz - input.PosWS;
         float dist = length(L);
         float3 lightDir = normalize(L);
         
         // attenuation
-        float attenuation = saturate(1.0 - dist / lightRange[i]);
+        float attenuation = saturate(1.0 - dist / lightParams[i].x);
         attenuation *= attenuation;
         
         // Lambert
         float NdotL = max(dot(normalWS, lightDir), 0.0);
-        float3 diffuse = (albedo / PI) * lightColor[i] * NdotL;
+        float3 diffuse = (albedo / PI) * lightColor[i].xyz * NdotL;
 
-        lighting += diffuse * lightIntensity[i] * attenuation;
+        lighting += diffuse * lightParams[i].y * attenuation;
     }
 
     return float4(lighting, 1.0);
