@@ -213,6 +213,7 @@
   <ItemGroup>
     <None Include="Src\Assets\Models\TRex.gem" />
     <None Include="Src\Assets\Models\Uzi.gem" />
+    <None Include="Src\Assets\Models\beech.gem" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Src\Assets\Models\Textures\Textures1_ALB.png">
@@ -294,6 +295,24 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Textures\wall1_roughness.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\bark01_ALB.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\bark01_NH.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\bark01_RMAX.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\beech leaf_ALB.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\beech leaf_NH.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\beech leaf_RMAX.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

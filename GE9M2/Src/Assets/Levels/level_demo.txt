@@ -58,9 +58,14 @@ dinoMaterial
 : shader animatedMeshShader animatedMeshBuffer
 : pso animatedMeshPSO
 
+# ---------- Grass ----------
+grassMaterial
+: shader staticMeshShader staticMeshBuffer
+: pso staticMeshPSO
+: alphatest 1
 
 === LIGHT ===
-skylight 1 1 1 0.2
+skylight 1 1 1 0.5
 
 //			<position>		<color>		<range>		<intensity>
 pointlight	0 10 0			1 1 1		5.0			30.0
@@ -84,9 +89,14 @@ ColliderComponent 1.2 2 1.2
 //StaticMeshRenderComponent primitive:cube wallGreenMaterial
 //ColliderComponent 10 8 4
 
-# Ground
-transform 0 0 0     0 0 0 1     100 1 100
-StaticMeshRenderComponent primitive:plane groundMaterial
+//# Ground
+//transform 0 0 0     0 0 0 1     100 1 100
+//StaticMeshRenderComponent primitive:plane groundMaterial
+
+# Grass
+transform 5 0 5     0 0 0 1     0.01 0.01 0.01
+StaticMeshRenderComponent Src/Assets/Models/beech.gem grassMaterial
+ColliderComponent 1 10 1
 
 //# Dino
 //transform 0 0 5   0 0 0 1   0.1 0.1 0.1

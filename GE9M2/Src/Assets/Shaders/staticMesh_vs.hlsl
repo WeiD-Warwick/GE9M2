@@ -4,19 +4,6 @@ cbuffer staticMeshBuffer : register(b0) {
     float4x4 W;
     float4x4 V;
     float4x4 P;
-    
-    float2 uvScale;
-    int useNormalMap;
-    float skyLightIntensity;
-    
-    float3 skyLightColor;
-    int pointLightCount;
-    
-    float3 lightPosWS[MAX_POINT_LIGHTS];
-    float lightRange[MAX_POINT_LIGHTS];
-    
-    float3 lightColor[MAX_POINT_LIGHTS];
-    float lightIntensity[MAX_POINT_LIGHTS];
 };
 
 struct VS_INPUT {

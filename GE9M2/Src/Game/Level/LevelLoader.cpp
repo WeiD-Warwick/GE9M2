@@ -171,6 +171,14 @@ void LevelLoader::parseMaterialLine(Engine& engine, const std::string& line) {
         _currentMaterial->setUVScale({ u, v });
         return;
     }
+
+    if (key == "alphatest") {
+        float alphatest;
+        propLine >> alphatest;
+        _currentMaterial->setAlphaTest(alphatest);
+        return;
+    }
+
 }
 
 void LevelLoader::parseLight(Engine& engine, const std::string& line) {

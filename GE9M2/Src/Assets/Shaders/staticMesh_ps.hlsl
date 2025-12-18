@@ -6,22 +6,18 @@ Texture2D normalTex : register(t1);
 
 SamplerState samplerLinear : register(s0);
 
-cbuffer staticMeshBuffer : register(b0)
-{
-    float4x4 W;
-    float4x4 V;
-    float4x4 P;
-    
+cbuffer staticMeshBuffer : register(b0) {
     float2 uvScale;
+    
     int useNormalMap;
+    bool useAlphaTest;
+    
     float skyLightIntensity;
-    
     float3 skyLightColor;
-    int pointLightCount;
     
+    int pointLightCount;
     float3 lightPosWS[MAX_POINT_LIGHTS];
     float lightRange[MAX_POINT_LIGHTS];
-    
     float3 lightColor[MAX_POINT_LIGHTS];
     float lightIntensity[MAX_POINT_LIGHTS];
 };
@@ -33,12 +29,6 @@ struct PS_INPUT {
     float3 TangentWS : TEXCOORD2;
     float2 TexCoords : TEXCOORD3;
 };
-
-// Attenuation
-float Attenuation(float d, float range) {
-    float x = saturate(1.0 - d / max(range, 1e-4));
-    return x * x;
-}
 
 float3x3 getTBN(PS_INPUT input)
 {
@@ -52,8 +42,15 @@ float3x3 getTBN(PS_INPUT input)
 float4 PS(PS_INPUT input) : SV_Target0 {
     
     // --- Albedo ---
-    float3 albedo = albedoTex.Sample(samplerLinear, input.TexCoords * uvScale).rgb;
-    
+    float4 albedoSample = albedoTex.Sample(samplerLinear, input.TexCoords * uvScale);
+
+    // Alpha Test
+    if (useAlphaTest && albedoSample.a < 0.5f)
+        discard;
+
+    float3 albedo = albedoSample.rgb;
+    //return float4(albedo, 1.0);
+
     // --- TBN ---
     float3x3 TBN = getTBN(input);
     

@@ -28,6 +28,8 @@ bool ModelMaterial::hasTexture(const std::string& slot) const {
 
 void ModelMaterial::setUVScale(const Vec2& scale) { _uvScale = scale; }
 
+void ModelMaterial::setAlphaTest(bool enable) { _useAlphaTest = enable; }
+
 void ModelMaterial::apply(RenderContext& ctx, MaterialParam& param) {
     auto& shaders = ctx.shaderManager();
     auto& textures = ctx.textureManager();
@@ -52,6 +54,9 @@ void ModelMaterial::apply(RenderContext& ctx, MaterialParam& param) {
     // Normal Map Guard
     int useNormalMap = hasTexture("normalTex") ? 1 : 0;
     shaders.updateConstantPS(_shaderName, _cbufferName, "useNormalMap", &useNormalMap);
+
+    int useAlphaTest = _useAlphaTest ? 1 : 0;
+    shaders.updateConstantPS(_shaderName, _cbufferName, "useAlphaTest", &useAlphaTest);
 
     // MARK: SRV Update
     if (!_textures.empty()) {

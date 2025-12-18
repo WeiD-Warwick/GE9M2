@@ -72,22 +72,50 @@ ModelData* ModelLoader::loadStaticGEMModel(const std::string& modelPath, const s
         subMesh->createStatic(_renderContext.device().dxDevice(), _renderContext.uploader(), vertices, gemmesh.indices);
         
         // Load Texture
-        std::string texName = gemmesh.material.find("albedo").getValue();
-        temps.push_back(texName);
-        //if (!texName.empty()) {
-        //    std::string fileName = std::filesystem::path(texName).filename().string();
-        //    std::string fullPath = "Src/Assets/Models/Textures/" + fileName;
-        //    _renderContext.textureManager().loadTexture(
-        //        _renderContext.device().dxDevice(),
-        //        _renderContext.uploader(),
-        //        _renderContext.srvHeap(),
-        //        texName,
-        //        fullPath,
-        //        TextureUsage::Color
-        //    );
-        //}
+        std::string albedo = gemmesh.material.find("albedo").getValue();
+        temps.push_back(albedo);
+        if (!albedo.empty()) {
+            std::string fileName = std::filesystem::path(albedo).filename().string();
+            std::string fullPath = "Src/Assets/Models/Textures/" + fileName;
+            _renderContext.textureManager().loadTexture(
+                _renderContext.device().dxDevice(),
+                _renderContext.uploader(),
+                _renderContext.srvHeap(),
+                albedo,
+                fullPath,
+                TextureUsage::Color
+            );
+        }
+        std::string nh = gemmesh.material.find("nh").getValue();
+        temps.push_back(nh);
+        if (!nh.empty()) {
+            std::string fileName = std::filesystem::path(nh).filename().string();
+            std::string fullPath = "Src/Assets/Models/Textures/" + fileName;
+            _renderContext.textureManager().loadTexture(
+                _renderContext.device().dxDevice(),
+                _renderContext.uploader(),
+                _renderContext.srvHeap(),
+                nh,
+                fullPath,
+                TextureUsage::Data
+            );
+        }
+        std::string rmax = gemmesh.material.find("rmax").getValue();
+        temps.push_back(rmax);
+        if (!rmax.empty()) {
+            std::string fileName = std::filesystem::path(rmax).filename().string();
+            std::string fullPath = "Src/Assets/Models/Textures/" + fileName;
+            _renderContext.textureManager().loadTexture(
+                _renderContext.device().dxDevice(),
+                _renderContext.uploader(),
+                _renderContext.srvHeap(),
+                rmax,
+                fullPath,
+                TextureUsage::Data
+            );
+        }
 
-        data->subMeshes.push_back({ subMesh, materialKey, texName });
+        data->subMeshes.push_back({ subMesh, materialKey, albedo, nh, rmax });
     }
 
     return data;

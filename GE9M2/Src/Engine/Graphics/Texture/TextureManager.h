@@ -25,8 +25,8 @@ public:
 
 		Texture* t = new Texture();
 		t->init(device, uploader, srvHeap, file, usage);
-
 		textures[name] = t;
+		assert(t);
 		return t;
 	}
 

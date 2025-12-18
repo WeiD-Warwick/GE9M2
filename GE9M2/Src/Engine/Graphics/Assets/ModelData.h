@@ -9,6 +9,7 @@ public:
     std::string materialKey;
     std::string albedoTex;
     std::string normalTex;
+    std::string rmaxTex;
 };
 
 class ModelData {

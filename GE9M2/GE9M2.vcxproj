@@ -192,6 +192,7 @@
     <ClInclude Include="Third_Party\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Src\Assets\Models\beech.gem" />
     <None Include="Src\Assets\Models\TRex.gem" />
     <None Include="Src\Assets\Models\Uzi.gem" />
   </ItemGroup>
@@ -202,6 +203,12 @@
     <Image Include="Src\Assets\Models\Textures\arms_2_Albedo_alb.png" />
     <Image Include="Src\Assets\Models\Textures\arms_2_Albedo_nh.png" />
     <Image Include="Src\Assets\Models\Textures\arms_2_Albedo_rmax.png" />
+    <Image Include="Src\Assets\Models\Textures\bark01_ALB.png" />
+    <Image Include="Src\Assets\Models\Textures\bark01_NH.png" />
+    <Image Include="Src\Assets\Models\Textures\bark01_RMAX.png" />
+    <Image Include="Src\Assets\Models\Textures\beech leaf_ALB.png" />
+    <Image Include="Src\Assets\Models\Textures\beech leaf_NH.png" />
+    <Image Include="Src\Assets\Models\Textures\beech leaf_RMAX.png" />
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_alb.png" />
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_nh.png" />
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_rmax.png" />
