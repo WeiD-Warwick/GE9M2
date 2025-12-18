@@ -81,5 +81,5 @@ float4 PS(PS_INPUT input) : SV_Target0 {
         lighting += finalLight;
     }
 
-    return float4(albedo * skyLightColor * skyLightIntensity, 1.0);
+    return float4(lighting, 1.0);
 }
