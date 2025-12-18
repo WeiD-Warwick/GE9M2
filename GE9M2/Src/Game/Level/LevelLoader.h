@@ -4,7 +4,7 @@
 class Scene;
 class Engine;
 class GameObject;
-class ModelMaterial;
+class Material;
 
 enum class Section {
     None,
@@ -19,7 +19,7 @@ enum class Section {
 class LevelLoader {
 private:
     GameObject* _currentObject = nullptr;
-    ModelMaterial* _currentMaterial = nullptr;
+    Material* _currentMaterial = nullptr;
 
     std::string commentFlag = "//";
     std::string textureSectionFlag = "=== TEXTURE ===";

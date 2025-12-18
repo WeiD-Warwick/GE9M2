@@ -7,7 +7,6 @@
 #include "../../Engine/Scene/Scene.h"
 #include "../../Engine/Scene/GameObject.h"
 #include "../../Engine/Graphics/Material/Material.h"
-#include "../../Engine/Graphics/Material/ModelMaterial.h"
 #include "../../Engine/Graphics/Assets/ModelData.h"
 #include "../../Engine/Graphics/Assets/ModelLoader.h"
 #include "../../Engine/Scene/ComponentFactory.h"
@@ -127,7 +126,7 @@ void LevelLoader::parseMaterialLine(Engine& engine, const std::string& line) {
     // ------------------------------------
     if (!line.starts_with(materialPropFlag)) {
         std::string materialName = line;
-        _currentMaterial = new ModelMaterial();
+        _currentMaterial = new Material();
         engine.renderContext().materialManager().add(materialName, _currentMaterial);
         return;
     }

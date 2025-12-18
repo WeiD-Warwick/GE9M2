@@ -7,13 +7,13 @@
 class ModelData;
 class AnimationData;
 class AnimationController;
-class ModelMaterial;
+class Material;
 
 class AnimatedMeshRenderComponent : public RenderComponent {
 
 private:
     ModelData*             _data;
-    std::vector<ModelMaterial*> _materials;
+    std::vector<Material*> _materials;
     AnimationController    _animationController;
     std::string            _currentAnimation        = "run";
 

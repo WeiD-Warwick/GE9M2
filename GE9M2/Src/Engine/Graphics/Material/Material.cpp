@@ -1,4 +1,4 @@
-#include "ModelMaterial.h"
+#include "Material.h"
 #include <string>
 #include "../RenderContext.h"
 #include "../Texture/TextureManager.h"
@@ -7,18 +7,18 @@
 #include "../../Foundation/DX12/DX12Resources.h"
 #include "../../Foundation/DX12/DX12Renderer.h"
 
-void ModelMaterial::setPSO(const std::string& psoName) { _psoName = psoName; }
+void Material::setPSO(const std::string& psoName) { _psoName = psoName; }
 
-void ModelMaterial::setShader(const std::string& shaderName, const std::string& cbufferName) {
+void Material::setShader(const std::string& shaderName, const std::string& cbufferName) {
     _shaderName = shaderName;
     _cbufferName = cbufferName;
 }
 
-void ModelMaterial::addTexture(const std::string& slot, const std::string& name) {
+void Material::addTexture(const std::string& slot, const std::string& name) {
     _textures.push_back({ slot, name });
 }
 
-bool ModelMaterial::hasTexture(const std::string& slot) const {
+bool Material::hasTexture(const std::string& slot) const {
     for (auto& t : _textures) {
         if (t.slot == slot)
             return true;
@@ -26,11 +26,11 @@ bool ModelMaterial::hasTexture(const std::string& slot) const {
     return false;
 }
 
-void ModelMaterial::setUVScale(const Vec2& scale) { _uvScale = scale; }
+void Material::setUVScale(const Vec2& scale) { _uvScale = scale; }
 
-void ModelMaterial::setAlphaTest(bool enable) { _useAlphaTest = enable; }
+void Material::setAlphaTest(bool enable) { _useAlphaTest = enable; }
 
-void ModelMaterial::apply(RenderContext& ctx, MaterialParam& param) {
+void Material::apply(RenderContext& ctx, MaterialParam& param) {
     auto& shaders = ctx.shaderManager();
     auto& textures = ctx.textureManager();
     auto& srvHeap = ctx.srvHeap();

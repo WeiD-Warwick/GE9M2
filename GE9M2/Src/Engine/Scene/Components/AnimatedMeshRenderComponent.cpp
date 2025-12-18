@@ -6,7 +6,6 @@
 #include "../../Graphics/Material/Material.h"
 #include "../../Graphics/Assets/ModelData.h"
 #include "../../Engine.h"
-#include "../../Graphics/Material/ModelMaterial.h"
 
 AnimatedMeshRenderComponent::AnimatedMeshRenderComponent(ModelData* data) : _data(data) {
     _animationController.init(_data->animation);

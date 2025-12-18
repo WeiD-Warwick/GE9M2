@@ -125,7 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Engine\Graphics\Assets\ModelLoader.cpp" />
-    <ClCompile Include="Src\Engine\Graphics\Material\ModelMaterial.cpp" />
+    <ClCompile Include="Src\Engine\Graphics\Material\Material.cpp" />
     <ClCompile Include="Src\Engine\Scene\ComponentFactory.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\ColliderComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\FPSRenderComponent.cpp" />

@@ -1,5 +1,9 @@
 #pragma once
+#include <vector>
+#include <string>
 #include "../../Foundation/Base/Maths.h"
+
+class RenderContext;
 
 struct MaterialParam {
     Matrix W;
@@ -8,13 +12,35 @@ struct MaterialParam {
     Matrix* bones = nullptr;
 };
 
-class RenderContext;
+struct MaterialTexture {
+    std::string slot;
+    std::string name;
+};
 
-class Material
-{
+class Material {
+
+private:
+    std::string                  _psoName;
+    std::string                  _shaderName;
+    std::string                  _cbufferName;
+    std::vector<MaterialTexture> _textures;
+
+    Vec2                         _uvScale = { 1.0f, 1.0f };
+    bool                         _useAlphaTest = false;
+
 public:
-    virtual ~Material() = default;
 
-    virtual void apply(RenderContext& ctx, MaterialParam& param) = 0;
-     
+    void setPSO(const std::string& psoName);
+
+    void setShader(const std::string& shaderName, const std::string& cbufferName);
+
+    void addTexture(const std::string& slot, const std::string& name);
+
+    bool hasTexture(const std::string& slot) const;
+
+    void setUVScale(const Vec2& scale);
+
+    void setAlphaTest(bool enable);
+
+    void apply(RenderContext& ctx, MaterialParam& param);
 };

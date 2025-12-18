@@ -5,13 +5,13 @@
 
 class ModelData;
 class RenderContext;
-class ModelMaterial;
+class Material;
 
 class StaticMeshRenderComponent : public RenderComponent {
 
 private:
     ModelData*        _data;
-    std::vector<ModelMaterial*> _materials;
+    std::vector<Material*> _materials;
 
 public:
     StaticMeshRenderComponent(ModelData* _data);

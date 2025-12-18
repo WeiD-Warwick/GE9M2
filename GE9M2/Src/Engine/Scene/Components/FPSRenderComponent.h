@@ -6,7 +6,7 @@
 class ModelData;
 class AnimationData;
 class AnimationController;
-class ModelMaterial;
+class Material;
 
 enum class WeaponAnimState {
     Idle,
@@ -23,7 +23,7 @@ enum class WeaponIntent {
 class FPSRenderComponent : public RenderComponent {
 private:
     ModelData*           _data                    = nullptr;
-    std::vector<ModelMaterial*> _materials;
+    std::vector<Material*> _materials;
     AnimationController  _animationController;
     std::string          _currentAnimation        = "04 idle";
 

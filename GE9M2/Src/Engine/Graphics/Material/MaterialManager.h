@@ -2,9 +2,8 @@
 #include <map>
 #include <string>
 #include "../Assets/ModelData.h"
-#include "ModelMaterial.h"
+#include "Material.h"
 #include "../RenderContext.h"
-
 
 class Material;
 
@@ -24,14 +23,13 @@ public:
 		return it->second;
 	}
 
-	ModelMaterial* createInstance(RenderContext& ctx, const SubMesh& subMesh) {
+	Material* createInstance(RenderContext& ctx, const SubMesh& subMesh) {
 
 		// Select material from Cache As templete
-		ModelMaterial* base =
-			static_cast<ModelMaterial*>(find(subMesh.materialKey));
+		Material* base = find(subMesh.materialKey);
 
 		// One mesh match one material
-		ModelMaterial* instance = new ModelMaterial(*base);
+		Material* instance = new Material(*base);
 
 		// apply the model texture
 		if (!subMesh.albedoTex.empty()) {

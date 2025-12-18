@@ -6,7 +6,7 @@
 #include "../../Foundation/Base/Transform.h"
 #include "../../Graphics/Material/Material.h"
 #include "../../Graphics/Assets/ModelData.h"
-#include "../../Graphics/Material/ModelMaterial.h"
+#include "../../Graphics/Material/Material.h"
 
 FPSRenderComponent::FPSRenderComponent(ModelData* data) : _data(data) {
     _animationController.init(_data->animation);
