@@ -25,8 +25,7 @@ void StaticMeshRenderComponent::onRender(RenderContext& renderContext) {
 
     MaterialParam param;
     param.W = transform().worldMatrix();
-    param.V = mainCamera()->view;
-    param.P = mainCamera()->projection;
+    param.VP = mainCamera()->view * mainCamera()->projection;
    
     for (int i = 0; i < _data->subMeshes.size(); ++i) {
         _materials[i]->apply(renderContext, param);

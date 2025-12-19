@@ -41,8 +41,7 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
 
     // Update constant buffer
     shaders.updateConstantVS(_shaderName, _cbufferName, "W", &param.W);
-    shaders.updateConstantVS(_shaderName, _cbufferName, "V", &param.V);
-    shaders.updateConstantVS(_shaderName, _cbufferName, "P", &param.P);
+    shaders.updateConstantVS(_shaderName, _cbufferName, "VP", &param.VP);
     shaders.updateConstantPS(_shaderName, _cbufferName, "uvScale", &_uvScale);
 
     if (param.bones) {

@@ -1,8 +1,7 @@
 cbuffer debugCB : register(b0)
 {
     float4x4 W;
-    float4x4 V;
-    float4x4 P;
+    float4x4 VP;
     float2 uvScale;
     float2 _padding;
 };
@@ -24,8 +23,7 @@ PS_INPUT VS(VS_INPUT input)
     PS_INPUT output;
     float4 pos = float4(input.Pos, 1.0f);
     pos = mul(pos, W);
-    pos = mul(pos, V);
-    pos = mul(pos, P);
+    pos = mul(pos, VP);
     output.pos = pos;
     return output;
 }

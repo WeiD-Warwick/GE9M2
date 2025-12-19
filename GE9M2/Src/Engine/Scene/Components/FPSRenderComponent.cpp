@@ -86,9 +86,9 @@ void FPSRenderComponent::onRender(RenderContext& renderContext) {
     // Move model to right position
     param.W = armsRotateFix * armsOffset;
     // The weapon will fix on the screen, so it won't use camera view matrix
-    param.V = Matrix::Identity();
     // use projection matrix to ensure the right perspective
-    param.P = mainCamera()->projection;
+    param.VP = Matrix::Identity() * mainCamera()->projection;
+    
     param.bones = _animationController.skinningMatrices;
 
     for (int i = 0; i < _data->subMeshes.size(); ++i) {

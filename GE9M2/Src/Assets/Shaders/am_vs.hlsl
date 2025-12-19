@@ -3,8 +3,7 @@
 cbuffer amCB {
     // ---------- Mesh ----------
     float4x4 W;
-    float4x4 V;
-    float4x4 P;
+    float4x4 VP;
     float4x4 bones[256];
 };
 
@@ -21,7 +20,7 @@ struct VS_INPUT
 struct PS_INPUT
 {
     float4 Pos : SV_POSITION;
-    float3 PosWS : TEXCOORD0;
+    float4 PosWS : TEXCOORD0;
     float3 NormalWS : TEXCOORD1;
     float3 TangentWS : TEXCOORD2;
     float2 TexCoords : TEXCOORD3;
@@ -40,8 +39,8 @@ PS_INPUT VS(VS_INPUT input)
     // --- Position ---
     float4 pos = float4(input.Pos, 1.0f);
     pos = mul(mul(pos, transform), W);
-    output.PosWS = pos.xyz;
-    output.Pos = mul(mul(pos, V), P);
+    output.PosWS = pos;
+    output.Pos = mul(pos, VP);
     
     // --- NormalWS ---
     output.NormalWS = normalize(mul(mul(input.Normal, (float3x3) transform), (float3x3) W));

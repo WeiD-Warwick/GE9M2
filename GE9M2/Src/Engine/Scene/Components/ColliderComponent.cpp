@@ -66,12 +66,10 @@ void ColliderComponent::onRender(RenderContext& renderContext) {
     Transform collisionT = Transform(center, Quaternion(), size);
 
     Matrix W = collisionT.localMatrix();
-    Matrix V = mainCamera()->view;
-    Matrix P = mainCamera()->projection;
+    Matrix VP = mainCamera()->view * mainCamera()->projection;
 
     renderContext.shaderManager().updateConstantVS("debugShader", "debugCB", "W", &W);
-    renderContext.shaderManager().updateConstantVS("debugShader", "debugCB", "V", &V);
-    renderContext.shaderManager().updateConstantVS("debugShader", "debugCB", "P", &P);
+    renderContext.shaderManager().updateConstantVS("debugShader", "debugCB", "VP", &VP);
 
     renderContext.shaderManager().apply(cmd, "debugShader");
 

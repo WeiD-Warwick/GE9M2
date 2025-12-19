@@ -22,7 +22,7 @@ cbuffer smCB : register(b0) {
 
 struct PS_INPUT {
     float4 Pos : SV_POSITION;
-    float3 PosWS : TEXCOORD0;
+    float4 PosWS : TEXCOORD0;
     float3 NormalWS : TEXCOORD1;
     float3 TangentWS : TEXCOORD2;
     float2 TexCoords : TEXCOORD3;
@@ -65,7 +65,7 @@ float4 PS(PS_INPUT input) : SV_Target0 {
     
     // --- Point Light ---
     for (int i = 0; i < pointLightCount; ++i) {
-        float3 L = lightPosWS[i].xyz - input.PosWS;
+        float3 L = lightPosWS[i].xyz - input.PosWS.xyz;
         float dist = length(L);
         float3 lightDir = normalize(L);
         

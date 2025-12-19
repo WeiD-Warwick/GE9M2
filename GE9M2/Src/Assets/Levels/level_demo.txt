@@ -18,10 +18,11 @@ amShader			Src/Assets/Shaders/am_vs.hlsl		Src/Assets/Shaders/am_ps.hlsl
 
 === PSO ===
 // <psoName>	<shaderName>	<layout>	<depthFunc>			<depthWrite>
-smPSO			smShader		static		depth_less			write
-amPSO			amShader		animated	depth_less			write
-skyPSO			skyShader		static		depth_less_equal	nowrite
-fpsPSO			amShader		animated	depth_always		nowrite
+smPSO			smShader		s			depth_less			write
+smiPSO			smiShader		si			depth_less			write
+amPSO			amShader		a			epth_less			write
+skyPSO			skyShader		s			depth_less_equal	nowrite
+fpsPSO			amShader		a			depth_always		nowrite
 
 === MATERIAL ===
 

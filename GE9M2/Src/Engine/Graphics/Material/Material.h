@@ -7,8 +7,7 @@ class RenderContext;
 
 struct MaterialParam {
     Matrix W;
-    Matrix V;
-    Matrix P;
+    Matrix VP;
     Matrix* bones = nullptr;
 };
 

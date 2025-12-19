@@ -99,9 +99,10 @@ void LevelLoader::parsePSO(Engine& engine, const std::string& line) {
     param.vsBlob = shader->vs.Get();
     param.psBlob = shader->ps.Get();
 
-    param.layout = (layout == "animated")
-        ? DX12VertexLayoutCache::getAnimatedLayout()
-        : DX12VertexLayoutCache::getStaticLayout();
+    param.layout =
+        (layout == "a") ? DX12VertexLayoutCache::getAnimatedLayout() :
+        (layout == "s") ? DX12VertexLayoutCache::getStaticLayout() :
+        DX12VertexLayoutCache::getStaticInstancedLayout();
 
     param.depthFunc =
         (depthFunc == "depth_less_equal") ? D3D12_COMPARISON_FUNC_LESS_EQUAL :
