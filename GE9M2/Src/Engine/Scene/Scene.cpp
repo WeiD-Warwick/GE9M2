@@ -6,6 +6,7 @@
 #include "Components/CameraComponent.h"
 #include "../Engine.h"
 #include "../Graphics/Model/ModelLoader.h"
+#include "../Graphics/Mesh/MeshLib.h"
 
 
 Scene::Scene(Engine* engine) : _engine(engine) {}
@@ -13,6 +14,26 @@ Scene::Scene(Engine* engine) : _engine(engine) {}
 Scene::~Scene() {
     for (auto* obj : _objects)
         delete obj;
+}
+
+void Scene::init() {
+    auto* model = _engine->loader().loadModel("primitive:cube", "wallGreenMaterial");
+    Transform form1;
+    form1.position = Vec3(0, 0, 0);
+    addStaticMeshInstance(model, InstanceData{ form1.worldMatrix() });
+
+    Transform form2;
+    form2.position = Vec3(5, 0, 0);
+    addStaticMeshInstance(model, InstanceData{ form2.worldMatrix() });
+
+    Transform form3;
+    form3.position = Vec3(-5, 0, 0);
+    addStaticMeshInstance(model, InstanceData{ form3.worldMatrix() });
+
+    Transform form4;
+    form4.position = Vec3(-5, 0, 5);
+    addStaticMeshInstance(model, InstanceData{ form4.worldMatrix() });
+
 }
 
 GameObject* Scene::createObject() {
@@ -79,6 +100,8 @@ void Scene::render(RenderContext& renderContext) {
 
     uploadLights(renderContext);
 
+    _staticMeshRenderPass.render(*this, renderContext);
+
     renderLayer(renderContext, RenderLayer::Sky);
     renderLayer(renderContext, RenderLayer::World);
     renderLayer(renderContext, RenderLayer::FPS);
@@ -109,4 +132,32 @@ const std::vector<GameObject*>& Scene::objects() const {
 
 CameraComponent* Scene::mainCamera() {
     return _mainCamera;
+}
+
+void Scene::addStaticMeshInstance(ModelData* model, const InstanceData& world) {
+    for (auto& inst : _staticMeshInstances) {
+        if (inst.model == model) {
+            inst.worlds.push_back(world);
+            return;
+        }
+    }
+
+    StaticMeshInstance inst;
+    inst.model = model;
+    inst.worlds.push_back(world);
+    _staticMeshInstances.push_back(std::move(inst));
+}
+
+void Scene::addStaticMeshInstances(ModelData* model, const std::vector<InstanceData>& worlds) {
+    for (auto& inst : _staticMeshInstances) {
+        if (inst.model == model) {
+            inst.worlds.insert(inst.worlds.end(), worlds.begin(), worlds.end());
+            return;
+        }
+    }
+
+    StaticMeshInstance inst;
+    inst.model = model;
+    inst.worlds = worlds;
+    _staticMeshInstances.push_back(std::move(inst));
 }

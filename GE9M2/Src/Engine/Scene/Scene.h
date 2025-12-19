@@ -3,6 +3,8 @@
 #include "../Graphics/Material/Material.h"
 #include "Component.h"
 #include "Light.h"
+#include "../Graphics/Instancing/InstanceData.h"
+#include "../Graphics/Render/StaticMeshRenderPass.h"
 
 class GameObject;
 class Engine;
@@ -13,6 +15,9 @@ class Scene {
 private:
     std::vector<GameObject*> _objects;
     std::vector<PointLight> _lights;
+    std::vector<StaticMeshInstance> _staticMeshInstances;
+
+    StaticMeshRenderPass _staticMeshRenderPass;
     SkyLight _skyLight;
 
     Engine* _engine = nullptr;
@@ -42,6 +47,16 @@ public:
 
     CameraComponent* mainCamera();
 
+    void addStaticMeshInstance(ModelData* model, const InstanceData& world);
+
+    void addStaticMeshInstances(ModelData* model, const std::vector<InstanceData>& worlds);
+
+    const std::vector<StaticMeshInstance>& staticMeshInstances() const {
+        return _staticMeshInstances;
+    }
+
     ~Scene();
+
+    void init();
 
 };

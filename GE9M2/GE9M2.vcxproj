@@ -124,8 +124,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Engine\Graphics\Instancing\InstanceBuffer.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Model\ModelLoader.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Material\Material.cpp" />
+    <ClCompile Include="Src\Engine\Graphics\Render\StaticMeshRenderPass.cpp" />
     <ClCompile Include="Src\Engine\Scene\ComponentFactory.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\ColliderComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\FPSRenderComponent.cpp" />
@@ -145,6 +147,9 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Graphics\Instancing\InstanceBuffer.h" />
+    <ClInclude Include="Src\Engine\Graphics\Instancing\InstanceData.h" />
+    <ClInclude Include="Src\Engine\Graphics\Render\StaticMeshRenderPass.h" />
     <ClInclude Include="Src\Engine\Scene\Light.h" />
     <ClInclude Include="Src\Engine\Graphics\Model\ModelData.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\MaterialManager.h" />
@@ -153,6 +158,7 @@
     <ClInclude Include="Src\Engine\Scene\Components\ColliderComponent.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\ModelMaterial.h" />
     <ClInclude Include="Src\Engine\Scene\Components\FPSRenderComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\SMInstanceSet.h" />
     <ClInclude Include="Src\Game\FPSGame.h" />
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationController.h" />
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationData.h" />

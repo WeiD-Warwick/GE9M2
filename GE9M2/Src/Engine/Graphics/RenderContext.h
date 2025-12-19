@@ -9,6 +9,7 @@
 #include "../Foundation/DX12/DX12RootSignature.h"
 #include "../Foundation/DX12/DX12Renderer.h"
 #include "Material/MaterialManager.h"
+#include "Instancing/InstanceBuffer.h"
 
 class RenderContext {
 private:
@@ -24,6 +25,8 @@ private:
     DX12RootSignature       _rootSignature;
     DX12Renderer            _renderer;
     DX12Upload              _uploader;
+    InstanceBuffer          _instanceBuffer;
+
     PSOManager              _psoManager;
 	ShaderManager		    _shaderManager;
 	TextureManager          _textureManager;
@@ -36,6 +39,7 @@ public:
     DX12CBVSRVUAVHeap& srvHeap() { return _srvHeap; }
     DX12Upload& uploader() { return _uploader; }
     DX12RootSignature& rootSignature() { return _rootSignature; }
+    InstanceBuffer& instanceBuffer() { return _instanceBuffer; }
 	ShaderManager& shaderManager() { return _shaderManager; }
 	PSOManager& psoManager() { return _psoManager; }
 	TextureManager& textureManager() { return _textureManager; }
@@ -54,6 +58,7 @@ public:
         _rootSignature.create(_device.dxDevice());
         _shaderManager.setSRVRootIndex(_rootSignature.srvRootIndex);
 
+        _instanceBuffer.create(_device.dxDevice(), 100);
         _swapchain.create(_queues.graphicsQueue(), hwnd, width, height, bufferCount);
 
         _targets.create(_device.dxDevice(), _swapchain, width, height);

@@ -37,8 +37,8 @@ groundMaterial
 
 # ---------- Wall (debug / simple color) ----------
 wallGreenMaterial
-: shader smShader smCB
-: pso smPSO
+: shader smiShader smCB
+: pso smiPSO
 : texture albedoTex wall1_basecolor
 : texture normalTex wall1_normal
 
@@ -91,18 +91,18 @@ ColliderComponent 1.2 2 1.2
 //StaticMeshRenderComponent primitive:cube wallGreenMaterial
 //ColliderComponent 10 8 4
 
-//# Ground
-//transform 0 0 0     0 0 0 1     100 1 100
-//StaticMeshRenderComponent primitive:plane groundMaterial
+# Ground
+transform 0 0 0     0 0 0 1     100 1 100
+StaticMeshRenderComponent primitive:plane groundMaterial
 
 # Grass
 transform 5 0 5     0 0 0 1     0.02 0.02 0.02
 StaticMeshRenderComponent Src/Assets/Models/beech.gem grassMaterial
 ColliderComponent 1 10 1
 
-# Dino
-transform 0 0 0   0 0 0 1   0.01 0.01 0.01
-AnimatedMeshRenderComponent Src/Assets/Models/TRex.gem dinoMaterial
+//# Dino
+//transform 0 0 0   0 0 0 1   0.01 0.01 0.01
+//AnimatedMeshRenderComponent Src/Assets/Models/TRex.gem dinoMaterial
 
 # Sky
 transform 0 0 0     0 0 0 1     1 1 1

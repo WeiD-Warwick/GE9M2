@@ -131,6 +131,22 @@ public:
         cmd->DrawIndexedInstanced(_numIndices, 1, 0, 0, 0);
     }
 
+    void drawInstanced(
+        ID3D12GraphicsCommandList4* cmd,
+        const D3D12_VERTEX_BUFFER_VIEW& instanceVBV,
+        int instanceCount
+    ) const {
+        // slot 0: per-vertex slot 1: per-instance
+        D3D12_VERTEX_BUFFER_VIEW vbvs[2] = { _vbView, instanceVBV };
+
+        cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        cmd->IASetVertexBuffers(0, 2, vbvs);
+        cmd->IASetIndexBuffer(&_ibView);
+
+        cmd->DrawIndexedInstanced(_numIndices, instanceCount, 0, 0, 0);
+    }
+
+
     void drawLineList(ID3D12GraphicsCommandList4* cmd) const {
         cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
         cmd->IASetVertexBuffers(0, 1, &_vbView);

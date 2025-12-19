@@ -6,12 +6,13 @@ Engine::Engine(HWND hwnd, int width, int height, Game* game)
 	_hwnd(hwnd),
 	_width(width),
 	_height(height),
-	_scene(this),
 	_renderContext(hwnd, width, height),
 	_loader(_renderContext),
+	_scene(this),
 	_game(game)
 {
 	if (_game) {
+		_scene.init();
 		_game->onInit(*this, _scene);
 	}
 }
