@@ -2,6 +2,7 @@
 #include "../../Scene/Scene.h"
 #include "../RenderContext.h"
 #include "../../Scene/Components/CameraComponent.h"
+#include "../../Graphics/Model/ModelData.h"
 
 void StaticMeshRenderPass::render(Scene& scene, RenderContext& ctx) {
 

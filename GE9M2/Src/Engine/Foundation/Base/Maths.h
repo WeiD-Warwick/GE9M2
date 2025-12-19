@@ -25,7 +25,6 @@ public:
     Vec2 operator*(float s) const { return { x * s, y * s }; }
 };
 
-
 class Vec3 {
 public:
     union {

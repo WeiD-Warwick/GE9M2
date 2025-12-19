@@ -9,7 +9,7 @@
 #include "../../Engine/Graphics/Material/Material.h"
 #include "../../Engine/Graphics/Model/ModelData.h"
 #include "../../Engine/Graphics/Model/ModelLoader.h"
-#include "../../Engine/Scene/ComponentFactory.h"
+#include "../../Engine/Scene/Components/Factory/ComponentFactory.h"
 
 void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& levelPath) {
 
@@ -269,7 +269,7 @@ void LevelLoader::parseSceneLine(Engine& engine, Scene& scene, const std::string
     std::vector<std::string> args;
     std::string arg;
     while (componentLine >> arg) {
-        args.push_back(arg);
+        args.push_back(decodeArg(arg));
     }
 
     assert(componentFactory.create(
@@ -278,4 +278,16 @@ void LevelLoader::parseSceneLine(Engine& engine, Scene& scene, const std::string
         engine,
         args
     ));
+}
+
+std::string LevelLoader::decodeArg(const std::string& in) {
+    std::string out = in;
+    size_t pos = 0;
+
+    while ((pos = out.find("~", pos)) != std::string::npos) {
+        out.replace(pos, 1, " ");
+        pos += 1;
+    }
+
+    return out;
 }

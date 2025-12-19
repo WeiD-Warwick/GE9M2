@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../Component.h"
+#include "Component.h"
 #include "../../Foundation/Base/Maths.h"
 #include "../../Foundation/Base/Transform.h"
 

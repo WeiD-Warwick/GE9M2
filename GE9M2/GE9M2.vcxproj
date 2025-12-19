@@ -124,39 +124,48 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Engine\Scene\Components\Controller\PlayerInputControllerComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\Controller\WeaponControllerComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\Render\AnimatedMeshRenderComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\Render\FPSWeaponRenderComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\Render\MeshRenderComponentBase.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Instancing\InstanceBuffer.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Model\ModelLoader.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Material\Material.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Render\StaticMeshRenderPass.cpp" />
-    <ClCompile Include="Src\Engine\Scene\ComponentFactory.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\Factory\ComponentFactory.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\ColliderComponent.cpp" />
-    <ClCompile Include="Src\Engine\Scene\Components\FPSRenderComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\Animator\AnimatorComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\Render\StaticMeshRenderComponent.cpp" />
     <ClCompile Include="Src\Game\FPSGame.cpp" />
     <ClCompile Include="Src\Engine\Engine.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Texture\Texture.cpp" />
     <ClCompile Include="Src\Engine\Foundation\Window\Window.cpp" />
-    <ClCompile Include="Src\Engine\Scene\Component.cpp" />
-    <ClCompile Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\Component.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\CameraComponent.cpp" />
-    <ClCompile Include="Src\Engine\Scene\Components\PlayerControllerComponent.cpp" />
-    <ClCompile Include="Src\Engine\Scene\Components\SkySphereRenderComponent.cpp" />
-    <ClCompile Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\Render\SkyRenderComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\GameObject.cpp" />
     <ClCompile Include="Src\Engine\Scene\Scene.cpp" />
     <ClCompile Include="Src\Game\Level\LevelLoader.cpp" />
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Scene\Components\Controller\WeaponControllerComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\Controller\PlayerInputControllerComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\Render\AnimatedMeshRenderComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\Render\FPSWeaponRenderComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\Render\MeshRenderComponentBase.h" />
     <ClInclude Include="Src\Engine\Graphics\Instancing\InstanceBuffer.h" />
     <ClInclude Include="Src\Engine\Graphics\Instancing\InstanceData.h" />
     <ClInclude Include="Src\Engine\Graphics\Render\StaticMeshRenderPass.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\Animator\AnimatorComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\Render\StaticMeshRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Light.h" />
     <ClInclude Include="Src\Engine\Graphics\Model\ModelData.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\MaterialManager.h" />
     <ClInclude Include="Src\Engine\Graphics\Mesh\Mesh.h" />
-    <ClInclude Include="Src\Engine\Scene\ComponentFactory.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\Factory\ComponentFactory.h" />
     <ClInclude Include="Src\Engine\Scene\Components\ColliderComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\FPSRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\SMInstanceSet.h" />
     <ClInclude Include="Src\Game\FPSGame.h" />
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationController.h" />
@@ -173,8 +182,6 @@
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderCompiler.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\Texture.h" />
     <ClInclude Include="Src\Engine\Graphics\Texture\TextureManager.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h" />
     <ClInclude Include="Src\Engine\Foundation\DX12\DX12CommandQueue.h" />
     <ClInclude Include="Src\Engine\Foundation\DX12\DX12Device.h" />
     <ClInclude Include="Src\Engine\Foundation\DX12\DX12RootSignature.h" />
@@ -184,10 +191,9 @@
     <ClInclude Include="Src\Engine\Foundation\Base\Maths.h" />
     <ClInclude Include="Src\Engine\Graphics\RenderContext.h" />
     <ClInclude Include="Src\Engine\Graphics\Shader\ShaderManager.h" />
-    <ClInclude Include="Src\Engine\Scene\Component.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\Component.h" />
     <ClInclude Include="Src\Engine\Scene\Components\CameraComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\SkySphereRenderComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\Render\SkyRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\GameObject.h" />
     <ClInclude Include="Src\Engine\Scene\Scene.h" />
     <ClInclude Include="Src\Game\Game.h" />

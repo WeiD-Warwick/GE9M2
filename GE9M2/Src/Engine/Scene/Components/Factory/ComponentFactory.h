@@ -2,8 +2,8 @@
 #include <string>
 #include <unordered_map>
 #include <functional>
-#include "GameObject.h"
-#include "../Engine.h"
+#include "../../GameObject.h"
+#include "../../../Engine.h"
 
 using ComponentArgs = std::vector<std::string>;
 using ComponentCreator = std::function<void(GameObject*, Engine&, const ComponentArgs&)>;

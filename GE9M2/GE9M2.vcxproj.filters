@@ -18,7 +18,7 @@
     <ClCompile Include="Src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Scene\Component.cpp">
+    <ClCompile Include="Src\Engine\Scene\Components\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Engine\Scene\GameObject.cpp">
@@ -27,19 +27,10 @@
     <ClCompile Include="Src\Engine\Scene\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Engine\Scene\Components\SkySphereRenderComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Engine\Scene\Components\PlayerControllerComponent.cpp">
+    <ClCompile Include="Src\Engine\Scene\Components\Render\SkyRenderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Engine\Scene\Components\CameraComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Engine\Engine.cpp">
@@ -51,9 +42,6 @@
     <ClCompile Include="Src\Game\FPSGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Scene\Components\FPSRenderComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Game\Level\LevelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,13 +51,40 @@
     <ClCompile Include="Src\Engine\Foundation\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Scene\ComponentFactory.cpp">
+    <ClCompile Include="Src\Engine\Scene\Components\Factory\ComponentFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Graphics\Assets\ModelLoader.cpp">
+    <ClCompile Include="Src\Engine\Graphics\Instancing\InstanceBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Engine\Graphics\Material\ModelMaterial.cpp">
+    <ClCompile Include="Src\Engine\Graphics\Model\ModelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Graphics\Material\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Graphics\Render\StaticMeshRenderPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Scene\Components\Animator\AnimatorComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Scene\Components\Render\MeshRenderComponentBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Scene\Components\Render\StaticMeshRenderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Scene\Components\Render\AnimatedMeshRenderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Scene\Components\Render\FPSWeaponRenderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Scene\Components\Controller\WeaponControllerComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Engine\Scene\Components\Controller\PlayerInputControllerComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,10 +101,7 @@
     <ClInclude Include="Src\Engine\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\StaticMeshRenderComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Component.h">
+    <ClInclude Include="Src\Engine\Scene\Components\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Scene\GameObject.h">
@@ -119,52 +131,31 @@
     <ClInclude Include="Src\Engine\Graphics\PSOManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\AnimatedMeshRenderComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\PlayerControllerComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Mesh\MeshLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\SkySphereRenderComponent.h">
+    <ClInclude Include="Src\Engine\Scene\Components\Render\SkyRenderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Material\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Game\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Game\FPSGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\Components\FPSRenderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Game\Level\LevelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Material\ModelMaterial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Engine\Scene\Components\ColliderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Assets\ModelData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Mesh\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Engine\Graphics\Assets\ModelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Foundation\Base\Timer.h">
@@ -200,13 +191,55 @@
     <ClInclude Include="Src\Engine\Foundation\Window\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Engine\Scene\ComponentFactory.h">
+    <ClInclude Include="Src\Engine\Scene\Components\Factory\ComponentFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Scene\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Graphics\Material\MaterialManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Instancing\InstanceBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Instancing\InstanceData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Render\StaticMeshRenderPass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Model\ModelData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\SMInstanceSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Graphics\Model\ModelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\Animator\AnimatorComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\Render\MeshRenderComponentBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\Render\StaticMeshRenderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\Render\AnimatedMeshRenderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\Render\FPSWeaponRenderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\Controller\PlayerInputControllerComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\Controller\WeaponControllerComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Game\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -317,14 +350,15 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Src\Assets\Shaders\animatedMesh_ps.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\animatedMesh_vs.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\skysphere_ps.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\skySphere_vs.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\staticMesh_ps.hlsl" />
-    <FxCompile Include="Src\Assets\Shaders\staticMesh_vs.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\debug_ps.hlsl" />
     <FxCompile Include="Src\Assets\Shaders\debug_vs.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\am_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\am_vs.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\sky_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\sky_vs.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\sm_i_vs.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\sm_ps.hlsl" />
+    <FxCompile Include="Src\Assets\Shaders\sm_vs.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Src\Assets\Levels\level_demo.txt" />

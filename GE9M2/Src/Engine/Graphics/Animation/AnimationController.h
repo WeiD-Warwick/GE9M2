@@ -42,6 +42,10 @@ public:
 			return;
 		}
 
+		if (currentAnimationName.empty()) {
+			return;
+		}
+
 		// Get frame index and interpolation weight
 		int frameIndex = 0;
 		float interpolationWeight = 0;

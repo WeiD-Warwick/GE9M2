@@ -1,5 +1,5 @@
 #pragma once
-#include "../Component.h"
+#include "Component.h"
 #include "../../Foundation/Base/Maths.h"
 
 class Transform;

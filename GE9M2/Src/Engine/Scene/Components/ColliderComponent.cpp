@@ -1,8 +1,8 @@
 #include "ColliderComponent.h"
 #include <string>
+#include "Component.h"
 #include "CameraComponent.h"
 #include "../GameObject.h"
-#include "../Component.h"
 #include "../../Engine.h"
 #include "../../Foundation/Base/Maths.h"
 #include "../../Foundation/Base/Transform.h"

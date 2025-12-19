@@ -31,6 +31,7 @@ PS_INPUT VS(VS_INPUT input)
     
     // Vertex animation
 
+    PS_INPUT output;
     // --- Position ---
     float4 worldPos = mul(float4(pos, 1.0f), input.World);
     output.PosWS = worldPos;

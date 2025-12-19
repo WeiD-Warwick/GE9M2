@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include <algorithm>
 #include "GameObject.h"
-#include "Component.h"
+#include "Components/Component.h"
 #include "Components/ColliderComponent.h"
 #include "Components/CameraComponent.h"
 #include "../Engine.h"

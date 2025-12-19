@@ -75,36 +75,22 @@ pointlight	0 10 10			1 1 0		20.0			30.0
 pointlight  10 10 0			1 0 1		20.0			30.0
 
 === SCENE ===
-// -------------------------------------------------------
-// # description
-// transform <position> <rotation> <scale>
-// RenderComponent <ModelPath> <psoName>
-
 # Player
-transform 0 0 0       0 0 0 1     1.2 2 1.2
-PlayerControllerComponent 15 0.002
+transform 0 0 0  0 0 0 1  1.2 2 1.2
+PlayerInputControllerComponent
 CameraComponent
-FPSRenderComponent Src/Assets/Models/Uzi.gem fpsWeaponMaterial
+WeaponControllerComponent 04~idle 08~fire 17~reload
+FPSWeaponRenderComponent Src/Assets/Models/Uzi.gem fpsWeaponMaterial
 ColliderComponent 1.2 2 1.2
 
-//# Wall
-//transform -20 0 20     0 0 0 1     10 8 4
-//StaticMeshRenderComponent primitive:cube wallGreenMaterial
-//ColliderComponent 10 8 4
-
 # Ground
-transform 0 0 0     0 0 0 1     100 1 100
+transform 0 0 0  0 0 0 1  100 1 100
 StaticMeshRenderComponent primitive:plane groundMaterial
 
-# Grass
-transform 5 0 5     0 0 0 1     0.02 0.02 0.02
-StaticMeshRenderComponent Src/Assets/Models/beech.gem grassMaterial
-ColliderComponent 1 10 1
-
 //# Dino
-//transform 0 0 0   0 0 0 1   0.01 0.01 0.01
+//transform 0 0 0  0 0 0 1  0.01 0.01 0.01
 //AnimatedMeshRenderComponent Src/Assets/Models/TRex.gem dinoMaterial
 
 # Sky
-transform 0 0 0     0 0 0 1     1 1 1
-SkySphereRenderComponent primitive:skySphere skysphereMaterial
+SkyRenderComponent primitive:skySphere skysphereMaterial
+

@@ -39,7 +39,7 @@ private:
     void parseMaterialLine(Engine& engine, const std::string& line);
     void parseLight(Engine& engine, const std::string& line);
     void parseSceneLine(Engine& engine, Scene& scene, const std::string& line);
-
+    std::string decodeArg(const std::string& in);
 public:
     void loadLevel(Engine& engine, Scene& scene, const std::string& levelPath);
 

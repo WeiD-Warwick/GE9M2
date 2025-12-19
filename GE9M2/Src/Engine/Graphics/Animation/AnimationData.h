@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <cassert>
 #include "../../Foundation/Base/Maths.h"
 #include "../../Foundation/Base/Transform.h"
 #include "../../../../Third_Party/GEMLoader.h"
@@ -99,6 +100,9 @@ public:
 private:
 	Transform getInterpolatedLocalTransform(int baseFrameIndex, float interpolationFact, int boneIndex) const {
 		int nextFrameIndex = getNextFrameIndex(baseFrameIndex);
+		if (baseFrameIndex == -1) {
+			return Transform();
+		}
 		const auto& frame1 = frames[baseFrameIndex];
 		const auto& frame2 = frames[nextFrameIndex];
 

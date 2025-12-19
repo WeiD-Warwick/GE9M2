@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "../Graphics/Material/Material.h"
-#include "Component.h"
+#include "Components/Component.h"
 #include "Light.h"
 #include "../Graphics/Instancing/InstanceData.h"
 #include "../Graphics/Render/StaticMeshRenderPass.h"

@@ -1,6 +1,6 @@
 #include "GameObject.h"
-#include "Component.h"
 #include "Scene.h"
+#include "Components/Component.h"
 #include "../Engine.h"
 #include "../Foundation/Base/Transform.h"
 

@@ -1,9 +1,9 @@
 #include "Component.h"
-#include "GameObject.h"
-#include "Scene.h"
-#include "../Engine.h"
-#include "../Foundation/Base/Transform.h"
-#include "Components/CameraComponent.h"
+#include "CameraComponent.h"
+#include "../GameObject.h"
+#include "../Scene.h"
+#include "../../Engine.h"
+#include "../../Foundation/Base/Transform.h"
 
 void Component::setOwner(GameObject* owner) {
     _owner = owner;
