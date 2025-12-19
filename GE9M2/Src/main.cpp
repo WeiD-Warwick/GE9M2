@@ -24,7 +24,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	while (true) {
 		window.processMessages();
-		engine.frame(timer.dt());
+		engine.update(timer.dt());
 	};
 	return 0;
 };

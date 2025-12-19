@@ -3,6 +3,9 @@
 cbuffer smCB : register(b0) {
     float4x4 W;
     float4x4 VP;
+    
+    float3 time;
+    int useVSAnim;
 };
 
 struct VS_INPUT {
@@ -21,13 +24,16 @@ struct PS_INPUT {
 };
 
 PS_INPUT VS(VS_INPUT input) {
+    
+    float3 pos = input.Pos;
+    
+    // Vertex animation
+    
     PS_INPUT output;
     // --- Position ---
-    float4 pos = float4(input.Pos, 1.0f);
-    pos = mul(pos, W);
-    
-    output.PosWS = pos;
-    output.Pos = mul(pos, VP);
+    float4 worldPos = mul(float4(pos, 1.0f), W);
+    output.PosWS = worldPos;
+    output.Pos = mul(worldPos, VP);
     
     // --- NormalWS ---
     output.NormalWS = normalize(mul(input.Normal, (float3x3) W));

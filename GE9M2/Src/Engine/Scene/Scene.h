@@ -33,6 +33,8 @@ public:
 
     void setSkyLight(const SkyLight& light);
 
+    void updateTime(RenderContext& ctx);
+
     void uploadLights(RenderContext& ctx);
 
     void update(float dt);

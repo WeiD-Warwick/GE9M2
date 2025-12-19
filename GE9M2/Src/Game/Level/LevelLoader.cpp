@@ -172,10 +172,17 @@ void LevelLoader::parseMaterialLine(Engine& engine, const std::string& line) {
         return;
     }
 
-    if (key == "alphatest") {
+    if (key == "alphaTest") {
         float alphatest;
         propLine >> alphatest;
         _currentMaterial->setAlphaTest(alphatest);
+        return;
+    }
+
+    if (key == "vsAnim") {
+        float vsanim;
+        propLine >> vsanim;
+        _currentMaterial->setVSAnim(vsanim);
         return;
     }
 

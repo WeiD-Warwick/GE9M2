@@ -156,7 +156,6 @@
     <ClInclude Include="Src\Engine\Graphics\Mesh\Mesh.h" />
     <ClInclude Include="Src\Engine\Scene\ComponentFactory.h" />
     <ClInclude Include="Src\Engine\Scene\Components\ColliderComponent.h" />
-    <ClInclude Include="Src\Engine\Graphics\Material\ModelMaterial.h" />
     <ClInclude Include="Src\Engine\Scene\Components\FPSRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\SMInstanceSet.h" />
     <ClInclude Include="Src\Game\FPSGame.h" />

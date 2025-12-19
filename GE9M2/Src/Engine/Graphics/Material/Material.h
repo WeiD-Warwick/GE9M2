@@ -26,6 +26,7 @@ private:
 
     Vec2                         _uvScale = { 1.0f, 1.0f };
     bool                         _useAlphaTest = false;
+    bool                         _useVSAnim = false;
 
 public:
 
@@ -38,8 +39,8 @@ public:
     bool hasTexture(const std::string& slot) const;
 
     void setUVScale(const Vec2& scale);
-
     void setAlphaTest(bool enable);
+    void setVSAnim(bool enable);
 
     void apply(RenderContext& ctx, MaterialParam& param);
 };

@@ -64,14 +64,15 @@ dinoMaterial
 grassMaterial
 : shader smShader smCB
 : pso smPSO
-: alphatest 1
+: alphaTest 1
+: vsAnim 1
 
 === LIGHT ===
-skylight 1 1 1 0.2
+skylight 1 1 1 0.1
 
 //			<position>		<color>		<range>		<intensity>
-pointlight	0 0 1			1 0 0		15.0			30.0
-pointlight  10 0 0			0 1 0		15.0			30.0
+pointlight	0 10 10			1 1 0		20.0			30.0
+pointlight  10 10 0			1 0 1		20.0			30.0
 
 === SCENE ===
 // -------------------------------------------------------

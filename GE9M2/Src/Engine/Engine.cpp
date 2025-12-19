@@ -23,7 +23,9 @@ void Engine::beginFrame() {
 	_renderContext.renderer().beginFrame();
 }
 
-void Engine::frame(float dt) {
+void Engine::update(float dt) {
+	_time += dt;
+
 	beginFrame();
 	_scene.update(dt);
 	_scene.render(_renderContext);

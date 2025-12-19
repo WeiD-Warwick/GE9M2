@@ -30,6 +30,8 @@ void Material::setUVScale(const Vec2& scale) { _uvScale = scale; }
 
 void Material::setAlphaTest(bool enable) { _useAlphaTest = enable; }
 
+void Material::setVSAnim(bool enable) { _useVSAnim = enable; }
+
 void Material::apply(RenderContext& ctx, MaterialParam& param) {
     auto& shaders = ctx.shaderManager();
     auto& textures = ctx.textureManager();
@@ -39,16 +41,19 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
 
     psos.bind(commandList, _psoName);
 
-    // Update constant buffer
+    // Update VS constant buffer
     shaders.updateConstantVS(_shaderName, _cbufferName, "W", &param.W);
     shaders.updateConstantVS(_shaderName, _cbufferName, "VP", &param.VP);
-    shaders.updateConstantPS(_shaderName, _cbufferName, "uvScale", &_uvScale);
 
     if (param.bones) {
         shaders.updateConstantVS(_shaderName, _cbufferName, "bones", param.bones);
     }
-    // Bind shader
-    shaders.apply(commandList, _shaderName);
+
+    int useVSAnim = _useVSAnim ? 1 : 0;
+    shaders.updateConstantVS(_shaderName, _cbufferName, "useVSAnim ", &useVSAnim);
+
+    // Update PS constant buffer
+    shaders.updateConstantPS(_shaderName, _cbufferName, "uvScale", &_uvScale);
 
     // Normal Map Guard
     int useNormalMap = hasTexture("normalTex") ? 1 : 0;
@@ -57,11 +62,13 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
     int useAlphaTest = _useAlphaTest ? 1 : 0;
     shaders.updateConstantPS(_shaderName, _cbufferName, "useAlphaTest", &useAlphaTest);
 
-    // MARK: SRV Update
+    // Bind shader
+    shaders.apply(commandList, _shaderName);
+
+
+    // Upate Texture
     if (!_textures.empty()) {
         int baseOffset = textures.find(_textures[0].name);
-
-        // find the heapStart
         shaders.updateTexturePS(commandList, srvHeap, _shaderName, _textures[0].slot, baseOffset);
     }
 }

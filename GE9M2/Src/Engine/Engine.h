@@ -10,6 +10,7 @@ private:
 	const int       bufferCount = 2;
 	int             _width = 0;
 	int             _height = 0;
+	float			_time = 0;
 	HWND            _hwnd = nullptr;
 	Scene           _scene;
 	Game*			_game;
@@ -26,7 +27,7 @@ public:
 
 	void beginFrame();
 
-	void frame(float dt);
+	void update(float dt);
 
 	void endFrame();
 
@@ -45,4 +46,6 @@ public:
 	Scene& scene();
 
 	bool showCollisionBoxes = true;
+
+	float time() const { return _time; }
 };

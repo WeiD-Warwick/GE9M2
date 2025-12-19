@@ -51,6 +51,13 @@ void Scene::setSkyLight(const SkyLight& light) {
     _skyLight = light;
 }
 
+void Scene::updateTime(RenderContext& ctx) {
+    float t = _engine->time();
+
+    ctx.shaderManager().updateConstantVS("smShader", "smCB", "time", &t);
+    ctx.shaderManager().updateConstantVS("smiShader", "smCB", "time", &t);
+}
+
 void Scene::uploadLights(RenderContext& ctx) {
     const int MAX_POINT_LIGHTS = 10;
     auto& shaderManager = ctx.shaderManager();
@@ -97,7 +104,7 @@ void Scene::update(float dt) {
 }
 
 void Scene::render(RenderContext& renderContext) {
-
+    updateTime(renderContext);
     uploadLights(renderContext);
 
     _staticMeshRenderPass.render(*this, renderContext);
