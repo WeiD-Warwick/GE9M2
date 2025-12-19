@@ -4,7 +4,7 @@
 #include "../../Foundation/Base/Transform.h"
 #include "../../Graphics/RenderContext.h"
 #include "../../Graphics/Material/Material.h"
-#include "../../Graphics/Assets/ModelData.h"
+#include "../../Graphics/Model/ModelData.h"
 #include "../../Engine.h"
 
 SkySphereRenderComponent::SkySphereRenderComponent(ModelData* data) : _data(data) {}

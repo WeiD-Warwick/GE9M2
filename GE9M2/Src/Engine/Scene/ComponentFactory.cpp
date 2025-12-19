@@ -8,7 +8,7 @@
 #include "Components/FPSRenderComponent.h"
 #include "Components/SkySphereRenderComponent.h"
 #include "Components/ColliderComponent.h"
-#include "../Graphics/Assets/ModelData.h"
+#include "../Graphics/Model/ModelData.h"
 #include <cassert>
 
 ComponentFactory& ComponentFactory::shared() {

@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
-#include "../Assets/ModelData.h"
+#include "../Model/ModelData.h"
 #include "Material.h"
 #include "../RenderContext.h"
 

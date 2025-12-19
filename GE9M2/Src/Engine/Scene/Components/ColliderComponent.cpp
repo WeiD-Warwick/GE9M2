@@ -7,7 +7,7 @@
 #include "../../Foundation/Base/Maths.h"
 #include "../../Foundation/Base/Transform.h"
 #include "../../Graphics/RenderContext.h"
-#include "../../Graphics/Assets/ModelData.h"
+#include "../../Graphics/Model/ModelData.h"
 #include "../../Graphics/Mesh/MeshLib.h"
 
 const Vec3& ColliderComponent::size() const { return _size; }

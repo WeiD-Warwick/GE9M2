@@ -124,7 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Engine\Graphics\Assets\ModelLoader.cpp" />
+    <ClCompile Include="Src\Engine\Graphics\Model\ModelLoader.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Material\Material.cpp" />
     <ClCompile Include="Src\Engine\Scene\ComponentFactory.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\ColliderComponent.cpp" />
@@ -146,7 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Engine\Scene\Light.h" />
-    <ClInclude Include="Src\Engine\Graphics\Assets\ModelData.h" />
+    <ClInclude Include="Src\Engine\Graphics\Model\ModelData.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\MaterialManager.h" />
     <ClInclude Include="Src\Engine\Graphics\Mesh\Mesh.h" />
     <ClInclude Include="Src\Engine\Scene\ComponentFactory.h" />
@@ -158,7 +158,7 @@
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationData.h" />
     <ClInclude Include="Src\Engine\Graphics\Material\Material.h" />
     <ClInclude Include="Src\Engine\Graphics\Mesh\MeshLib.h" />
-    <ClInclude Include="Src\Engine\Graphics\Assets\ModelLoader.h" />
+    <ClInclude Include="Src\Engine\Graphics\Model\ModelLoader.h" />
     <ClInclude Include="Src\Engine\Engine.h" />
     <ClInclude Include="Src\Engine\Foundation\Base\Timer.h" />
     <ClInclude Include="Src\Engine\Foundation\Base\Transform.h" />

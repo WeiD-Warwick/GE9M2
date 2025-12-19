@@ -4,7 +4,7 @@
 #include "../../Foundation/Base/Maths.h"
 #include "../../Foundation/Base/Transform.h"
 #include "../../Graphics/Material/Material.h"
-#include "../../Graphics/Assets/ModelData.h"
+#include "../../Graphics/Model/ModelData.h"
 #include "../../Engine.h"
 
 AnimatedMeshRenderComponent::AnimatedMeshRenderComponent(ModelData* data) : _data(data) {

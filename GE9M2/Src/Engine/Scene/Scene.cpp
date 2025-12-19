@@ -5,7 +5,7 @@
 #include "Components/ColliderComponent.h"
 #include "Components/CameraComponent.h"
 #include "../Engine.h"
-#include "../Graphics/Assets/ModelLoader.h"
+#include "../Graphics/Model/ModelLoader.h"
 
 
 Scene::Scene(Engine* engine) : _engine(engine) {}

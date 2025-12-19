@@ -7,8 +7,8 @@
 #include "../../Engine/Scene/Scene.h"
 #include "../../Engine/Scene/GameObject.h"
 #include "../../Engine/Graphics/Material/Material.h"
-#include "../../Engine/Graphics/Assets/ModelData.h"
-#include "../../Engine/Graphics/Assets/ModelLoader.h"
+#include "../../Engine/Graphics/Model/ModelData.h"
+#include "../../Engine/Graphics/Model/ModelLoader.h"
 #include "../../Engine/Scene/ComponentFactory.h"
 
 void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& levelPath) {

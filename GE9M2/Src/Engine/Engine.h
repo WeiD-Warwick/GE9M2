@@ -3,7 +3,7 @@
 #include "../Game/Game.h"
 #include "Scene/Scene.h"
 #include "Graphics/RenderContext.h"
-#include "Graphics/Assets/ModelLoader.h"
+#include "Graphics/Model/ModelLoader.h"
 
 class Engine {
 private:
