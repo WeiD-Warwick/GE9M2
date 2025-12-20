@@ -17,22 +17,22 @@ Scene::~Scene() {
 }
 
 void Scene::init() {
-    auto* model = _engine->loader().loadModel("primitive:cube", "wallGreenMaterial");
-    Transform form1;
-    form1.position = Vec3(0, 0, 0);
-    addStaticMeshInstance(model, InstanceData{ form1.worldMatrix() });
+    //auto* model = _engine->loader().loadModel("primitive:cube", "cubeInstancedMaterial");
+    //Transform form1;
+    //form1.position = Vec3(0, 0, 0);
+    //addStaticMeshInstance(model, InstanceData{ form1.worldMatrix() });
 
-    Transform form2;
-    form2.position = Vec3(5, 0, 0);
-    addStaticMeshInstance(model, InstanceData{ form2.worldMatrix() });
+    //Transform form2;
+    //form2.position = Vec3(5, 0, 0);
+    //addStaticMeshInstance(model, InstanceData{ form2.worldMatrix() });
 
-    Transform form3;
-    form3.position = Vec3(-5, 0, 0);
-    addStaticMeshInstance(model, InstanceData{ form3.worldMatrix() });
+    //Transform form3;
+    //form3.position = Vec3(-5, 0, 0);
+    //addStaticMeshInstance(model, InstanceData{ form3.worldMatrix() });
 
-    Transform form4;
-    form4.position = Vec3(-5, 0, 5);
-    addStaticMeshInstance(model, InstanceData{ form4.worldMatrix() });
+    //Transform form4;
+    //form4.position = Vec3(-5, 0, 5);
+    //addStaticMeshInstance(model, InstanceData{ form4.worldMatrix() });
 
 }
 

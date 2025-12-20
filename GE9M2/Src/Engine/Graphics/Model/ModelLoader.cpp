@@ -82,8 +82,7 @@ ModelData* ModelLoader::loadStaticGEMModel(const std::string& modelPath, const s
                 _renderContext.uploader(),
                 _renderContext.srvHeap(),
                 albedo,
-                fullPath,
-                TextureUsage::Color
+                fullPath
             );
         }
         std::string nh = gemmesh.material.find("nh").getValue();
@@ -96,8 +95,7 @@ ModelData* ModelLoader::loadStaticGEMModel(const std::string& modelPath, const s
                 _renderContext.uploader(),
                 _renderContext.srvHeap(),
                 nh,
-                fullPath,
-                TextureUsage::Data
+                fullPath
             );
         }
         std::string rmax = gemmesh.material.find("rmax").getValue();
@@ -110,8 +108,7 @@ ModelData* ModelLoader::loadStaticGEMModel(const std::string& modelPath, const s
                 _renderContext.uploader(),
                 _renderContext.srvHeap(),
                 rmax,
-                fullPath,
-                TextureUsage::Data
+                fullPath
             );
         }
 
@@ -155,8 +152,7 @@ ModelData* ModelLoader::loadAnimatedGEMModel(const std::string& modelPath, const
                 _renderContext.uploader(),
                 _renderContext.srvHeap(),
                 texName,
-                fullPath,
-                TextureUsage::Color
+                fullPath
             );
         }
         data->subMeshes.push_back({ subMesh, materialKey, texName });

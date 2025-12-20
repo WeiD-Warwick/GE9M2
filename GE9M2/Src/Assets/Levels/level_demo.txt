@@ -1,96 +1,130 @@
-=== TEXTURE ===
-// <key>				<filePath>
-ground_basecolor		Src/Assets/Textures/ground_basecolor.png
-ground_normal			Src/Assets/Textures/ground_normal.png
-ground_roughness		Src/Assets/Textures/ground_roughness.png
-wall1_basecolor			Src/Assets/Textures/wall1_basecolor.png
-wall1_normal			Src/Assets/Textures/wall1_normal.png
-wall1_roughness			Src/Assets/Textures/wall1_roughness.png
-skysphere				Src/Assets/Textures/skysphere.png
-rgb_green				Src/Assets/Textures/rgb_green.png
+########################
+#####   Texture    #####
+########################
 
-=== SHADER ===
-// <shaderName>		<vsPath>							<psPath>
-skyShader			Src/Assets/Shaders/sky_vs.hlsl      Src/Assets/Shaders/sky_ps.hlsl
-smShader			Src/Assets/Shaders/sm_vs.hlsl		Src/Assets/Shaders/sm_ps.hlsl
-smiShader			Src/Assets/Shaders/sm_i_vs.hlsl		Src/Assets/Shaders/sm_ps.hlsl
-amShader			Src/Assets/Shaders/am_vs.hlsl		Src/Assets/Shaders/am_ps.hlsl
+texture {
+    ground_basecolor		Src/Assets/Textures/ground_basecolor.png
+    ground_normal			Src/Assets/Textures/ground_normal.png
+    ground_roughness		Src/Assets/Textures/ground_roughness.png
+    wall1_basecolor			Src/Assets/Textures/wall1_basecolor.png
+    wall1_normal			Src/Assets/Textures/wall1_normal.png
+    wall1_roughness			Src/Assets/Textures/wall1_roughness.png
+    skysphere				Src/Assets/Textures/skysphere.png
+    rgb_green				Src/Assets/Textures/rgb_green.png
+}
 
-=== PSO ===
-// <psoName>	<shaderName>	<layout>	<depthFunc>			<depthWrite>
-smPSO			smShader		s			depth_less			write
-smiPSO			smiShader		si			depth_less			write
-amPSO			amShader		a			epth_less			write
-skyPSO			skyShader		s			depth_less_equal	nowrite
-fpsPSO			amShader		a			depth_always		nowrite
+########################
+#####    Shader    #####
+########################
 
-=== MATERIAL ===
+shader {
+    skyShader   Src/Assets/Shaders/sky_vs.hlsl      Src/Assets/Shaders/sky_ps.hlsl
+    smShader    Src/Assets/Shaders/sm_vs.hlsl       Src/Assets/Shaders/sm_ps.hlsl
+    smiShader   Src/Assets/Shaders/sm_i_vs.hlsl		Src/Assets/Shaders/sm_ps.hlsl
+    amShader    Src/Assets/Shaders/am_vs.hlsl		Src/Assets/Shaders/am_ps.hlsl
+}
 
-# ---------- Ground ----------
-groundMaterial
-: shader smShader smCB
-: pso smPSO
-: texture albedoTex ground_basecolor
-: texture normalTex ground_normal
-: uv 100 100
+########################
+#####     PSO      #####
+########################
+
+pso {
+    smPSO	    smShader	    s       depth_less          write
+    smiPSO	    smiShader       si      depth_less          write
+    amPSO	    amShader		a       depth_less          write
+    skyPSO	    skyShader		s       depth_less_equal	nowrite
+    fpsPSO	    amShader		a       depth_always		nowrite
+}
+
+########################
+#####   Material   #####
+########################
+
+#======================= For Normal Object ====================
+
+material skyMaterial {
+    shader      skyShader       skyCB
+    pso         skyPSO
+    texture     albedoTex       skysphere
+}
+
+material groundMaterial {
+    shader      smShader    smCB
+    pso         smPSO
+    texture     albedoTex   ground_basecolor
+    texture     normalTex   ground_normal
+    uv          100         100
+}
 
 
-# ---------- Wall (debug / simple color) ----------
-wallGreenMaterial
-: shader smiShader smCB
-: pso smiPSO
-: texture albedoTex wall1_basecolor
-: texture normalTex wall1_normal
+#=========================== For Player  ========================
 
-# ---------- Sky ----------
-skysphereMaterial
-: shader skyShader skyCB
-: pso skyPSO
-: texture albedoTex skysphere
+material fpsWeaponMaterial {
+    shader      amShader        amCB
+    pso         fpsPSO
+}
 
+#=========================== For Instanced ========================
+material flowerInstancedMaterial {
+    shader      smiShader       smCB
+    pso         smiPSO
+    alphaTest   1
+    vsAnim      1
+}
 
-# ---------- FPS Weapon ----------
-fpsWeaponMaterial
-: shader amShader amCB
-: pso fpsPSO
+material cubeInstancedMaterial {
+    shader      smiShader       smCB
+    pso         smiPSO
+    texture     albedoTex   wall1_basecolor
+    alphaTest   1
+    vsAnim      1
+}
 
+########################
+#####    Light     #####
+########################
 
-# ---------- Dino ----------
-dinoMaterial
-: shader amShader amCB
-: pso amPSO
+light {
+    skylight        1 1 1           0.1
 
-# ---------- Grass ----------
-grassMaterial
-: shader smShader smCB
-: pso smPSO
-: alphaTest 1
-: vsAnim 1
+    # <type>          <position>      <color>     <range>     <intensity>
+    pointlight      0 10 10         1 1 0       20          30
+}
 
-=== LIGHT ===
-skylight 1 1 1 0.1
+########################
+#####    Scene     #####
+########################
 
-//			<position>		<color>		<range>		<intensity>
-pointlight	0 10 10			1 1 0		20.0			30.0
-pointlight  10 10 0			1 0 1		20.0			30.0
+scene {
+    object Player {
+        transform 0 0 0   0 0 0 1   1.2 2 1.2
 
-=== SCENE ===
-# Player
-transform 0 0 0  0 0 0 1  1.2 2 1.2
-PlayerInputControllerComponent
-CameraComponent
-WeaponControllerComponent 04~idle 08~fire 17~reload
-FPSWeaponRenderComponent Src/Assets/Models/Uzi.gem fpsWeaponMaterial
-ColliderComponent 1.2 2 1.2
+        component PlayerInputControllerComponent
+        component CameraComponent
+        component WeaponControllerComponent     04~idle 08~fire 17~reload
+        component FPSWeaponRenderComponent      Src/Assets/Models/Uzi.gem   fpsWeaponMaterial
+        component ColliderComponent             1.2 2 1.2
+    }
 
-# Ground
-transform 0 0 0  0 0 0 1  100 1 100
-StaticMeshRenderComponent primitive:plane groundMaterial
+    object ground {
+        transform 0 0 0   0 0 0 1   500 1 500
+        component StaticMeshRenderComponent primitive:plane groundMaterial
+    }
 
-//# Dino
-//transform 0 0 0  0 0 0 1  0.01 0.01 0.01
-//AnimatedMeshRenderComponent Src/Assets/Models/TRex.gem dinoMaterial
+    object Sky {
+        component SkyRenderComponent primitive:skySphere skyMaterial
+    }
+}
 
-# Sky
-SkyRenderComponent primitive:skySphere skysphereMaterial
+########################
+#####   Instance   #####
+########################
 
+static_instances {
+
+    static_mesh primitive:cube cubeInstancedMaterial {
+        transform 0 0 0   0 0 0 1   1 1 1
+        transform 5 0 0   0 0 0 1   1 1 1
+        transform -5 0 0  0 0 0 1   1 1 1
+    }
+}

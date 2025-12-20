@@ -42,9 +42,6 @@
     <ClCompile Include="Src\Game\FPSGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Game\Level\LevelLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Engine\Scene\Components\ColliderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -85,6 +82,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\Engine\Scene\Components\Controller\PlayerInputControllerComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game\Level\LevelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -147,9 +147,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Game\FPSGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Game\Level\LevelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\Engine\Scene\Components\ColliderComponent.h">
@@ -242,11 +239,15 @@
     <ClInclude Include="Src\Game\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Game\Level\LevelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Assets\Models\TRex.gem" />
     <None Include="Src\Assets\Models\Uzi.gem" />
     <None Include="Src\Assets\Models\beech.gem" />
+    <None Include="Src\Assets\Models\flower1.gem" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Src\Assets\Models\Textures\Textures1_ALB.png">
@@ -346,6 +347,24 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Models\Textures\beech leaf_RMAX.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\plant05_ALB.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\plant05_NH.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\plant05_RMAX.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\flower daisy_ALB.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\flower daisy_NH.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\flower daisy_RMAX.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

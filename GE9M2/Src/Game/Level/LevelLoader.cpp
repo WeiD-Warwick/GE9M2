@@ -1,8 +1,10 @@
 #include "LevelLoader.h"
 #include <fstream>
+#include <vector>
+#include <string>
 #include <sstream>
 #include <iostream>
-#include <functional>
+#include <cassert>
 #include "../../Engine/Engine.h"
 #include "../../Engine/Scene/Scene.h"
 #include "../../Engine/Scene/GameObject.h"
@@ -10,274 +12,315 @@
 #include "../../Engine/Graphics/Model/ModelData.h"
 #include "../../Engine/Graphics/Model/ModelLoader.h"
 #include "../../Engine/Scene/Components/Factory/ComponentFactory.h"
+#include "../../Engine/Foundation/DX12/DX12Upload.h"
+#include "../../Engine/Foundation/DX12/DX12Renderer.h"
 
-void LevelLoader::loadLevel(Engine& engine, Scene& scene, const std::string& levelPath) {
+static bool blockOpen(std::string line) {
+    return line.find('{') != std::string::npos;
+}
 
-    std::ifstream file(levelPath);
+static bool blockClose(std::string line) {
+    return line.find('}') != std::string::npos;
+}
 
+void LevelLoader::load(const std::string& path, Scene& scene, Engine& engine) {
+    std::ifstream file(path);
+    assert(file.is_open());
+
+    std::vector<BlockContext> stack;
     std::string line;
 
-    Section section = Section::None;
-
     while (std::getline(file, line)) {
-        // Skip empty lines and  comments
-        if (line.empty() || line.rfind(commentFlag, 0) == 0) continue;
 
-        // Handle Scetion
-        if (line == textureSectionFlag)  { section = Section::Texture;  continue; }
-        if (line == shaderSectionFlag)   { section = Section::Shader;   continue; }
-        if (line == psoSectionFlag)      { section = Section::PSO;      continue; }
-        if (line == materialSectionFlag) { section = Section::Material; continue; }
-        if (line == lightSectionFlag)    { section = Section::Light;    continue; }
-        if (line == sceneSectionFlag)    { section = Section::Scene;    continue; };
+        if (line.empty() || line[0] == '#')
+            continue;
 
-        switch (section) {
-        case Section::Texture:  parseTexture(engine, line);             break;
-        case Section::Shader:   parseShader(engine, line);              break;
-        case Section::PSO:      parsePSO(engine, line);                 break;
-        case Section::Material: parseMaterialLine(engine, line);        break;
-        case Section::Light:    parseLight(engine, line);               break;
-        case Section::Scene:    parseSceneLine(engine, scene, line);    break;
-        default: break;
+        // ---------- block close ----------
+        if (line.find('}') != std::string::npos) {
+            assert(!stack.empty());
+            stack.pop_back();
+            continue;
+        }
+
+        // ---------- block open ----------
+        if (line.find('{') != std::string::npos) {
+            openBlock(line, stack, scene, engine);
+            continue;
+        }
+
+        // ---------- content ----------
+        if (!stack.empty()) {
+            parseContent(line, stack, scene, engine);
         }
     }
 };
 
-void LevelLoader::parseTexture(Engine& engine, const std::string& line) {
-    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
+void LevelLoader::openBlock(const std::string& line, std::vector<BlockContext>& stack, Scene& scene, Engine& engine) {
+    std::stringstream ss(line);
+    std::string keyword;
+    ss >> keyword;
 
-    std::stringstream textureLine(line);
-    std::string key, path;
-    textureLine >> key >> path;
+    BlockContext ctx;
 
-    TextureUsage usgae = (key == "albedoTex")
-        ? TextureUsage::Color
-        : TextureUsage::Data;
-    
+    if (keyword == "texture") {
+        ctx.type = BlockType::Texture;
+    }
 
-    auto* texture = engine.renderContext().textureManager().loadTexture(
-        engine.renderContext().device().dxDevice(),
-        engine.renderContext().uploader(),
-        engine.renderContext().srvHeap(),
-        key,
-        path,
-        usgae
-    );
+    else if (keyword == "shader") {
+        ctx.type = BlockType::Shader;
+    }
 
-    assert(texture);
+    else if (keyword == "pso") {
+        ctx.type = BlockType::PSO;
+    }
+
+    else if (keyword == "material") {
+        ctx.type = BlockType::Material;
+
+        std::string matName;
+        ss >> matName;
+
+        auto& matMgr = engine.renderContext().materialManager();
+
+        Material* mat = new Material();
+        matMgr.add(matName, mat);
+        ctx.material = mat;
+    }
+
+    else if (keyword == "light") {
+        ctx.type = BlockType::Light;
+    }
+
+    else if (keyword == "scene") {
+        ctx.type = BlockType::Scene;
+    }
+
+    else if (keyword == "object") {
+        ctx.type = BlockType::Object;
+        ss >> ctx.name;
+        ctx.object = scene.createObject();
+        ctx.object->setName(ctx.name);
+    }
+
+    else if (keyword == "static_instances") {
+        ctx.type = BlockType::StaticInstances;
+    }
+
+    else if (keyword == "static_mesh") {
+        ctx.type = BlockType::StaticMesh;
+        std::string modelPath, materialKey;
+        ss >> modelPath >> materialKey;
+        ctx.model = engine.loader().loadModel(modelPath, materialKey);
+    }
+
+    stack.push_back(ctx);
 }
 
-void LevelLoader::parseShader(Engine& engine, const std::string& line) {
-    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
+void LevelLoader::parseContent(const std::string& line, std::vector<BlockContext>& stack, Scene& scene, Engine& engine) {
+    BlockContext& ctx = stack.back();
 
-    std::stringstream shaderLine(line);
-    std::string name, vsPath, psPath;
-    shaderLine >> name >> vsPath >> psPath;
+    // ---------- texture ----------
+    if (ctx.type == BlockType::Texture) {
+        std::string key, path;
+        std::stringstream ss(line);
+        ss >> key >> path;
+        auto* device = engine.renderContext().device().dxDevice();
+        auto& uploader = engine.renderContext().uploader();
+        auto& heap = engine.renderContext().srvHeap();
+        auto& textureManager = engine.renderContext().textureManager();
 
-    auto* shader = engine.renderContext().shaderManager().load(
-        engine.renderContext().device().dxDevice(),
-        name,
-        vsPath,
-        psPath
-    );
+        textureManager.loadTexture(device, uploader, heap, key, path);
+    }
 
-    assert(shader);
+    // ---------- shader ----------
+    if (ctx.type == BlockType::Shader) {
+        std::string name, vs, ps;
+        std::stringstream ss(line);
+        ss >> name >> vs >> ps;
+        auto* device = engine.renderContext().device().dxDevice();
+        auto& shaderManager = engine.renderContext().shaderManager();
+
+        shaderManager.load(device, name, vs, ps);
+    }
+
+    // ---------- pso ----------
+    if (ctx.type == BlockType::PSO) {
+        std::string psoName, shaderName, layout, depthFunc, depthWrite;
+        std::stringstream ss(line);
+        ss >> psoName >> shaderName >> layout >> depthFunc >> depthWrite;
+        auto* device = engine.renderContext().device().dxDevice();
+        auto* rootSignature = engine.renderContext().rootSignature().rootSignature();
+        auto& shaderManager = engine.renderContext().shaderManager();
+        auto& psoManager = engine.renderContext().psoManager();
+
+        Shader* shader = shaderManager.find(shaderName);
+
+        PSOParam param;
+        param.psoName = psoName;
+        param.vsBlob = shader->vs.Get();
+        param.psBlob = shader->ps.Get();
+
+        param.layout =
+            (layout == "a") ? DX12VertexLayoutCache::getAnimatedLayout() :
+            (layout == "s") ? DX12VertexLayoutCache::getStaticLayout() :
+            (layout == "si") ? DX12VertexLayoutCache::getStaticInstancedLayout() :
+            DX12VertexLayoutCache::getStaticLayout();
+
+        param.depthFunc =
+            (depthFunc == "depth_less_equal") ? D3D12_COMPARISON_FUNC_LESS_EQUAL :
+            (depthFunc == "depth_always") ? D3D12_COMPARISON_FUNC_ALWAYS :
+            (depthFunc == "depth_less") ? D3D12_COMPARISON_FUNC_LESS :
+            D3D12_COMPARISON_FUNC_LESS;
+
+        param.depthWriteMask =
+            (depthWrite == "nowrite") ? D3D12_DEPTH_WRITE_MASK_ZERO :
+            (depthWrite == "write") ? D3D12_DEPTH_WRITE_MASK_ALL :
+            D3D12_DEPTH_WRITE_MASK_ALL;
+
+        psoManager.createPSO(device, rootSignature, param);
+    }
+
+    // ---------- material ----------
+    if (ctx.type == BlockType::Material) {
+        Material* mat = ctx.material;
+        assert(mat);
+
+        std::stringstream ss(line);
+        std::string keyword;
+        ss >> keyword;
+
+        if (keyword == "shader") {
+            std::string shader, cb;
+            ss >> shader >> cb;
+            mat->setShader(shader, cb);
+        }
+        else if (keyword == "pso") {
+            std::string psoName;
+            ss >> psoName;
+            mat->setPSO(psoName);
+        }
+        else if (keyword == "texture") {
+            std::string slot, tex;
+            ss >> slot >> tex;
+            mat->addTexture(slot, tex);
+        }
+        else if (keyword == "uv") {
+            float u, v;
+            ss >> u >> v;
+            mat->setUVScale({ u, v });
+        }
+        else if (keyword == "alphaTest") {
+            int v;
+            ss >> v;
+            mat->setAlphaTest(v != 0);
+        }
+        else if (keyword == "vsAnim") {
+            int v;
+            ss >> v;
+            mat->setVSAnim(v != 0);
+        }
+    }
+
+    // ---------- light ----------
+    if (ctx.type == BlockType::Light) {
+        std::stringstream ss(line);
+        std::string type;
+        ss >> type;
+
+        if (type == "skylight") {
+            float r, g, b, intensity;
+            ss >> r >> g >> b >> intensity;
+
+            SkyLight light;
+            light.color = Vec3(r, g, b);
+            light.intensity = intensity;
+
+            scene.setSkyLight(light);
+        }
+        else if (type == "pointlight") {
+   
+            Vec3 position;
+            Vec3 color;
+            float range, intensity;
+
+            ss >> position.x >> position.y >> position.z;
+            ss >> color.x >> color.y >> color.z;
+            ss >> range >> intensity;
+
+            PointLight light;
+            light.position = position;
+            light.color = color;
+            light.range = range;
+            light.intensity = intensity;
+
+            scene.addLight(light);
+        }
+    }
+
+    // ---------- object ----------
+    if (ctx.type == BlockType::Object) {
+
+        std::string token = firstToken(line);
+
+        if (token == "transform") {
+            ctx.object->transform() = getTransform(line);
+        }
+
+        else if (token == "component") {
+
+            std::stringstream ss(line);
+            std::string keyword;
+            ss >> keyword;
+
+            std::string componentName;
+            ss >> componentName;
+
+            std::vector<std::string> args;
+            std::string arg;
+            while (ss >> arg) {
+                args.push_back(decodeArg(arg));
+            }
+
+            bool success = ComponentFactory::shared().create(
+                componentName,
+                ctx.object,
+                engine,
+                args
+            );
+
+            assert(success);
+        }
+    }
+
+    // ---------- static mesh instancing ----------
+    if (ctx.type == BlockType::StaticMesh) {
+        std::string token = firstToken(line);
+        if (token == "transform") {
+            Transform t = getTransform(line);
+            scene.addStaticMeshInstance(ctx.model, InstanceData{ t.worldMatrix() }
+            );
+        }
+    }
 }
 
-void LevelLoader::parsePSO(Engine& engine, const std::string& line) {
-    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
-
-    std::stringstream psoLine(line);
-
-    std::string psoName, shaderName, layout, depthFunc, depthWrite;
-    psoLine >> psoName >> shaderName >> layout >> depthFunc >> depthWrite;
-
-    Shader* shader = engine.renderContext().shaderManager().find(shaderName);
-
-    PSOParam param;
-    param.psoName = psoName;
-    param.vsBlob = shader->vs.Get();
-    param.psBlob = shader->ps.Get();
-
-    param.layout =
-        (layout == "a") ? DX12VertexLayoutCache::getAnimatedLayout() :
-        (layout == "s") ? DX12VertexLayoutCache::getStaticLayout() :
-        DX12VertexLayoutCache::getStaticInstancedLayout();
-
-    param.depthFunc =
-        (depthFunc == "depth_less_equal") ? D3D12_COMPARISON_FUNC_LESS_EQUAL :
-        (depthFunc == "depth_always") ? D3D12_COMPARISON_FUNC_ALWAYS :
-        D3D12_COMPARISON_FUNC_LESS;
-
-    param.depthWriteMask =
-        (depthWrite == "nowrite") ? D3D12_DEPTH_WRITE_MASK_ZERO : D3D12_DEPTH_WRITE_MASK_ALL;
-
-    engine.renderContext().psoManager().createPSO(
-        engine.renderContext().device().dxDevice(),
-        engine.renderContext().rootSignature().rootSignature(),
-        param
-    );
+std::string LevelLoader::firstToken(const std::string& line) {
+    std::stringstream ss(line);
+    std::string token;
+    ss >> token;
+    return token;
 }
 
-void LevelLoader::parseMaterialLine(Engine& engine, const std::string& line) {
-    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
 
-    // ------------------------------------
-    // New material
-    // ------------------------------------
-    if (!line.starts_with(materialPropFlag)) {
-        std::string materialName = line;
-        _currentMaterial = new Material();
-        engine.renderContext().materialManager().add(materialName, _currentMaterial);
-        return;
-    }
+Transform LevelLoader::getTransform(std::string line) {
+    std::stringstream ss(line);
+    Transform transform;
+    std::string keyword;
+    ss >> keyword;
+    ss >> transform.position.x >> transform.position.y >> transform.position.z;
+    ss >> transform.rotation.x >> transform.rotation.y >> transform.rotation.z >> transform.rotation.w;
+    ss >> transform.scale.x >> transform.scale.y >> transform.scale.z;
 
-    if (!_currentMaterial) return;
-
-    // ------------------------------------
-    // Handle Props
-    // ------------------------------------
-
-    std::stringstream propLine(line);
-    std::string flag;
-    std::string key;
-    propLine >> flag >> key;
-    if (key == "shader") {
-        std::string shaderName;
-        std::string cbufferName;
-        propLine >> shaderName >> cbufferName;
-        _currentMaterial->setShader(shaderName, cbufferName);
-        return;
-    }
-
-    if (key == "pso") {
-        std::string psoName;
-        propLine >> psoName;
-        _currentMaterial->setPSO(psoName);
-        return;
-    }
-
-    if (key == "texture") {
-        std::string textureSlot;
-        std::string textureName;
-        propLine >> textureSlot >> textureName;
-        _currentMaterial->addTexture(textureSlot, textureName);
-        return;
-    }
-
-    if (key == "uv") {
-        float u = 1.0f, v = 1.0f;
-        propLine >> u >> v;
-        _currentMaterial->setUVScale({ u, v });
-        return;
-    }
-
-    if (key == "alphaTest") {
-        float alphatest;
-        propLine >> alphatest;
-        _currentMaterial->setAlphaTest(alphatest);
-        return;
-    }
-
-    if (key == "vsAnim") {
-        float vsanim;
-        propLine >> vsanim;
-        _currentMaterial->setVSAnim(vsanim);
-        return;
-    }
-
-}
-
-void LevelLoader::parseLight(Engine& engine, const std::string& line) {
-    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
-    
-    if (line.starts_with("skylight")) {
-        SkyLight skylight;
-        std::string key;
-        std::stringstream lightLine(line);
-
-        lightLine >> key 
-            >> skylight.color.x >> skylight.color.y >> skylight.color.z 
-            >> skylight.intensity;
-
-        engine.scene().setSkyLight(skylight);
-    }
-
-    if (line.starts_with("pointlight")) {
-        PointLight pointlight;
-        std::string key;
-        std::stringstream lightLine(line);
-        lightLine >> key
-            >> pointlight.position.x >> pointlight.position.y >> pointlight.position.z
-            >> pointlight.color.x >> pointlight.color.y >> pointlight.color.z
-            >> pointlight.range >> pointlight.intensity;
-
-        engine.scene().addLight(pointlight);
-    }
-}
-
-void LevelLoader::parseSceneLine(Engine& engine, Scene& scene, const std::string& line) {
-
-    if (line.empty() || line.rfind(commentFlag, 0) == 0) return;
-
-    auto& componentFactory = ComponentFactory::shared();
-
-    // ------------------------------------------------------------
-    // New GameObject
-    // ------------------------------------------------------------
-    if (line.starts_with(newObjectFlag)) {
-        std::stringstream nameLine(line);
-        std::string signal, name;
-        nameLine >> signal >> name;
-        _currentObject = scene.createObject();
-        _currentObject->setName(name);
-        return;
-    }
-
-    if (!_currentObject) return;
-
-    // ------------------------------------------------------------
-    // Transform line
-    // ------------------------------------------------------------
-    if (line.starts_with(transformFlag)) {
-        std::stringstream transformLine(line);
-
-        std::string flag;
-        Vec3 position;
-        Quaternion rotation;
-        Vec3 scale;
-
-        transformLine >> flag >> position.x >> position.y >> position.z
-            >> rotation.x >> rotation.y >> rotation.z >> rotation.w
-            >> scale.x >> scale.y >> scale.z;
-
-        _currentObject->transform().position = position;
-        _currentObject->transform().rotation = rotation;
-        _currentObject->transform().scale = scale;
-        return;
-    }
-
-    // ------------------------------------------------------------
-    // Component line
-    // ------------------------------------------------------------
-    std::stringstream componentLine(line);
-
-    std::string componentName;
-    componentLine >> componentName;
-    if (componentName.empty()) return;
-
-    std::vector<std::string> args;
-    std::string arg;
-    while (componentLine >> arg) {
-        args.push_back(decodeArg(arg));
-    }
-
-    assert(componentFactory.create(
-        componentName,
-        _currentObject,
-        engine,
-        args
-    ));
+    return transform;
 }
 
 std::string LevelLoader::decodeArg(const std::string& in) {

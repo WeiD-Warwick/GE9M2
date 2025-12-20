@@ -204,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Assets\Models\beech.gem" />
+    <None Include="Src\Assets\Models\flower1.gem" />
     <None Include="Src\Assets\Models\TRex.gem" />
     <None Include="Src\Assets\Models\Uzi.gem" />
   </ItemGroup>
@@ -220,6 +221,12 @@
     <Image Include="Src\Assets\Models\Textures\beech leaf_ALB.png" />
     <Image Include="Src\Assets\Models\Textures\beech leaf_NH.png" />
     <Image Include="Src\Assets\Models\Textures\beech leaf_RMAX.png" />
+    <Image Include="Src\Assets\Models\Textures\flower daisy_ALB.png" />
+    <Image Include="Src\Assets\Models\Textures\flower daisy_NH.png" />
+    <Image Include="Src\Assets\Models\Textures\flower daisy_RMAX.png" />
+    <Image Include="Src\Assets\Models\Textures\plant05_ALB.png" />
+    <Image Include="Src\Assets\Models\Textures\plant05_NH.png" />
+    <Image Include="Src\Assets\Models\Textures\plant05_RMAX.png" />
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_alb.png" />
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_nh.png" />
     <Image Include="Src\Assets\Models\Textures\T-rex_Base_Color_rmax.png" />

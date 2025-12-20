@@ -5,6 +5,6 @@
 
 void FPSGame::onInit(Engine& engine, Scene& scene) {
 
-    _levelLoader.loadLevel(engine, scene, "Src/Assets/Levels/level_demo.txt");
+    _levelLoader.load("Src/Assets/Levels/level_demo.txt", scene, engine);
 
 }

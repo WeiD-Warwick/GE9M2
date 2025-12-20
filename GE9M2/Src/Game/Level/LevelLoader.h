@@ -1,46 +1,53 @@
 #pragma once
 #include <string>
+#include <vector>
+#include "../../Engine/Foundation/Base/Transform.h"
 
 class Scene;
 class Engine;
 class GameObject;
+class ModelData;
 class Material;
 
-enum class Section {
+enum class BlockType {
     None,
     Texture,
     Shader,
     PSO,
     Material,
     Light,
-    Scene
+    Scene,
+    Object,
+    StaticInstances,
+    StaticMesh
+};
+
+struct BlockContext {
+    BlockType type = BlockType::None;
+
+    std::string name;
+
+    // scene / object
+    GameObject* object = nullptr;
+
+    // static mesh instancing
+    ModelData* model = nullptr;
+
+    Material* material = nullptr;
 };
 
 class LevelLoader {
-private:
-    GameObject* _currentObject = nullptr;
-    Material* _currentMaterial = nullptr;
 
-    std::string commentFlag = "//";
-    std::string textureSectionFlag = "=== TEXTURE ===";
-    std::string shaderSectionFlag = "=== SHADER ===";
-    std::string psoSectionFlag = "=== PSO ===";
-    std::string materialSectionFlag = "=== MATERIAL ===";
-    std::string lightSectionFlag = "=== LIGHT ===";
-    std::string sceneSectionFlag = "=== SCENE ===";
-
-    std::string newObjectFlag = "#";
-    std::string materialPropFlag = ":";
-    std::string transformFlag = "transform";
-
-    void parseTexture(Engine& engine, const std::string& line);
-    void parseShader(Engine& engine, const std::string& line);
-    void parsePSO(Engine& engine, const std::string& line);
-    void parseMaterialLine(Engine& engine, const std::string& line);
-    void parseLight(Engine& engine, const std::string& line);
-    void parseSceneLine(Engine& engine, Scene& scene, const std::string& line);
-    std::string decodeArg(const std::string& in);
 public:
-    void loadLevel(Engine& engine, Scene& scene, const std::string& levelPath);
+    void load(const std::string& path, Scene& scene, Engine& engine);
 
+private:
+    std::string decodeArg(const std::string& in);
+
+    Transform getTransform(std::string line);
+
+    void openBlock(const std::string& line, std::vector<BlockContext>& stack, Scene& scene, Engine& engine);
+
+    void parseContent(const std::string& line, std::vector<BlockContext>& stack, Scene& scene, Engine& engine);
+    std::string firstToken(const std::string& line);
 };

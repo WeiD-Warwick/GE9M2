@@ -12,16 +12,13 @@ void Texture::init(
 	ID3D12Device5* device,
 	DX12Upload& uploader,
 	DX12CBVSRVUAVHeap& srvHeap,
-	const std::string& filename,
-	TextureUsage usage
+	const std::string& filename
 ) {
 	int width = 0;
 	int height = 0;
 	int channels = 0;
 
-	format = (usage == TextureUsage::Color) 
-		? DXGI_FORMAT_R8G8B8A8_UNORM_SRGB 
-		: DXGI_FORMAT_R8G8B8A8_UNORM;
+	format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
 	unsigned char* texels = stbi_load(filename.c_str(), &width, &height, &channels, 4);
 	channels = 4;
