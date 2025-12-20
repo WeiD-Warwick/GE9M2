@@ -214,12 +214,12 @@ void LevelLoader::parseContent(const std::string& line, std::vector<BlockContext
         else if (keyword == "alphaTest") {
             int v;
             ss >> v;
-            mat->setAlphaTest(v != 0);
+            mat->setAlphaTest(v);
         }
         else if (keyword == "vsAnim") {
             int v;
             ss >> v;
-            mat->setVSAnim(v != 0);
+            mat->setVSAnim(v);
         }
     }
 

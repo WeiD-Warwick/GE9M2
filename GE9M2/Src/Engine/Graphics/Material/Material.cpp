@@ -28,9 +28,9 @@ bool Material::hasTexture(const std::string& slot) const {
 
 void Material::setUVScale(const Vec2& scale) { _uvScale = scale; }
 
-void Material::setAlphaTest(bool enable) { _useAlphaTest = enable; }
+void Material::setAlphaTest(int enable) { _useAlphaTest = enable; }
 
-void Material::setVSAnim(bool enable) { _useVSAnim = enable; }
+void Material::setVSAnim(int enable) { _useVSAnim = enable; }
 
 void Material::apply(RenderContext& ctx, MaterialParam& param) {
     auto& shaders = ctx.shaderManager();
