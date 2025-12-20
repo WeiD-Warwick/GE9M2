@@ -41,7 +41,9 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
 
     psos.bind(commandList, _psoName);
 
+    // ==================================
     // Update VS constant buffer
+    // ==================================
     shaders.updateConstantVS(_shaderName, _cbufferName, "W", &param.W);
     shaders.updateConstantVS(_shaderName, _cbufferName, "VP", &param.VP);
 
@@ -52,8 +54,14 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
     int useVSAnim = _useVSAnim ? 1 : 0;
     shaders.updateConstantVS(_shaderName, _cbufferName, "useVSAnim", &useVSAnim);
 
+    // ==================================
     // Update PS constant buffer
+    // ==================================
     shaders.updateConstantPS(_shaderName, _cbufferName, "uvScale", &_uvScale);
+
+    if (param.isWeapon) {
+        shaders.updateConstantPS(_shaderName, _cbufferName, "isWeapon", &param.isWeapon);
+    }
 
     // Normal Map Guard
     int useNormalMap = hasTexture("normalTex") ? 1 : 0;

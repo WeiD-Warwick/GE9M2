@@ -8,7 +8,6 @@ texture {
     wall1_basecolor			Src/Assets/Textures/wall1_basecolor.png
     wall1_normal			Src/Assets/Textures/wall1_normal.png
     skysphere				Src/Assets/Textures/skysphere.png
-    rgb_green				Src/Assets/Textures/rgb_green.png
 }
 
 ########################
@@ -38,8 +37,6 @@ pso {
 #####   Material   #####
 ########################
 
-#======================= For Normal Object ====================
-
 material skyMaterial {
     shader      skyShader       skyCB
     pso         skyPSO
@@ -54,15 +51,11 @@ material groundMaterial {
     uv          100         100
 }
 
-
-#=========================== For Player  ========================
-
 material fpsWeaponMaterial {
     shader      amShader        amCB
     pso         fpsPSO
 }
 
-#=========================== For Instanced ========================
 material flowerInstancedMaterial {
     shader      smiShader       smCB
     pso         smiPSO
@@ -103,10 +96,10 @@ scene {
         component ColliderComponent             1.2 2 1.2
     }
 
-    object ground {
-        transform 0 0 0   0 0 0 1   500 1 500
-        component StaticMeshRenderComponent primitive:plane groundMaterial
-    }
+    #object ground {
+    #    transform 0 0 0   0 0 0 1   500 1 500
+    #    component StaticMeshRenderComponent primitive:plane groundMaterial
+    #}
 
     object Sky {
         component SkyRenderComponent primitive:skySphere skyMaterial

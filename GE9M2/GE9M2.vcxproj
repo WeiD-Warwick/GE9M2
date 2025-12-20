@@ -221,6 +221,9 @@
     <Image Include="Src\Assets\Models\Textures\beech leaf_ALB.png" />
     <Image Include="Src\Assets\Models\Textures\beech leaf_NH.png" />
     <Image Include="Src\Assets\Models\Textures\beech leaf_RMAX.png" />
+    <Image Include="Src\Assets\Models\Textures\daisy leaf_ALB.png" />
+    <Image Include="Src\Assets\Models\Textures\daisy leaf_NH.png" />
+    <Image Include="Src\Assets\Models\Textures\daisy leaf_RMAX.png" />
     <Image Include="Src\Assets\Models\Textures\flower daisy_ALB.png" />
     <Image Include="Src\Assets\Models\Textures\flower daisy_NH.png" />
     <Image Include="Src\Assets\Models\Textures\flower daisy_RMAX.png" />

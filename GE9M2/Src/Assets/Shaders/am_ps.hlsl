@@ -17,6 +17,8 @@ cbuffer amCB {
     float4 lightPosWS[MAX_POINT_LIGHTS];
     float4 lightColor[MAX_POINT_LIGHTS];
     float4 lightParams[MAX_POINT_LIGHTS]; // x range, y intensity
+    
+    int isWeapon;
 };
 
 struct PS_INPUT
@@ -48,10 +50,13 @@ float4 PS(PS_INPUT input) : SV_Target0
         discard;
 
     float3 albedo = albedoSample.rgb;
-    //return float4(albedo, 1.0);
+    
+    if (isWeapon) {
+        return float4(albedo, 1.0);
+    }
 
     // --- TBN ---
-    float3 normalWS = normalize(input.NormalWS);
+        float3 normalWS = normalize(input.NormalWS);
     if (useNormalMap)
     {
         float3x3 TBN = getTBN(input);

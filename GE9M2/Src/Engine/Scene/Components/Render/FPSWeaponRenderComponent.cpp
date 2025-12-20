@@ -35,5 +35,7 @@ void FPSWeaponRenderComponent::onRender(RenderContext& renderContext) {
     param.VP = V * P;
     param.bones = animator->bonesMatrixs();
 
+    param.isWeapon = 1;
+
     drawMeshes(renderContext, param);
 }

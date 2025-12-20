@@ -9,6 +9,8 @@ struct MaterialParam {
     Matrix W;
     Matrix VP;
     Matrix* bones = nullptr;
+
+    int isWeapon = 0;
 };
 
 struct MaterialTexture {
@@ -19,15 +21,13 @@ struct MaterialTexture {
 class Material {
 
 private:
-    std::string                  _psoName;
-    std::string                  _shaderName;
-    std::string                  _cbufferName;
+    std::string   _psoName;
+    std::string   _shaderName;
+    std::string   _cbufferName;
+    Vec2          _uvScale = { 1.0f, 1.0f };
+    bool          _useAlphaTest = false;
+    bool          _useVSAnim = false;
     std::vector<MaterialTexture> _textures;
-
-    Vec2                         _uvScale = { 1.0f, 1.0f };
-    bool                         _useAlphaTest = false;
-    bool                         _useVSAnim = false;
-
 public:
 
     void setPSO(const std::string& psoName);

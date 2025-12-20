@@ -361,6 +361,15 @@
     <Image Include="Src\Assets\Models\Textures\flower daisy_RMAX.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Src\Assets\Models\Textures\daisy leaf_ALB.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\daisy leaf_NH.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\daisy leaf_RMAX.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Src\Assets\Shaders\debug_ps.hlsl" />
