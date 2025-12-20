@@ -99,7 +99,8 @@ private:
             _uploader,
             _srvHeap,
             "__default",
-            "Src/Assets/Textures/__default.png"
+            "Src/Assets/Textures/__default.png",
+            TextureUsage::Color
         );
 
         Shader* debugShader = _shaderManager.load(

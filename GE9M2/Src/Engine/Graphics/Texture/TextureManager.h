@@ -15,14 +15,15 @@ public:
 		DX12Upload& uploader,
 		DX12CBVSRVUAVHeap& srvHeap,
 		const std::string& name,
-		const std::string& file
+		const std::string& file,
+		TextureUsage usage
 	) {
 		auto it = textures.find(name);
 		if (it != textures.end())
 			return it->second;
 
 		Texture* t = new Texture();
-		t->init(device, uploader, srvHeap, file);
+		t->init(device, uploader, srvHeap, file, usage);
 		textures[name] = t;
 		assert(t);
 		return t;

@@ -9,6 +9,12 @@ class ID3D12Device5;
 class DX12Upload;
 class DX12CBVSRVUAVHeap;
 
+enum class TextureUsage {
+	Color,
+	Data
+};
+
+
 class Texture {
 
 public:
@@ -20,5 +26,6 @@ public:
 		ID3D12Device5* device,
 		DX12Upload& uploader,
 		DX12CBVSRVUAVHeap& srvHeap,
-		const std::string& filename);
+		const std::string& filename,
+		TextureUsage usage);
 };

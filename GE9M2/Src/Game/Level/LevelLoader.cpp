@@ -129,7 +129,9 @@ void LevelLoader::parseContent(const std::string& line, std::vector<BlockContext
         auto& heap = engine.renderContext().srvHeap();
         auto& textureManager = engine.renderContext().textureManager();
 
-        textureManager.loadTexture(device, uploader, heap, key, path);
+        TextureUsage usage = (key == "albedoTex") ? TextureUsage::Color : TextureUsage::Data;
+
+        textureManager.loadTexture(device, uploader, heap, key, path, usage);
     }
 
     // ---------- shader ----------
