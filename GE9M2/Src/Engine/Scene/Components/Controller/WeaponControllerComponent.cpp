@@ -1,6 +1,11 @@
 #include "WeaponControllerComponent.h"
 #include "../../GameObject.h"
 #include "../Animator/AnimatorComponent.h"
+#include "../../Scene.h"
+#include "../ColliderComponent.h"
+#include "../CameraComponent.h"
+#include "CowControllerComponent.h"
+
 
 WeaponControllerComponent::WeaponControllerComponent(const WeaponAnimConfig& config) 
     : _animConfig(config) {}
@@ -29,6 +34,7 @@ void WeaponControllerComponent::onUpdate(float dt) {
     switch (_state) {
     case State::Idle:
         if (_intent == Intent::Fire) {
+            fireRaycast();
             animator->play(_animConfig.fire, true);
             _state = State::Firing;
         }
@@ -52,5 +58,40 @@ void WeaponControllerComponent::onUpdate(float dt) {
             _state = State::Idle;
         }
         break;
+    }
+}
+
+void WeaponControllerComponent::fireRaycast()
+{
+    auto* scene = _owner->scene();
+    if (!scene) return;
+
+    auto* cam = scene->mainCamera();
+    if (!cam) return;
+
+    Vec3 rayOrigin = cam->transform().position;
+    Vec3 rayDir = cam->transform().forward().normalized();
+
+    float closestT = FLT_MAX;
+    GameObject* hitObj = nullptr;
+
+    for (auto* obj : scene->objects()) {
+        auto* collider = obj->getComponent<ColliderComponent>();
+        if (!collider) continue;
+        if (obj == _owner) continue;
+
+        float t;
+        if (collider->raycast(rayOrigin, rayDir, t)) {
+            if (t < closestT) {
+                closestT = t;
+                hitObj = obj;
+            }
+        }
+    }
+
+    if (hitObj) {
+        if (auto* cow = hitObj->getComponent<CowControllerComponent>()) {
+            cow->applyDamage(15);
+        }
     }
 }

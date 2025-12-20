@@ -47,6 +47,41 @@ bool ColliderComponent::intersect(const ColliderComponent* other) const {
         aMax.z < bMin.z || aMin.z > bMax.z);
 }
 
+bool ColliderComponent::raycast(
+    const Vec3& rayOrigin,
+    const Vec3& rayDirection,
+    float& hitDistance
+) const
+{
+    Vec3 min = worldMin();
+    Vec3 max = worldMax();
+
+    float tx1 = (min.x - rayOrigin.x) / rayDirection.x;
+    float tx2 = (max.x - rayOrigin.x) / rayDirection.x;
+
+    float tmin = (std::min)(tx1, tx2);
+    float tmax = (std::max)(tx1, tx2);
+
+    float ty1 = (min.y - rayOrigin.y) / rayDirection.y;
+    float ty2 = (max.y - rayOrigin.y) / rayDirection.y;
+
+    tmin = (std::max)(tmin, (std::min)(ty1, ty2));
+    tmax = (std::min)(tmax, (std::max)(ty1, ty2));
+
+    float tz1 = (min.z - rayOrigin.z) / rayDirection.z;
+    float tz2 = (max.z - rayOrigin.z) / rayDirection.z;
+
+    tmin = (std::max)(tmin, (std::min)(tz1, tz2));
+    tmax = (std::min)(tmax, (std::max)(tz1, tz2));
+
+    if (tmax < 0) return false;
+    if (tmin > tmax) return false;
+
+    hitDistance = tmin;
+    return true;
+}
+
+
 void ColliderComponent::onRender(RenderContext& renderContext) {
 
     CameraComponent* camera = mainCamera();

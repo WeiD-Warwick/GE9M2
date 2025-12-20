@@ -57,8 +57,8 @@ void PlayerInputControllerComponent::onUpdate(float dt) {
     }
 
     // =====================================================
-// Movement + Collision (AABB axis separation)
-// =====================================================
+    // Movement + Collision (AABB axis separation)
+    // =====================================================
     auto* selfCollider = _owner->getComponent<ColliderComponent>();
     if (selfCollider && moveDir.lengthSqrt() > 0.0f) {
 

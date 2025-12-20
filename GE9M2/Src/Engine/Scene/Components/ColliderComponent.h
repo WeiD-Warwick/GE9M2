@@ -25,6 +25,8 @@ public:
 
     bool intersect(const ColliderComponent* other) const;
 
+    bool raycast(const Vec3& ro, const Vec3& rd, float& tOut) const;
+
     static std::string Name() { return "ColliderComponent"; }
 
     void onRender(RenderContext& renderContext) override;

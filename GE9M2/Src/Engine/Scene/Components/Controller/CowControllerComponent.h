@@ -9,6 +9,9 @@ public:
 };
 
 class CowControllerComponent : public Component {
+private:
+    int _hp = 100;
+
 public:
     enum class State { Idle, Hitting, Death };
 
@@ -27,6 +30,18 @@ public:
     void setIntent(Intent intent);
 
     void onUpdate(float dt) override;
+
+    void applyDamage(int value) {
+        int newHP = _hp - value;
+        _hp = newHP > 0 ? newHP : 0;
+
+        if (_hp <= 0) {
+            setIntent(Intent::Death);
+        }
+        else {
+            setIntent(Intent::Hitted);
+        }
+    }
 
     static std::string Name() { return "CowControllerComponent"; }
 };

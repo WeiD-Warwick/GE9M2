@@ -21,7 +21,6 @@ public:
 
     WeaponAnimConfig _animConfig;
 
-public:
     WeaponControllerComponent(const WeaponAnimConfig& config);
 
     void setIntent(Intent intent);
@@ -29,4 +28,8 @@ public:
     void onUpdate(float dt) override;
 
     static std::string Name() { return "WeaponControllerComponent"; }
+
+private:
+    void fireRaycast();
+
 };
