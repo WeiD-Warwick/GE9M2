@@ -56,7 +56,6 @@ public:
         _queues.create(_device.dxDevice());
 
         _rootSignature.create(_device.dxDevice());
-        _shaderManager.setSRVRootIndex(_rootSignature.srvRootIndex);
 
         _instanceBuffer.create(_device.dxDevice(), 100);
         _swapchain.create(_queues.graphicsQueue(), hwnd, width, height, bufferCount);

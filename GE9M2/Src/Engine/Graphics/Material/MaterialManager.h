@@ -19,7 +19,12 @@ public:
 
 	Material* find(const std::string& name) {
 		auto it = materials.find(name);
-		assert(it != materials.end());
-		return it->second;
+
+		if (it != materials.end()) {
+			return it->second;
+		}
+		else {
+			return nullptr;
+		}
 	}
 };

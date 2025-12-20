@@ -11,10 +11,21 @@ MeshRenderComponentBase::MeshRenderComponentBase(std::vector<SubMesh>& subMeshes
 
 void MeshRenderComponentBase::initMaterials() {
     auto& ctx = engine()->renderContext();
-    auto& matMgr = ctx.materialManager();
+    auto& materialManager = ctx.materialManager();
+    auto& textureManager = ctx.textureManager();
 
     for (auto& subMesh : _subMeshes) {
-        _materials.push_back(matMgr.find(subMesh.materialKey));
+        Material* material = materialManager.find(subMesh.materialKey);
+
+        assert(material);
+        if (!subMesh.albedoTex.empty()) {
+            material->addTexture("albedoTex", subMesh.albedoTex);
+        }
+
+        if (!subMesh.normalTex.empty()) {
+            material->addTexture("normalTex", subMesh.normalTex);
+        }
+        _materials.push_back(material);
     }
 }
 

@@ -7,12 +7,9 @@
 
 class ShaderManager {
 private:
-    int _srvRootIndex = INT_MAX;
 
 public:
     std::map<std::string, Shader*> shaders;
-
-    void setSRVRootIndex(int index) { _srvRootIndex = index; }
 
     Shader* load(ID3D12Device5* device, const std::string& name, const std::string& vs, const std::string& ps) {
         if (shaders.find(name) != shaders.end()) {

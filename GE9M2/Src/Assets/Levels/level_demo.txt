@@ -76,8 +76,9 @@ material cubeInstancedMaterial {
     shader      smiShader       smCB
     pso         smiPSO
     texture     albedoTex   wall1_basecolor
-    alphaTest   1
-    vsAnim      1
+    texture     normalTex   wall1_normal
+    alphaTest   0
+    vsAnim      0
 }
 
 ########################
