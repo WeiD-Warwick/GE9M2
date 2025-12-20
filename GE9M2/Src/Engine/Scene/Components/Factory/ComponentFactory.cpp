@@ -12,6 +12,7 @@
 #include "../Render/SkyRenderComponent.h"
 #include "../Render/FPSWeaponRenderComponent.h"
 #include "../../../Graphics/Model/ModelData.h"
+#include "../Controller/CowControllerComponent.h"
 
 ComponentFactory& ComponentFactory::shared() {
     static ComponentFactory shared;
@@ -86,6 +87,18 @@ void ComponentFactory::registerAllComponents() {
             config.fire = args[1];
             config.reload = args[2];
             obj->addComponent<WeaponControllerComponent>(config);
+        }
+    );
+
+    registerComponent(
+        CowControllerComponent::Name(),
+        [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
+            assert(args.size() >= 3);
+            CowAnimConfig config;
+            config.idle = args[0];
+            config.hit = args[1];
+            config.death = args[2];
+            obj->addComponent<CowControllerComponent>(config);
         }
     );
 

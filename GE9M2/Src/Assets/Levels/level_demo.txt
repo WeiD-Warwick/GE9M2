@@ -56,6 +56,11 @@ material fpsWeaponMaterial {
     pso         fpsPSO
 }
 
+material animatedModelMaterial {
+    shader      amShader    amCB
+    pso         amPSO
+}
+
 material staticModelMaterial {
     shader      smShader    smCB
     pso         smPSO
@@ -102,6 +107,13 @@ scene {
         component ColliderComponent             1.2 2 1.2
     }
 
+    object Cow {
+        transform 10 0 10   0 0 0 1   0.015 0.015 0.015
+        component CowControllerComponent      idle hitreact death
+        component AnimatedMeshRenderComponent Src/Assets/Models/Cow-brown.gem animatedModelMaterial
+        component ColliderComponent             2 2.5 3
+    }
+
     object ground {
         transform 0 0 0   0 0 0 1   500 1 500
         component StaticMeshRenderComponent primitive:plane groundMaterial
@@ -112,10 +124,15 @@ scene {
         component StaticMeshRenderComponent Src/Assets/Models/beech.gem staticModelMaterial
     }
 
-    #object tree {
-    #    transform 5 0 5   0 0 0 1   0.01 0.01 0.01
-    #    component StaticMeshRenderComponent Src/Assets/Models/flower1.gem staticModelMaterial
-    #}
+    object tree {
+        transform 5 0 0   0 0 0 1   0.01 0.01 0.01
+        component StaticMeshRenderComponent Src/Assets/Models/beech.gem staticModelMaterial
+    }
+
+    object flower {
+        transform 5 0 5   0 0 0 1   0.01 0.01 0.01
+        component StaticMeshRenderComponent Src/Assets/Models/flower1.gem staticModelMaterial
+    }
 
     object Sky {
         component SkyRenderComponent primitive:skySphere skyMaterial

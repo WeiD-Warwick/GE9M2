@@ -4,6 +4,7 @@
 #include "../../../Foundation/Window/Window.h"
 #include "../../../Engine.h"
 #include "../../GameObject.h"
+#include "../ColliderComponent.h"
 
 void PlayerInputControllerComponent::onStart() {
     Vec3 f = transform().forward();
@@ -53,6 +54,46 @@ void PlayerInputControllerComponent::onUpdate(float dt) {
     Vec3 moveDir = (forward * inputZ + rightV * inputX);
     if (moveDir.lengthSqrt() > 0.0001f) {
         moveDir = moveDir.normalized();
+    }
+
+    // =====================================================
+// Movement + Collision (AABB axis separation)
+// =====================================================
+    auto* selfCollider = _owner->getComponent<ColliderComponent>();
+    if (selfCollider && moveDir.lengthSqrt() > 0.0f) {
+
+        Vec3 oldPos = transform().position;
+        Vec3 newPos = oldPos + moveDir * (_moveSpeed * dt);
+
+        // -------- X axis --------
+        transform().position.x = newPos.x;
+        for (auto* obj : scene()->objects()) {
+            if (obj == _owner) continue;
+
+            auto* other = obj->getComponent<ColliderComponent>();
+            if (!other) continue;
+
+            if (selfCollider->intersect(other)) {
+                transform().position.x = oldPos.x;
+                break;
+            }
+        }
+
+        // -------- Z axis --------
+        transform().position.z = newPos.z;
+        for (auto* obj : scene()->objects()) {
+            if (obj == _owner) continue;
+
+            auto* other = obj->getComponent<ColliderComponent>();
+            if (!other) continue;
+
+            if (selfCollider->intersect(other)) {
+                transform().position.z = oldPos.z;
+                break;
+            }
+        }
+    }
+    else {
         transform().position += moveDir * (_moveSpeed * dt);
     }
 

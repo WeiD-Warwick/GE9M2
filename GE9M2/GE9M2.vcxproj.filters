@@ -87,6 +87,9 @@
     <ClCompile Include="Src\Game\Level\LevelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Engine\Scene\Components\Controller\CowControllerComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Third_Party\GEMLoader.h">
@@ -242,12 +245,16 @@
     <ClInclude Include="Src\Game\Level\LevelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Engine\Scene\Components\Controller\CowControllerComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Assets\Models\TRex.gem" />
     <None Include="Src\Assets\Models\Uzi.gem" />
     <None Include="Src\Assets\Models\beech.gem" />
     <None Include="Src\Assets\Models\flower1.gem" />
+    <None Include="Src\Assets\Models\Cow-brown.gem" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Src\Assets\Models\Textures\Textures1_ALB.png">
@@ -368,6 +375,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Models\Textures\daisy leaf_RMAX.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\T_Animalstextures_alb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\T_Animalstextures_nh.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Models\Textures\T_Animalstextures_rmax.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

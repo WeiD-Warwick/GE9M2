@@ -124,6 +124,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Engine\Scene\Components\Controller\CowControllerComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\Controller\PlayerInputControllerComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\Controller\WeaponControllerComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\Render\AnimatedMeshRenderComponent.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Scene\Components\Controller\CowControllerComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Controller\WeaponControllerComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Controller\PlayerInputControllerComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Render\AnimatedMeshRenderComponent.h" />
@@ -204,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Assets\Models\beech.gem" />
+    <None Include="Src\Assets\Models\Cow-brown.gem" />
     <None Include="Src\Assets\Models\flower1.gem" />
     <None Include="Src\Assets\Models\TRex.gem" />
     <None Include="Src\Assets\Models\Uzi.gem" />
@@ -236,6 +239,9 @@
     <Image Include="Src\Assets\Models\Textures\Textures1_ALB.png" />
     <Image Include="Src\Assets\Models\Textures\Textures1_NH.png" />
     <Image Include="Src\Assets\Models\Textures\Textures1_RMAX.png" />
+    <Image Include="Src\Assets\Models\Textures\T_Animalstextures_alb.png" />
+    <Image Include="Src\Assets\Models\Textures\T_Animalstextures_nh.png" />
+    <Image Include="Src\Assets\Models\Textures\T_Animalstextures_rmax.png" />
     <Image Include="Src\Assets\Models\Textures\Uzi_Albedo_alb.png" />
     <Image Include="Src\Assets\Models\Textures\Uzi_Albedo_nh.png" />
     <Image Include="Src\Assets\Models\Textures\Uzi_Albedo_rmax.png" />
