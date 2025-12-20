@@ -27,6 +27,13 @@ void PlayerInputControllerComponent::onUpdate(float dt) {
     }
 
     // =====================================================
+    // P -> Open Debug
+    // =====================================================
+    if (window->keys['P'] && !_lastShowCollisionBoxes) {
+        engine()->toggleShowCollider();
+    }
+
+    // =====================================================
     // Mouse Look
     // =====================================================
     float dx = window->mouseDeltaX;

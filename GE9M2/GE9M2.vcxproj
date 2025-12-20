@@ -169,7 +169,6 @@
     <ClInclude Include="Src\Engine\Graphics\Mesh\Mesh.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Factory\ComponentFactory.h" />
     <ClInclude Include="Src\Engine\Scene\Components\ColliderComponent.h" />
-    <ClInclude Include="Src\Engine\Scene\SMInstanceSet.h" />
     <ClInclude Include="Src\Game\FPSGame.h" />
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationController.h" />
     <ClInclude Include="Src\Engine\Graphics\Animation\AnimationData.h" />

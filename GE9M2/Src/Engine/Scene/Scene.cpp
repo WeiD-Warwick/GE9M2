@@ -87,13 +87,14 @@ void Scene::render(RenderContext& renderContext) {
     updateTime(renderContext);
     uploadLights(renderContext);
 
+    // Render Instanced Mesh
     _staticMeshRenderPass.render(*this, renderContext);
 
     renderLayer(renderContext, RenderLayer::Sky);
     renderLayer(renderContext, RenderLayer::World);
     renderLayer(renderContext, RenderLayer::FPS);
 
-    if (_engine->showCollisionBoxes) {
+    if (_engine->getShowCollisionBoxes()) {
         renderLayer(renderContext, RenderLayer::DEBUG);
     }
 }

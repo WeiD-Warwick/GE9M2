@@ -18,6 +18,7 @@ private:
 
     bool _lastMouseLeft = false;
     bool _lastReloadKey = false;
+    bool _lastShowCollisionBoxes = false;
 
 public:
     void onStart() override;

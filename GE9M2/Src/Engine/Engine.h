@@ -18,10 +18,9 @@ private:
 	ModelLoader		_loader;
 
 	bool _shouldQuit = false;
+	bool _showCollisionBoxes = true;
 
 public:
-
-	bool			continueLoop = true;
 
 	Engine(HWND hwnd, int width, int height, Game* game);
 
@@ -47,10 +46,13 @@ public:
 
 	Scene& scene();
 
-	bool showCollisionBoxes = true;
-
 	float time() const { return _time; }
 
 	void quit() { _shouldQuit = true; }
 	bool shouldQuit() const { return _shouldQuit; }
+
+	void toggleShowCollider() {
+		_showCollisionBoxes = !_showCollisionBoxes;
+	}
+	bool getShowCollisionBoxes() { return _showCollisionBoxes; }
 };
