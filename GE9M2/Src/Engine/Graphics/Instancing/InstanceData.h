@@ -11,4 +11,5 @@ struct InstanceData {
 struct StaticMeshInstance {
     ModelData* model = nullptr;
     std::vector<InstanceData> worlds;
+    std::vector<Material*> materials;
 };

@@ -12,7 +12,6 @@ Engine::Engine(HWND hwnd, int width, int height, Game* game)
 	_game(game)
 {
 	if (_game) {
-		_scene.init();
 		_game->onInit(*this, _scene);
 	}
 }

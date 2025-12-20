@@ -21,13 +21,9 @@ void StaticMeshRenderPass::render(Scene& scene, RenderContext& ctx) {
 
         ctx.instanceBuffer().upload(inst.worlds.data(), instanceCount);
 
-        for (const auto& sub : inst.model->subMeshes) {
-
-            Material* mat = ctx.materialManager().find(sub.materialKey);
-
-            mat->apply(ctx, param);
-
-            sub.mesh->drawInstanced(
+        for (int i = 0; i < inst.model->subMeshes.size(); ++i) {
+            inst.materials[i]->apply(ctx, param);
+            inst.model->subMeshes[i].mesh->drawInstanced(
                 cmd,
                 ctx.instanceBuffer().vertexBufferView(),
                 instanceCount

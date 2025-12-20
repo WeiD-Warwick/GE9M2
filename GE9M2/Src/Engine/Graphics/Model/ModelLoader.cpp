@@ -100,22 +100,8 @@ ModelData* ModelLoader::loadStaticGEMModel(const std::string& modelPath, const s
                 TextureUsage::Data
             );
         }
-        std::string rmax = gemmesh.material.find("rmax").getValue();
-        temps.push_back(rmax);
-        if (!rmax.empty()) {
-            std::string fileName = std::filesystem::path(rmax).filename().string();
-            std::string fullPath = "Src/Assets/Models/Textures/" + fileName;
-            _renderContext.textureManager().loadTexture(
-                _renderContext.device().dxDevice(),
-                _renderContext.uploader(),
-                _renderContext.srvHeap(),
-                rmax,
-                fullPath,
-                TextureUsage::Data
-            );
-        }
 
-        data->subMeshes.push_back({ subMesh, materialKey, albedo, nh, rmax });
+        data->subMeshes.push_back({ subMesh, materialKey, albedo, nh });
     }
 
     return data;

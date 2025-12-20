@@ -51,14 +51,10 @@ public:
 
     void addStaticMeshInstance(ModelData* model, const InstanceData& world);
 
-    void addStaticMeshInstances(ModelData* model, const std::vector<InstanceData>& worlds);
-
     const std::vector<StaticMeshInstance>& staticMeshInstances() const {
         return _staticMeshInstances;
     }
 
     ~Scene();
-
-    void init();
 
 };

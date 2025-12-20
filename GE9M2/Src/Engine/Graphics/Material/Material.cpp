@@ -68,7 +68,10 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
 
     // Upate Texture
     if (!_textures.empty()) {
-        int baseOffset = textures.find(_textures[0].name);
-        shaders.updateTexturePS(commandList, srvHeap, _shaderName, _textures[0].slot, baseOffset);
+        std::string firstName = _textures[0].name;
+        int baseOffset = textures.find(firstName);
+        D3D12_GPU_DESCRIPTOR_HANDLE handle = srvHeap.gpuHandle;
+        handle.ptr += (UINT64)baseOffset * srvHeap.incrementSize;
+        commandList->SetGraphicsRootDescriptorTable(2, handle);
     }
 }

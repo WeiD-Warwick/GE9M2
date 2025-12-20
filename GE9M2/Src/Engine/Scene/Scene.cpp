@@ -16,26 +16,6 @@ Scene::~Scene() {
         delete obj;
 }
 
-void Scene::init() {
-    //auto* model = _engine->loader().loadModel("primitive:cube", "cubeInstancedMaterial");
-    //Transform form1;
-    //form1.position = Vec3(0, 0, 0);
-    //addStaticMeshInstance(model, InstanceData{ form1.worldMatrix() });
-
-    //Transform form2;
-    //form2.position = Vec3(5, 0, 0);
-    //addStaticMeshInstance(model, InstanceData{ form2.worldMatrix() });
-
-    //Transform form3;
-    //form3.position = Vec3(-5, 0, 0);
-    //addStaticMeshInstance(model, InstanceData{ form3.worldMatrix() });
-
-    //Transform form4;
-    //form4.position = Vec3(-5, 0, 5);
-    //addStaticMeshInstance(model, InstanceData{ form4.worldMatrix() });
-
-}
-
 GameObject* Scene::createObject() {
     GameObject* obj = new GameObject();
     obj->setContext(this, _engine);
@@ -152,19 +132,12 @@ void Scene::addStaticMeshInstance(ModelData* model, const InstanceData& world) {
     StaticMeshInstance inst;
     inst.model = model;
     inst.worlds.push_back(world);
-    _staticMeshInstances.push_back(std::move(inst));
-}
+    auto& renderContext = _engine->renderContext();
 
-void Scene::addStaticMeshInstances(ModelData* model, const std::vector<InstanceData>& worlds) {
-    for (auto& inst : _staticMeshInstances) {
-        if (inst.model == model) {
-            inst.worlds.insert(inst.worlds.end(), worlds.begin(), worlds.end());
-            return;
-        }
+    for (auto& subMesh : model->subMeshes) {
+        inst.materials.push_back(
+            renderContext.materialManager().createInstance(renderContext, subMesh)
+        );
     }
-
-    StaticMeshInstance inst;
-    inst.model = model;
-    inst.worlds = worlds;
     _staticMeshInstances.push_back(std::move(inst));
 }

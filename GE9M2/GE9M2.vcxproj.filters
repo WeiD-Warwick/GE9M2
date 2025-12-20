@@ -319,16 +319,10 @@
     <Image Include="Src\Assets\Textures\ground_normal.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Assets\Textures\ground_roughness.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Src\Assets\Textures\wall1_basecolor.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Textures\wall1_normal.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Src\Assets\Textures\wall1_roughness.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Models\Textures\bark01_ALB.png">
