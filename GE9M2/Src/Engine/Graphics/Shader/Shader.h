@@ -92,6 +92,7 @@ public:
     std::vector<ConstantBuffer> vsCBs;
     std::vector<ConstantBuffer> psCBs;
     std::map<std::string, int> textureBindPoints;
+    std::map<std::string, int> textureRootIndices;
 
     void load(ID3D12Device5* device, const std::string& vsPath, const std::string& psPath) {
         vs = compiler.compileOrLoad(vsPath, "VS", "vs_5_0");

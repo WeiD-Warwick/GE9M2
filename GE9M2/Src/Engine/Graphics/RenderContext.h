@@ -103,11 +103,12 @@ private:
             TextureUsage::Color
         );
 
-        Shader* debugShader = _shaderManager.load(
-            _device.dxDevice(),
+        Shader* debugShader = _shaderManager.loadShader(
             "debugShader",
             "Src/Assets/Shaders/debug_vs.hlsl",
-            "Src/Assets/Shaders/debug_ps.hlsl"
+            "Src/Assets/Shaders/debug_ps.hlsl",
+            _device.dxDevice(),
+            _rootSignature
         );
 
         PSOParam debugParam;

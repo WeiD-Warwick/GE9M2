@@ -151,6 +151,7 @@
     <ClCompile Include="Src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Engine\Foundation\Base\Utils.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Controller\CowControllerComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Controller\WeaponControllerComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Controller\PlayerInputControllerComponent.h" />

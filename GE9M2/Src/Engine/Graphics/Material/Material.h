@@ -43,4 +43,13 @@ public:
     void setVSAnim(int enable);
 
     void apply(RenderContext& ctx, MaterialParam& param);
+
+    const std::string* getTextureName(const std::string& slot) const {
+        for (auto& t : _textures) {
+            if (t.slot == slot)
+                return &t.name;
+        }
+        return nullptr;
+    }
+
 };

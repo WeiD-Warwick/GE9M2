@@ -48,16 +48,17 @@ float4 PS(PS_INPUT input) : SV_Target0 {
 
     float3 albedo = albedoSample.rgb;
     // MARK
-    // return float4(albedo, 1.0);
+    //return float4(albedo, 1.0);
 
     // --- TBN ---
     float3 normalWS = normalize(input.NormalWS);
+    
     if (useNormalMap)
     {
         float3x3 TBN = getTBN(input);
     
         float3 mapNormal = normalTex.Sample(samplerLinear, input.TexCoords * uvScale).xyz;
-        mapNormal = normalize(mapNormal * 2.0 - 1.0);
+        mapNormal = mapNormal * 2.0 - 1.0;
         normalWS = normalize(mul(mapNormal, TBN));
     }
 

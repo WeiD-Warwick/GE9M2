@@ -1,4 +1,5 @@
 Texture2D albedoTex : register(t0);
+
 SamplerState samplerLinear : register(s0);
 
 struct PS_INPUT

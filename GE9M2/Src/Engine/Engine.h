@@ -17,6 +17,8 @@ private:
 	RenderContext   _renderContext;
 	ModelLoader		_loader;
 
+	bool _shouldQuit = false;
+
 public:
 
 	bool			continueLoop = true;
@@ -48,4 +50,7 @@ public:
 	bool showCollisionBoxes = true;
 
 	float time() const { return _time; }
+
+	void quit() { _shouldQuit = true; }
+	bool shouldQuit() const { return _shouldQuit; }
 };

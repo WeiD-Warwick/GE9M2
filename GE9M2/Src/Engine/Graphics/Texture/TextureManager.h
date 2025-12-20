@@ -2,6 +2,7 @@
 #include <map>
 #include <iostream>
 #include "Texture.h"
+#include "../../Foundation/Base/Utils.h"
 
 class TextureManager {
 
@@ -19,9 +20,10 @@ public:
 		TextureUsage usage
 	) {
 		auto it = textures.find(name);
-		if (it != textures.end())
+		if (it != textures.end()) {
 			return it->second;
-
+		}
+			
 		Texture* t = new Texture();
 		t->init(device, uploader, srvHeap, file, usage);
 		textures[name] = t;
@@ -31,8 +33,9 @@ public:
 
 	int find(const std::string& name) {
 		auto it = textures.find(name);
-		if (it == textures.end()) 
+		if (it == textures.end()) {
 			return find("__default");
+		}
 		return it->second->heapOffset;
 	}
 

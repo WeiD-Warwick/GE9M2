@@ -248,6 +248,9 @@
     <ClInclude Include="Src\Engine\Scene\Components\Controller\CowControllerComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Engine\Foundation\Base\Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Assets\Models\TRex.gem" />

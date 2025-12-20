@@ -19,6 +19,14 @@ void PlayerInputControllerComponent::onUpdate(float dt) {
     if (!window) return;
 
     // =====================================================
+    // ESC -> Quit
+    // =====================================================
+    if (window->keys[VK_ESCAPE]) {
+        engine()->quit();
+        return;
+    }
+
+    // =====================================================
     // Mouse Look
     // =====================================================
     float dx = window->mouseDeltaX;

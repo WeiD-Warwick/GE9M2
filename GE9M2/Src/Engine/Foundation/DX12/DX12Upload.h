@@ -87,7 +87,9 @@ public:
             IID_PPV_ARGS(&uploadBuffer)
         );
 
-        if (FAILED(hr)) assert(false);
+        if (FAILED(hr)) {
+            assert(false);
+        }
 
         void* mappeddata = nullptr;
         uploadBuffer->Map(0, nullptr, &mappeddata);

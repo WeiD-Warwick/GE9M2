@@ -4,6 +4,8 @@
 #include "Shader.h"
 #include <cassert>
 #include "../../Foundation/DX12/DX12Resources.h"
+#include "../../Foundation/DX12/DX12RootSignature.h"
+#include "../../Foundation/Base/Utils.h"
 
 class ShaderManager {
 private:
@@ -11,7 +13,13 @@ private:
 public:
     std::map<std::string, Shader*> shaders;
 
-    Shader* load(ID3D12Device5* device, const std::string& name, const std::string& vs, const std::string& ps) {
+    Shader* loadShader(
+        const std::string& name,
+        const std::string& vs,
+        const std::string& ps,
+        ID3D12Device5* device,
+        DX12RootSignature& rootSignature
+        ) {
         if (shaders.find(name) != shaders.end()) {
             return nullptr;
         }
@@ -19,6 +27,10 @@ public:
         Shader* shader = new Shader();
         shader->load(device, vs, ps);
         shaders[name] = shader;
+        auto& rootSig = rootSignature;
+
+        shader->textureRootIndices["albedoTex"] = rootSig.rpSRV_Albedo;
+        shader->textureRootIndices["normalTex"] = rootSig.rpSRV_Normal;
         return shader;
     }
 
@@ -36,15 +48,16 @@ public:
         ID3D12GraphicsCommandList4* cmd,
         DX12CBVSRVUAVHeap& srvHeap,
         const std::string& shaderName,
-        const std::string& textureName,
+        const std::string& slot,
         int heapOffset
     ) {
-        
-        UINT bindPoint = shaders[shaderName]->textureBindPoints[textureName];
-        D3D12_GPU_DESCRIPTOR_HANDLE handle = srvHeap.gpuHandle;
 
-        handle.ptr = handle.ptr + (UINT64)(heapOffset - bindPoint) * (UINT64)srvHeap.incrementSize;
-        cmd->SetGraphicsRootDescriptorTable(2, handle);
+        UINT rootIndex = shaders[shaderName]->textureRootIndices[slot];
+
+        D3D12_GPU_DESCRIPTOR_HANDLE handle = srvHeap.gpuHandle;
+        handle.ptr += (UINT64)heapOffset * srvHeap.incrementSize;
+
+        cmd->SetGraphicsRootDescriptorTable(rootIndex, handle);
     }
 
     void updateConstantVS(std::string shaderName, std::string cbName, std::string vName, void* data) {

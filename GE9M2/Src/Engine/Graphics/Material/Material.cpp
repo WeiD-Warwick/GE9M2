@@ -37,9 +37,8 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
     auto& textures = ctx.textureManager();
     auto& srvHeap = ctx.srvHeap();
     auto& psos = ctx.psoManager();
-    auto* commandList = ctx.renderer().commandList();
-
-    psos.bind(commandList, _psoName);
+    auto* cmd = ctx.renderer().commandList();
+    psos.bind(cmd, _psoName);
 
     // ==================================
     // Update VS constant buffer
@@ -71,12 +70,56 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
     shaders.updateConstantPS(_shaderName, _cbufferName, "useAlphaTest", &useAlphaTest);
 
     // Bind shader
-    shaders.apply(commandList, _shaderName);
-
+    shaders.apply(cmd, _shaderName);
 
     // Upate Texture
-    if (!_textures.empty()) {
-        int baseOffset = textures.find(_textures[0].name);
-        shaders.updateTexturePS(commandList, srvHeap, _shaderName, _textures[0].slot, baseOffset);
+    // -------- Albedo --------
+    {
+        int offset = -1;
+
+        for (auto& t : _textures) {
+            if (t.slot == "albedoTex") {
+                offset = textures.find(t.name);
+                break;
+            }
+        }
+
+        // fallback
+        if (offset < 0) {
+            offset = textures.find("__default");
+        }
+
+        shaders.updateTexturePS(
+            cmd,
+            srvHeap,
+            _shaderName,
+            "albedoTex",
+            offset
+        );
+    }
+
+    // -------- Normal --------
+    {
+        int offset = -1;
+
+        for (auto& t : _textures) {
+            if (t.slot == "normalTex") {
+                offset = textures.find(t.name);
+                break;
+            }
+        }
+
+        // fallback flat normal (0.5, 0.5, 1.0)
+        if (offset < 0) {
+            offset = textures.find("__default_normal");
+        }
+
+        shaders.updateTexturePS(
+            cmd,
+            srvHeap,
+            _shaderName,
+            "normalTex",
+            offset
+        );
     }
 }

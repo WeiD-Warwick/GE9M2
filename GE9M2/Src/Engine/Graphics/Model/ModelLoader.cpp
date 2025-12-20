@@ -41,7 +41,7 @@ ModelData* ModelLoader::loadPrimitiveModel(const std::string& modelPath, const s
     ModelData* data = new ModelData();
     Mesh* mesh = &_meshLib->getMesh(primitiveName);
 
-    data->subMeshes.push_back({ mesh, materialKey, "" });
+    data->subMeshes.push_back({ mesh, materialKey,"", "" });
 
     _loadedModelCache[modelPath] = data;
     return data;
@@ -145,7 +145,7 @@ ModelData* ModelLoader::loadAnimatedGEMModel(const std::string& modelPath, const
                 TextureUsage::Color
             );
         }
-        data->subMeshes.push_back({ subMesh, materialKey, texName });
+        data->subMeshes.push_back({ subMesh, materialKey, texName, "" });
     }
 
     // ------------ Load Animation ------------

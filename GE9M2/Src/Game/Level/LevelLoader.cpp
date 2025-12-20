@@ -140,9 +140,10 @@ void LevelLoader::parseContent(const std::string& line, std::vector<BlockContext
         std::stringstream ss(line);
         ss >> name >> vs >> ps;
         auto* device = engine.renderContext().device().dxDevice();
+        auto& rootSig = engine.renderContext().rootSignature();
         auto& shaderManager = engine.renderContext().shaderManager();
 
-        shaderManager.load(device, name, vs, ps);
+        shaderManager.loadShader(name, vs, ps, device, rootSig);
     }
 
     // ---------- pso ----------
