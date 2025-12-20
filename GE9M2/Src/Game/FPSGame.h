@@ -9,6 +9,5 @@ private:
 
 public:
     void onInit(Engine& engine, Scene& scene) override;
-    void createPlayer(Engine& engine, Scene& scene);
 };
 
