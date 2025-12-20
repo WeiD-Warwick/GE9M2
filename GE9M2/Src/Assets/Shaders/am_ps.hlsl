@@ -56,7 +56,7 @@ float4 PS(PS_INPUT input) : SV_Target0
     }
 
     // --- TBN ---
-        float3 normalWS = normalize(input.NormalWS);
+    float3 normalWS = normalize(input.NormalWS);
     if (useNormalMap)
     {
         float3x3 TBN = getTBN(input);

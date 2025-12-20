@@ -73,7 +73,6 @@ ModelData* ModelLoader::loadStaticGEMModel(const std::string& modelPath, const s
         
         // Load Texture
         std::string albedo = gemmesh.material.find("albedo").getValue();
-        temps.push_back(albedo);
         if (!albedo.empty()) {
             std::string fileName = std::filesystem::path(albedo).filename().string();
             std::string fullPath = "Src/Assets/Models/Textures/" + fileName;
@@ -87,7 +86,6 @@ ModelData* ModelLoader::loadStaticGEMModel(const std::string& modelPath, const s
             );
         }
         std::string nh = gemmesh.material.find("nh").getValue();
-        temps.push_back(nh);
         if (!nh.empty()) {
             std::string fileName = std::filesystem::path(nh).filename().string();
             std::string fullPath = "Src/Assets/Models/Textures/" + fileName;
@@ -143,6 +141,19 @@ ModelData* ModelLoader::loadAnimatedGEMModel(const std::string& modelPath, const
                 texName,
                 fullPath,
                 TextureUsage::Color
+            );
+        }
+        std::string nh = gemmesh.material.find("nh").getValue();
+        if (!nh.empty()) {
+            std::string fileName = std::filesystem::path(nh).filename().string();
+            std::string fullPath = "Src/Assets/Models/Textures/" + fileName;
+            _renderContext.textureManager().loadTexture(
+                _renderContext.device().dxDevice(),
+                _renderContext.uploader(),
+                _renderContext.srvHeap(),
+                nh,
+                fullPath,
+                TextureUsage::Data
             );
         }
         data->subMeshes.push_back({ subMesh, materialKey, texName, "" });

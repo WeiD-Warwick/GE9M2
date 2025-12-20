@@ -114,6 +114,13 @@ scene {
         component ColliderComponent             1.2 2 1.2
     }
 
+    object Cow {
+        transform 20 0 20   0 0 0 1   0.015 0.015 0.015
+        component CowControllerComponent      idle hitreact death
+        component AnimatedMeshRenderComponent Src/Assets/Models/Cow-brown.gem animatedModelMaterial
+        component ColliderComponent             2 2.5 3
+    }
+
     object ground {
         transform 0 0 0   0 0 0 1   500 1 500
         component StaticMeshRenderComponent primitive:plane groundMaterial
@@ -127,13 +134,13 @@ scene {
     object tree {
         transform 6 0 6   0 0 0 1   0.01 0.01 0.01
         component StaticMeshRenderComponent Src/Assets/Models/beech.gem treeMaterial
-        component ColliderComponent 1 10 1
+        component ColliderComponent 1 9 1
     }
 
     object tree {
         transform 10 0 10   0 0 0 1   0.01 0.01 0.01
         component StaticMeshRenderComponent Src/Assets/Models/beech.gem treeMaterial
-        component ColliderComponent 1 10 1
+        component ColliderComponent 1 9 1
     }
 
     object flower {
@@ -144,13 +151,6 @@ scene {
     object Sky {
         component SkyRenderComponent primitive:skySphere skyMaterial
     }
-
-    object Cow {
-        transform 20 0 20   0 0 0 1   0.015 0.015 0.015
-        component CowControllerComponent      idle hitreact death
-        component AnimatedMeshRenderComponent Src/Assets/Models/Cow-brown.gem animatedModelMaterial
-        component ColliderComponent             2 2.5 3
-    }
 }
 
 ########################
@@ -158,10 +158,11 @@ scene {
 ########################
 
 #static_instances {
-
+#
 #    static_mesh primitive:cube wallInstancedMaterial {
 #        transform 10 0 0   0 0 0 1   1 1 1
 #        transform 15 0 0   0 0 0 1   1 1 1
 #        transform 12 0 0   0 0 0 1   1 1 1
+#        transform 18 0 0   0 0 0 1   1 1 1
 #    }
 #}

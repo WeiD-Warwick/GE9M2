@@ -46,7 +46,7 @@ PS_INPUT VS(VS_INPUT input)
     output.NormalWS = normalize(mul(mul(input.Normal, (float3x3) transform), (float3x3) W));
     
     // --- TangentWS ---
-    output.TangentWS = normalize(mul(input.Tangent, (float3x3) W));
+    output.TangentWS = normalize(mul(mul(input.Tangent, (float3x3) transform), (float3x3) W));
     
     // --- TexCoords ---
     output.TexCoords = input.TexCoords;
