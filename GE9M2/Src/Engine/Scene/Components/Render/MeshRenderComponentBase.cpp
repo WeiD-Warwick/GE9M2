@@ -14,9 +14,7 @@ void MeshRenderComponentBase::initMaterials() {
     auto& matMgr = ctx.materialManager();
 
     for (auto& subMesh : _subMeshes) {
-        _materials.push_back(
-            matMgr.createInstance(ctx, subMesh)
-        );
+        _materials.push_back(matMgr.find(subMesh.materialKey));
     }
 }
 

@@ -50,7 +50,7 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
     }
 
     int useVSAnim = _useVSAnim ? 1 : 0;
-    shaders.updateConstantVS(_shaderName, _cbufferName, "useVSAnim ", &useVSAnim);
+    shaders.updateConstantVS(_shaderName, _cbufferName, "useVSAnim", &useVSAnim);
 
     // Update PS constant buffer
     shaders.updateConstantPS(_shaderName, _cbufferName, "uvScale", &_uvScale);

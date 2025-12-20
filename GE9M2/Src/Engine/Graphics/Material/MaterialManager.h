@@ -22,24 +22,4 @@ public:
 		assert(it != materials.end());
 		return it->second;
 	}
-
-	Material* createInstance(RenderContext& ctx, const SubMesh& subMesh) {
-
-		// Select material from Cache As templete
-		Material* base = find(subMesh.materialKey);
-
-		// One mesh match one material
-		Material* instance = new Material(*base);
-
-		// apply the model texture
-		if (!subMesh.albedoTex.empty()) {
-			instance->addTexture("albedoTex", subMesh.albedoTex);
-		}
-
-		if (!subMesh.normalTex.empty()) {
-			instance->addTexture("normalTex", subMesh.normalTex);
-		}
-
-		return instance;
-	}
 };

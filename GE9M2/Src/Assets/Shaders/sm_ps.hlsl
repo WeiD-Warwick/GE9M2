@@ -47,7 +47,8 @@ float4 PS(PS_INPUT input) : SV_Target0 {
         discard;
 
     float3 albedo = albedoSample.rgb;
-    return float4(albedo, 1.0);
+    // MARK
+    // return float4(albedo, 1.0);
 
     // --- TBN ---
     float3 normalWS = normalize(input.NormalWS);
