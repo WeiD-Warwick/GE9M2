@@ -58,9 +58,7 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
     // ==================================
     shaders.updateConstantPS(_shaderName, _cbufferName, "uvScale", &_uvScale);
 
-    if (param.isWeapon) {
-        shaders.updateConstantPS(_shaderName, _cbufferName, "isWeapon", &param.isWeapon);
-    }
+    shaders.updateConstantPS(_shaderName, _cbufferName, "isWeapon", &param.isWeapon);
 
     int useAlphaTest = _useAlphaTest ? 1 : 0;
     shaders.updateConstantPS(_shaderName, _cbufferName, "useAlphaTest", &useAlphaTest);
