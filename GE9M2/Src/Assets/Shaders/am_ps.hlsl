@@ -7,8 +7,8 @@ SamplerState samplerLinear : register(s0);
 
 cbuffer amCB {
     float2 uvScale;
-    int useNormalMap;
     int useAlphaTest;
+    int isWeapon;
     
     float skyLightIntensity;
     float3 skyLightColor;
@@ -17,8 +17,6 @@ cbuffer amCB {
     float4 lightPosWS[MAX_POINT_LIGHTS];
     float4 lightColor[MAX_POINT_LIGHTS];
     float4 lightParams[MAX_POINT_LIGHTS]; // x range, y intensity
-    
-    int isWeapon;
 };
 
 struct PS_INPUT
@@ -57,14 +55,12 @@ float4 PS(PS_INPUT input) : SV_Target0
 
     // --- TBN ---
     float3 normalWS = normalize(input.NormalWS);
-    if (useNormalMap)
-    {
-        float3x3 TBN = getTBN(input);
+
+    float3x3 TBN = getTBN(input);
     
-        float3 mapNormal = normalTex.Sample(samplerLinear, input.TexCoords * uvScale).xyz;
-        mapNormal = normalize(mapNormal * 2.0 - 1.0);
-        normalWS = normalize(mul(mapNormal, TBN));
-    }
+    float3 mapNormal = normalTex.Sample(samplerLinear, input.TexCoords * uvScale).xyz;
+    mapNormal = normalize(mapNormal * 2.0 - 1.0);
+    normalWS = normalize(mul(mapNormal, TBN));
 
     // --- Sky Light ---
     float3 lighting = albedo * skyLightColor * skyLightIntensity;

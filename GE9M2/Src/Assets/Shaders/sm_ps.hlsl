@@ -8,7 +8,6 @@ SamplerState samplerLinear : register(s0);
 
 cbuffer smCB : register(b0) {
     float2 uvScale;
-    int useNormalMap;
     int useAlphaTest;
     
     float skyLightIntensity;
@@ -53,14 +52,12 @@ float4 PS(PS_INPUT input) : SV_Target0 {
     // --- TBN ---
     float3 normalWS = normalize(input.NormalWS);
     
-    if (useNormalMap)
-    {
-        float3x3 TBN = getTBN(input);
+
+    float3x3 TBN = getTBN(input);
     
-        float3 mapNormal = normalTex.Sample(samplerLinear, input.TexCoords * uvScale).xyz;
-        mapNormal = mapNormal * 2.0 - 1.0;
-        normalWS = normalize(mul(mapNormal, TBN));
-    }
+    float3 mapNormal = normalTex.Sample(samplerLinear, input.TexCoords * uvScale).xyz;
+    mapNormal = mapNormal * 2.0 - 1.0;
+    normalWS = normalize(mul(mapNormal, TBN));
 
     // --- Sky Light ---
     float3 lighting = albedo * skyLightColor * skyLightIntensity;

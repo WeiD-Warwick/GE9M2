@@ -81,22 +81,24 @@ material plantsMaterial {
     vsAnim      1
 }
 
-material wallInstancedMaterial {
-    shader      smiShader    smCB
+material plantsInstancedMaterial {
+    shader      smiShader   smCB
     pso         smiPSO
-    texture     albedoTex   wall1_basecolor
-    texture     normalTex   wall1_normal
+    alphaTest   1
+    vsAnim      1
 }
+
 
 ########################
 #####    Light     #####
 ########################
 
 light {
-    skylight        1 1 1           0.1
+    skylight        1 0.95 0.85           0.12
 
-    # <type>          <position>      <color>     <range>     <intensity>
-    pointlight      0 15 10         1 1 1       30          40
+    # <type>        <position>      <color>         <range>     <intensity>
+    pointlight      0  3 0          1 0.72  0.45      30          3
+    pointlight      0  2 0          0.6 0.7 1         25          3
 }
 
 ########################
@@ -121,14 +123,17 @@ scene {
         component ColliderComponent             2 2.5 3
     }
 
+
+    object Cow {
+        transform 10 0 -6   0 0 0 1   0.02 0.02 0.02
+        component CowControllerComponent      idle hitreact death
+        component AnimatedMeshRenderComponent Src/Assets/Models/Cow-brown.gem animatedModelMaterial
+        component ColliderComponent             2.5 3 2.5
+    }
+
     object ground {
         transform 0 0 0   0 0 0 1   500 1 500
         component StaticMeshRenderComponent primitive:plane groundMaterial
-    }
-
-    object cube {
-        transform 0 0 0   0 0 0 1   1 1 1
-        component StaticMeshRenderComponent primitive:cube wallMaterial
     }
 
     object tree {
@@ -143,11 +148,6 @@ scene {
         component ColliderComponent 1 9 1
     }
 
-    object flower {
-        transform 5 0 5   0 0 0 1   0.01 0.01 0.01
-        component StaticMeshRenderComponent Src/Assets/Models/flower1.gem plantsMaterial
-    }
-
     object Sky {
         component SkyRenderComponent primitive:skySphere skyMaterial
     }
@@ -157,12 +157,18 @@ scene {
 #####   Instance   #####
 ########################
 
-#static_instances {
-#
-#    static_mesh primitive:cube wallInstancedMaterial {
-#        transform 10 0 0   0 0 0 1   1 1 1
-#        transform 15 0 0   0 0 0 1   1 1 1
-#        transform 12 0 0   0 0 0 1   1 1 1
-#        transform 18 0 0   0 0 0 1   1 1 1
-#    }
-#}
+static_instances {
+
+    # flowers
+    #static_mesh Src/Assets/Models/flower1.gem plantsInstancedMaterial {
+    #    transform 1 0 1       0 0 0 1   0.01 0.01 0.01
+    #    transform 2 0 2       0 0 0 1   0.01 0.01 0.01
+    #    transform -3 0 2      0 0 0 1   0.01 0.01 0.01
+    #    transform 3.2 0 2     0 0 0 1   0.01 0.01 0.01
+    #    transform 3 0 3      0 0 0 1   0.01 0.01 0.01
+    #    transform 2.2 0 5      0 0 0 1   0.01 0.01 0.01
+    #    transform -5 0 2      0 0 0 1   0.01 0.01 0.01
+    #    transform -5 0 3.6      0 0 0 1   0.01 0.01 0.01
+    #    transform -4.3 0 2.6      0 0 0 1   0.01 0.01 0.01
+    #}
+}

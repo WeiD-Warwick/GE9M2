@@ -62,64 +62,14 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
         shaders.updateConstantPS(_shaderName, _cbufferName, "isWeapon", &param.isWeapon);
     }
 
-    // Normal Map Guard
-    int useNormalMap = hasTexture("normalTex") ? 1 : 0;
-    shaders.updateConstantPS(_shaderName, _cbufferName, "useNormalMap", &useNormalMap);
-
     int useAlphaTest = _useAlphaTest ? 1 : 0;
     shaders.updateConstantPS(_shaderName, _cbufferName, "useAlphaTest", &useAlphaTest);
 
     // Bind shader
     shaders.apply(cmd, _shaderName);
 
-    // Upate Texture
-    // -------- Albedo --------
-    {
-        int offset = -1;
-
-        for (auto& t : _textures) {
-            if (t.slot == "albedoTex") {
-                offset = textures.find(t.name);
-                break;
-            }
-        }
-
-        // fallback
-        if (offset < 0) {
-            offset = textures.find("__default");
-        }
-
-        shaders.updateTexturePS(
-            cmd,
-            srvHeap,
-            _shaderName,
-            "albedoTex",
-            offset
-        );
-    }
-
-    // -------- Normal --------
-    {
-        int offset = -1;
-
-        for (auto& t : _textures) {
-            if (t.slot == "normalTex") {
-                offset = textures.find(t.name);
-                break;
-            }
-        }
-
-        // fallback flat normal (0.5, 0.5, 1.0)
-        if (offset < 0) {
-            offset = textures.find("__default_normal");
-        }
-
-        shaders.updateTexturePS(
-            cmd,
-            srvHeap,
-            _shaderName,
-            "normalTex",
-            offset
-        );
+    for (auto& t : _textures) {
+        int offset = textures.find(t.name);
+        shaders.updateTexturePS(cmd, srvHeap, _shaderName, t.slot, offset);
     }
 }
