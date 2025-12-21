@@ -6,8 +6,6 @@ texture {
     skysphere				Src/Assets/Textures/skysphere.png
     ground_basecolor		Src/Assets/Textures/ground_basecolor.png
     ground_normal			Src/Assets/Textures/ground_normal.png
-    wall1_basecolor			Src/Assets/Textures/wall1_basecolor.png
-    wall1_normal			Src/Assets/Textures/wall1_normal.png
 }
 
 ########################
@@ -49,13 +47,6 @@ material groundMaterial {
     texture     albedoTex   ground_basecolor
     texture     normalTex   ground_normal
     uv          100         100
-}
-
-material wallMaterial {
-    shader      smShader    smCB
-    pso         smPSO
-    texture     albedoTex   wall1_basecolor
-    texture     normalTex   wall1_normal
 }
 
 material fpsWeaponMaterial {
