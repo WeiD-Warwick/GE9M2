@@ -19,6 +19,7 @@ shader {
     smShader    Src/Assets/Shaders/sm_vs.hlsl       Src/Assets/Shaders/sm_ps.hlsl
     smiShader   Src/Assets/Shaders/sm_i_vs.hlsl		Src/Assets/Shaders/sm_ps.hlsl
     amShader    Src/Assets/Shaders/am_vs.hlsl		Src/Assets/Shaders/am_ps.hlsl
+    fogShader   Src/Assets/Shaders/fog_vs.hlsl      Src/Assets/Shaders/fog_ps.hlsl
 }
 
 ########################
@@ -31,6 +32,7 @@ pso {
     amPSO	    amShader		a       depth_less          write
     skyPSO	    skyShader		s       depth_less_equal	nowrite
     fpsPSO	    amShader		a       depth_always		nowrite
+    fogPSO      fogShader       si      depth_less_equal    nowrite    blend_alpha
 }
 
 ########################
@@ -88,6 +90,10 @@ material plantsInstancedMaterial {
     vsAnim      1
 }
 
+material fogMaterial {
+    shader      fogShader   fogCB
+    pso         fogPSO
+}
 
 ########################
 #####    Light     #####
@@ -106,9 +112,22 @@ light {
 ########################
 
 scene {
+    object Sky {
+        component SkyRenderComponent primitive:skySphere skyMaterial
+    }
+
+    object ground {
+        transform 0 0 0   0 0 0 1   500 1 500
+        component StaticMeshRenderComponent primitive:plane groundMaterial
+    }
+
+    object Fog {
+        transform 0 0 0   0 0 0 1   1 1 1
+        component FogParticleComponent fogMaterial 48 18 0.8 3.0 1.0 2.5 0.6 0.4 2.0
+    }
+
     object Player {
         transform 0 0 0   0 0 0 1   1.2 2 1.2
-
         component PlayerInputControllerComponent
         component CameraComponent
         component WeaponControllerComponent     04~idle 08~fire 17~reload
@@ -122,7 +141,6 @@ scene {
         component AnimatedMeshRenderComponent Src/Assets/Models/Cow-brown.gem animatedModelMaterial
         component ColliderComponent             2 2.5 3
     }
-
 
     object Cow {
         transform 10 0 -6   0 0 0 1   0.02 0.02 0.02
@@ -138,11 +156,6 @@ scene {
         component ColliderComponent             0.3 0.2 0.3
     }
 
-    object ground {
-        transform 0 0 0   0 0 0 1   500 1 500
-        component StaticMeshRenderComponent primitive:plane groundMaterial
-    }
-
     object tree {
         transform 6 0 6   0 0 0 1   0.02 0.02 0.02
         component StaticMeshRenderComponent Src/Assets/Models/beech.gem plantsMaterial
@@ -153,10 +166,6 @@ scene {
         transform 10 0 10   0 0 0 1   0.02 0.02 0.02
         component StaticMeshRenderComponent Src/Assets/Models/beech.gem plantsMaterial
         component ColliderComponent 1 9 1
-    }
-
-    object Sky {
-        component SkyRenderComponent primitive:skySphere skyMaterial
     }
 }
 

@@ -11,6 +11,15 @@ struct MaterialParam {
     Matrix* bones = nullptr;
 
     int isWeapon = 0;
+    float time = 0.0f;
+    Vec3 cameraRight = Vec3(1, 0, 0);
+    Vec3 cameraUp = Vec3(0, 1, 0);
+
+    // Fog / particle parameters
+    Vec3 fogColor = Vec3(0.8f, 0.85f, 0.9f);
+    float fogDensity = 1.0f;
+    float fogNoiseScale = 2.0f;
+    float fogOpacity = 0.35f;
 };
 
 struct MaterialTexture {

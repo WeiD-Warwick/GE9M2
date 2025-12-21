@@ -45,6 +45,9 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
     // ==================================
     shaders.updateConstantVS(_shaderName, _cbufferName, "W", &param.W);
     shaders.updateConstantVS(_shaderName, _cbufferName, "VP", &param.VP);
+    shaders.updateConstantVS(_shaderName, _cbufferName, "time", &param.time);
+    shaders.updateConstantVS(_shaderName, _cbufferName, "cameraRight", &param.cameraRight);
+    shaders.updateConstantVS(_shaderName, _cbufferName, "cameraUp", &param.cameraUp);
 
     if (param.bones) {
         shaders.updateConstantVS(_shaderName, _cbufferName, "bones", param.bones);
@@ -57,6 +60,12 @@ void Material::apply(RenderContext& ctx, MaterialParam& param) {
     // Update PS constant buffer
     // ==================================
     shaders.updateConstantPS(_shaderName, _cbufferName, "uvScale", &_uvScale);
+    shaders.updateConstantPS(_shaderName, _cbufferName, "uvScale", &_uvScale);
+    shaders.updateConstantPS(_shaderName, _cbufferName, "time", &param.time);
+    shaders.updateConstantPS(_shaderName, _cbufferName, "fogColor", &param.fogColor);
+    shaders.updateConstantPS(_shaderName, _cbufferName, "fogDensity", &param.fogDensity);
+    shaders.updateConstantPS(_shaderName, _cbufferName, "fogNoiseScale", &param.fogNoiseScale);
+    shaders.updateConstantPS(_shaderName, _cbufferName, "fogOpacity", &param.fogOpacity);
 
     if (param.isWeapon) {
         shaders.updateConstantPS(_shaderName, _cbufferName, "isWeapon", &param.isWeapon);

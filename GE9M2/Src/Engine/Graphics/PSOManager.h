@@ -26,6 +26,15 @@ public:
     D3D12_INPUT_LAYOUT_DESC layout = DX12VertexLayoutCache::getStaticLayout();
 
     D3D12_PRIMITIVE_TOPOLOGY_TYPE topologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+
+    bool blendEnable = false;
+    D3D12_BLEND srcBlend = D3D12_BLEND_ONE;
+    D3D12_BLEND destBlend = D3D12_BLEND_ZERO;
+    D3D12_BLEND_OP blendOp = D3D12_BLEND_OP_ADD;
+    D3D12_BLEND srcBlendAlpha = D3D12_BLEND_ONE;
+    D3D12_BLEND destBlendAlpha = D3D12_BLEND_ZERO;
+    D3D12_BLEND_OP blendOpAlpha = D3D12_BLEND_OP_ADD;
+    UINT8 renderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
     
 };
 
@@ -77,11 +86,15 @@ public:
         blendDesc.AlphaToCoverageEnable = FALSE;
         blendDesc.IndependentBlendEnable = FALSE;
         const D3D12_RENDER_TARGET_BLEND_DESC defaultRenderTargetBlend = {
-        FALSE, FALSE,
-        D3D12_BLEND_ONE, D3D12_BLEND_ZERO, D3D12_BLEND_OP_ADD,
-        D3D12_BLEND_ONE, D3D12_BLEND_ZERO, D3D12_BLEND_OP_ADD,
-        D3D12_LOGIC_OP_NOOP,
-        D3D12_COLOR_WRITE_ENABLE_ALL
+            param.blendEnable, FALSE,
+            param.srcBlend,
+            param.destBlend,
+            param.blendOp,
+            param.srcBlendAlpha,
+            param.destBlendAlpha,
+            param.blendOpAlpha,
+            D3D12_LOGIC_OP_NOOP,
+            param.renderTargetWriteMask
         };
 
         for (int i = 0; i < D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT; i++) {

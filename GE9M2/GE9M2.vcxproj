@@ -128,6 +128,7 @@
     <ClCompile Include="Src\Engine\Scene\Components\Controller\PlayerInputControllerComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\Controller\WeaponControllerComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\Render\AnimatedMeshRenderComponent.cpp" />
+    <ClCompile Include="Src\Engine\Scene\Components\Render\FogParticleComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\Render\FPSWeaponRenderComponent.cpp" />
     <ClCompile Include="Src\Engine\Scene\Components\Render\MeshRenderComponentBase.cpp" />
     <ClCompile Include="Src\Engine\Graphics\Instancing\InstanceBuffer.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Src\Engine\Scene\Components\Controller\WeaponControllerComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Controller\PlayerInputControllerComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Render\AnimatedMeshRenderComponent.h" />
+    <ClInclude Include="Src\Engine\Scene\Components\Render\FogParticleComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Render\FPSWeaponRenderComponent.h" />
     <ClInclude Include="Src\Engine\Scene\Components\Render\MeshRenderComponentBase.h" />
     <ClInclude Include="Src\Engine\Graphics\Instancing\InstanceBuffer.h" />
@@ -276,6 +278,18 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
     </FxCompile>
     <FxCompile Include="Src\Assets\Shaders\debug_vs.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Src\Assets\Shaders\fog_ps.hlsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Src\Assets\Shaders\fog_vs.hlsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>

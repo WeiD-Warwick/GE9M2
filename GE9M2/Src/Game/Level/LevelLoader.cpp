@@ -148,9 +148,10 @@ void LevelLoader::parseContent(const std::string& line, std::vector<BlockContext
 
     // ---------- pso ----------
     if (ctx.type == BlockType::PSO) {
-        std::string psoName, shaderName, layout, depthFunc, depthWrite;
+        std::string psoName, shaderName, layout, depthFunc, depthWrite, blendMode;
         std::stringstream ss(line);
         ss >> psoName >> shaderName >> layout >> depthFunc >> depthWrite;
+        ss >> blendMode;
         auto* device = engine.renderContext().device().dxDevice();
         auto* rootSignature = engine.renderContext().rootSignature().rootSignature();
         auto& shaderManager = engine.renderContext().shaderManager();
@@ -179,6 +180,16 @@ void LevelLoader::parseContent(const std::string& line, std::vector<BlockContext
             (depthWrite == "nowrite") ? D3D12_DEPTH_WRITE_MASK_ZERO :
             (depthWrite == "write") ? D3D12_DEPTH_WRITE_MASK_ALL :
             D3D12_DEPTH_WRITE_MASK_ALL;
+
+        if (blendMode == "blend_alpha") {
+            param.blendEnable = true;
+            param.srcBlend = D3D12_BLEND_SRC_ALPHA;
+            param.destBlend = D3D12_BLEND_INV_SRC_ALPHA;
+            param.blendOp = D3D12_BLEND_OP_ADD;
+            param.srcBlendAlpha = D3D12_BLEND_ONE;
+            param.destBlendAlpha = D3D12_BLEND_INV_SRC_ALPHA;
+            param.blendOpAlpha = D3D12_BLEND_OP_ADD;
+        }
 
         psoManager.createPSO(device, rootSignature, param);
     }

@@ -1,18 +1,19 @@
 #include "ComponentFactory.h"
 #include <cassert>
 #include "../../GameObject.h"
+#include "../../../Graphics/Model/ModelData.h"
 #include "../Component.h"
 #include "../CameraComponent.h"
 #include "../ColliderComponent.h"
 #include "../Animator/AnimatorComponent.h"
 #include "../Controller/PlayerInputControllerComponent.h"
 #include "../Controller/WeaponControllerComponent.h"
+#include "../Controller/CowControllerComponent.h"
 #include "../Render/AnimatedMeshRenderComponent.h"
 #include "../Render/StaticMeshRenderComponent.h"
 #include "../Render/SkyRenderComponent.h"
 #include "../Render/FPSWeaponRenderComponent.h"
-#include "../../../Graphics/Model/ModelData.h"
-#include "../Controller/CowControllerComponent.h"
+#include "../Render/FogParticleComponent.h"
 
 ComponentFactory& ComponentFactory::shared() {
     static ComponentFactory shared;
@@ -149,6 +150,36 @@ void ComponentFactory::registerAllComponents() {
         [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
             auto* model = engine.loader().loadModel(args[0], args[1]);
             obj->addComponent<StaticMeshRenderComponent>(model->subMeshes);
+        }
+    );
+
+    registerComponent(
+        FogParticleComponent::Name(),
+        [](GameObject* obj, Engine& engine, const ComponentArgs& args) {
+            assert(args.size() >= 10);
+            const std::string& matKey = args[0];
+            int count = std::stoi(args[1]);
+            float radius = std::stof(args[2]);
+            float minH = std::stof(args[3]);
+            float maxH = std::stof(args[4]);
+            float minS = std::stof(args[5]);
+            float maxS = std::stof(args[6]);
+            float density = std::stof(args[7]);
+            float opacity = std::stof(args[8]);
+            float noiseScale = std::stof(args[9]);
+
+            obj->addComponent<FogParticleComponent>(
+                matKey,
+                count,
+                radius,
+                minH,
+                maxH,
+                minS,
+                maxS,
+                density,
+                opacity,
+                noiseScale
+            );
         }
     );
 }
