@@ -128,7 +128,7 @@ scene {
         transform 10 0 -6   0 0 0 1   0.02 0.02 0.02
         component CowControllerComponent      idle hitreact death
         component AnimatedMeshRenderComponent Src/Assets/Models/Cow-brown.gem animatedModelMaterial
-        component ColliderComponent             2.5 3 2.5
+        component ColliderComponent             2 2.5 3
     }
 
     object ground {
@@ -159,16 +159,22 @@ scene {
 
 static_instances {
 
+    # tree
+    static_mesh Src/Assets/Models/beech.gem plantsInstancedMaterial {
+        transform 3 0 3      0 0 0 1   0.01 0.01 0.01
+        transform 2 0 3      0 0 0 1   0.01 0.01 0.01
+    }
+
     # flowers
-    #static_mesh Src/Assets/Models/flower1.gem plantsInstancedMaterial {
-    #    transform 1 0 1       0 0 0 1   0.01 0.01 0.01
-    #    transform 2 0 2       0 0 0 1   0.01 0.01 0.01
-    #    transform -3 0 2      0 0 0 1   0.01 0.01 0.01
-    #    transform 3.2 0 2     0 0 0 1   0.01 0.01 0.01
-    #    transform 3 0 3      0 0 0 1   0.01 0.01 0.01
-    #    transform 2.2 0 5      0 0 0 1   0.01 0.01 0.01
-    #    transform -5 0 2      0 0 0 1   0.01 0.01 0.01
-    #    transform -5 0 3.6      0 0 0 1   0.01 0.01 0.01
-    #    transform -4.3 0 2.6      0 0 0 1   0.01 0.01 0.01
-    #}
+    static_mesh Src/Assets/Models/flower1.gem plantsInstancedMaterial {
+        transform 1 0 1       0 0 0 1   0.01 0.01 0.01
+        transform 2 0 2       0 0 0 1   0.01 0.01 0.01
+        transform -3 0 2      0 0 0 1   0.01 0.01 0.01
+        transform 3.2 0 2     0 0 0 1   0.01 0.01 0.01
+        transform 3 0 3      0 0 0 1   0.01 0.01 0.01
+        transform 2.2 0 5      0 0 0 1   0.01 0.01 0.01
+        transform -5 0 2      0 0 0 1   0.01 0.01 0.01
+        transform -5 0 3.6      0 0 0 1   0.01 0.01 0.01
+        transform -4.3 0 2.6      0 0 0 1   0.01 0.01 0.01
+    }
 }

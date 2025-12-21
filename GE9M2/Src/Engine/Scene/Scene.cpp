@@ -48,6 +48,9 @@ void Scene::uploadLights(RenderContext& ctx) {
     shaderManager.updateConstantPS("smShader", "smCB", "skyLightColor", &skyColor);
     shaderManager.updateConstantPS("smShader", "smCB", "skyLightIntensity", &skyIntensity);
 
+    shaderManager.updateConstantPS("smiShader", "smCB", "skyLightColor", &skyColor);
+    shaderManager.updateConstantPS("smiShader", "smCB", "skyLightIntensity", &skyIntensity);
+
     shaderManager.updateConstantPS("amShader", "amCB", "skyLightColor", &skyColor);
     shaderManager.updateConstantPS("amShader", "amCB", "skyLightIntensity", &skyIntensity);
 
@@ -71,6 +74,11 @@ void Scene::uploadLights(RenderContext& ctx) {
     shaderManager.updateConstantPS("smShader", "smCB", "lightPosWS", lightPosWS);
     shaderManager.updateConstantPS("smShader", "smCB", "lightParams", lightParams);
     shaderManager.updateConstantPS("smShader", "smCB", "lightColor", lightColor);
+
+    shaderManager.updateConstantPS("smiShader", "smCB", "pointLightCount", &count);
+    shaderManager.updateConstantPS("smiShader", "smCB", "lightPosWS", lightPosWS);
+    shaderManager.updateConstantPS("smiShader", "smCB", "lightParams", lightParams);
+    shaderManager.updateConstantPS("smiShader", "smCB", "lightColor", lightColor);
 
     shaderManager.updateConstantPS("amShader", "amCB", "pointLightCount", &count);
     shaderManager.updateConstantPS("amShader", "amCB", "lightPosWS", lightPosWS);
