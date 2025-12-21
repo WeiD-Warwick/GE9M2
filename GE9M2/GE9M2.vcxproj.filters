@@ -255,6 +255,7 @@
     <None Include="Src\Assets\Models\beech.gem" />
     <None Include="Src\Assets\Models\flower1.gem" />
     <None Include="Src\Assets\Models\Cow-brown.gem" />
+    <None Include="Src\Assets\Models\Cat-Siamese.gem" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Src\Assets\Models\Textures\Textures1_ALB.png">
@@ -320,18 +321,6 @@
     <Image Include="Src\Assets\Textures\rgb_green.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Assets\Textures\ground_basecolor.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Src\Assets\Textures\ground_normal.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Src\Assets\Textures\wall1_basecolor.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Src\Assets\Textures\wall1_normal.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Src\Assets\Models\Textures\bark01_ALB.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -384,6 +373,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Assets\Models\Textures\T_Animalstextures_rmax.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Textures\ground_basecolor.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Assets\Textures\ground_normal.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
