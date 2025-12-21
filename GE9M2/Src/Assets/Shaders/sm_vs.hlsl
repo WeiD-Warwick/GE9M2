@@ -30,9 +30,9 @@ PS_INPUT VS(VS_INPUT input) {
     // Vertex animation
     if (useVSAnim == 1) {
 
-        float height = saturate(pos.y * 5.0f);
+        float height = saturate(pos.y * 10.0f);
         float windSpeed = 1.5f;
-        float windStrength = 0.15f;
+        float windStrength = 0.2;
     
         float t = time.x * windSpeed;
    

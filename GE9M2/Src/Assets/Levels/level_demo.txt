@@ -117,7 +117,7 @@ scene {
     }
 
     object Cow {
-        transform 20 0 20   0 0 0 1   0.015 0.015 0.015
+        transform -20 0 20   0 0 0 1   0.015 0.015 0.015
         component CowControllerComponent      idle hitreact death
         component AnimatedMeshRenderComponent Src/Assets/Models/Cow-brown.gem animatedModelMaterial
         component ColliderComponent             2 2.5 3
@@ -135,7 +135,7 @@ scene {
         transform 5 0 5   0 0 0 1   0.02 0.02 0.02
         component CowControllerComponent      idle hitreact death
         component AnimatedMeshRenderComponent Src/Assets/Models/Cat-Siamese.gem animatedModelMaterial
-        component ColliderComponent             0.3 0.2 0.3
+        component ColliderComponent             1 1 1
     }
 
     object ground {
@@ -144,13 +144,25 @@ scene {
     }
 
     object tree {
-        transform 6 0 6   0 0 0 1   0.02 0.02 0.02
+        transform 8 0 12   0 0 0 1   0.02 0.02 0.02
         component StaticMeshRenderComponent Src/Assets/Models/beech.gem plantsMaterial
         component ColliderComponent 1 9 1
     }
 
     object tree {
-        transform 10 0 10   0 0 0 1   0.02 0.02 0.02
+        transform 21 0 17   0 0 0 1   0.02 0.02 0.02
+        component StaticMeshRenderComponent Src/Assets/Models/beech.gem plantsMaterial
+        component ColliderComponent 1 9 1
+    }
+
+    object tree {
+        transform 15 0 16   0 0 0 1   0.02 0.02 0.02
+        component StaticMeshRenderComponent Src/Assets/Models/beech.gem plantsMaterial
+        component ColliderComponent 1 9 1
+    }
+
+    object tree {
+        transform 15 0 8   0 0 0 1   0.02 0.02 0.02
         component StaticMeshRenderComponent Src/Assets/Models/beech.gem plantsMaterial
         component ColliderComponent 1 9 1
     }
@@ -166,22 +178,19 @@ scene {
 
 static_instances {
 
-    # tree
-    static_mesh Src/Assets/Models/beech.gem plantsInstancedMaterial {
-        transform 3 0 3      0 0 0 1   0.02 0.02 0.02
-        transform 2 0 3      0 0 0 1   0.02 0.02 0.02
-    }
-
     # flowers
     static_mesh Src/Assets/Models/flower1.gem plantsInstancedMaterial {
-        transform 1 0 1       0 0 0 1   0.01 0.01 0.01
-        transform 2 0 2       0 0 0 1   0.01 0.01 0.01
-        transform -3 0 2      0 0 0 1   0.01 0.01 0.01
-        transform 3.2 0 2     0 0 0 1   0.01 0.01 0.01
-        transform 3 0 3      0 0 0 1   0.01 0.01 0.01
-        transform 2.2 0 5      0 0 0 1   0.01 0.01 0.01
-        transform -5 0 2      0 0 0 1   0.01 0.01 0.01
-        transform -5 0 3.6      0 0 0 1   0.01 0.01 0.01
-        transform -4.3 0 2.6      0 0 0 1   0.01 0.01 0.01
+        transform   0.1 0 1       0 0 0 1   0.01 0.01 0.01
+        transform   2.1 0 2.3     0 0 0 1   0.01 0.01 0.01
+        transform   1.6 0 3.2     0 0 0 1   0.01 0.01 0.01
+        transform   2.8 0 1.4     0 0 0 1   0.01 0.01 0.01
+        transform   3.2 0 3.9     0 0 0 1   0.01 0.01 0.01
+        transform   5.3 0 4.3     0 0 0 1   0.01 0.01 0.01
+        transform  -3.1 0 2.3     0 0 0 1   0.01 0.01 0.01
+        transform  -2.0 0 3.6     0 0 0 1   0.01 0.01 0.01
+        transform  -5.3 0 4.1     0 0 0 1   0.01 0.01 0.01
+        transform  -9.1 0 6.3     0 0 0 1   0.01 0.01 0.01
+        transform  -3.9 0 2.1     0 0 0 1   0.01 0.01 0.01
+        transform  -6.9 0 8.4     0 0 0 1   0.01 0.01 0.01
     }
 }
