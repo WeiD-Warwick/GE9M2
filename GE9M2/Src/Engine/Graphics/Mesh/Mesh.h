@@ -146,7 +146,6 @@ public:
         cmd->DrawIndexedInstanced(_numIndices, instanceCount, 0, 0, 0);
     }
 
-
     void drawLineList(ID3D12GraphicsCommandList4* cmd) const {
         cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
         cmd->IASetVertexBuffers(0, 1, &_vbView);

@@ -99,7 +99,6 @@ public:
 
         swapChain1.As(&_swapchain);
 
-        // TODO
         for (UINT i = 0; i < bufferCount; i++) {
             _swapchain->GetBuffer(i, IID_PPV_ARGS(&_buffers[i]));
         }

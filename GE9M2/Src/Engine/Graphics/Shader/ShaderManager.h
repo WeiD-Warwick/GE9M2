@@ -5,7 +5,6 @@
 #include <cassert>
 #include "../../Foundation/DX12/DX12Resources.h"
 #include "../../Foundation/DX12/DX12RootSignature.h"
-#include "../../Foundation/Base/Utils.h"
 
 class ShaderManager {
 private:

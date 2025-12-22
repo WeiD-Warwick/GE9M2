@@ -2,7 +2,6 @@
 #include <map>
 #include <iostream>
 #include "Texture.h"
-#include "../../Foundation/Base/Utils.h"
 
 class TextureManager {
 

@@ -30,20 +30,12 @@ PS_INPUT VS(VS_INPUT input)
     float3 pos = input.Pos;
     
     // Vertex animation
-    if (useVSAnim == 1)
-    {
+    if (useVSAnim == 1) {
+        float windStrength = 0.2f;
+        float windSpeed = 1.2f;
 
-        float height = saturate(pos.y * 5.0f);
-        float windSpeed = 1.5f;
-        float windStrength = 0.3;
-    
         float t = time.x * windSpeed;
-   
-        float swayX = sin(t + pos.y) * windStrength * height;
-        float swayZ = cos(t + pos.y) * windStrength * height;
-
-        pos.x += swayX;
-        pos.z += swayZ;
+        pos.x += sin(t) * windStrength;
     }
 
     PS_INPUT output;

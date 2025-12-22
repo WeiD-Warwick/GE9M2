@@ -21,9 +21,6 @@ public:
     int rpSRV_Albedo = -1;  // t0
     int rpSRV_Normal = -1;  // t1
 
-    // RootParam 0: VS CBV(b0)
-    // RootParam 1: PS CBV(b0)
-    // RootParam 2: SRV Table (t0–t7)
     ID3D12RootSignature* rootSignature() const { return _rootSignature.Get(); }
 
     void create(ID3D12Device5* device) {
